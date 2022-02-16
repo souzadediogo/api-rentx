@@ -3,13 +3,11 @@ import { CreateOfferUseCase } from '../../useCases/createOffer/CreateOfferUseCas
 
 
 class CreateOfferController {
-    constructor(private createOfferUseCase: CreateOfferUseCase){
-
-    }
+    constructor(private createOfferUseCase: CreateOfferUseCase){}
     
     handle(req: Request, res: Response): Response {
         const { offerID, sellerID, skuID, salesChannel } = req.body;
-
+        
         this.createOfferUseCase.execute({offerID, sellerID, skuID, salesChannel});
     
         return res.status(201).send();

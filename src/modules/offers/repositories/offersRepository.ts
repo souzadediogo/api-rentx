@@ -8,8 +8,17 @@ import { IOffersRepository, ICreateOffersDTO } from '../repositories/IOffersRepo
 class OffersRepository implements IOffersRepository {
     private offers: Offer[];
 
-    constructor() {
+    private static INSTANCE: OffersRepository;
+
+    private constructor() {
         this.offers = [];
+    };
+
+    public static getInstance(): OffersRepository {
+        if(!OffersRepository.INSTANCE){
+            OffersRepository.INSTANCE = new OffersRepository();
+        }; 
+        return OffersRepository.INSTANCE;
     };
 
     create({offerID, sellerID, skuID, salesChannel}: ICreateOffersDTO): void {
