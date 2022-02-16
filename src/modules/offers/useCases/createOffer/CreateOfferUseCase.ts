@@ -1,14 +1,17 @@
-import { OffersRepository } from '../repositories/offersRepository';
+import { OffersRepository } from '../../repositories/offersRepository'
+import { IOffersRepository } from '../../repositories/IOffersRepository';
 
 interface IRequest {
     offerID: string; 
     sellerID: string; 
     skuID: string; 
     salesChannel: string;
-}
+};
 
-class CreateOfferService {
-    constructor(private offersRepository: OffersRepository) {}
+
+
+class CreateOfferUseCase {
+    constructor(private offersRepository: IOffersRepository) {}
     
     execute({offerID, sellerID, skuID, salesChannel}: IRequest): void {
         const offerAlreadyExists = this.offersRepository.findByOfferID(offerID);
@@ -21,4 +24,4 @@ class CreateOfferService {
     }
 }
 
-export { CreateOfferService }
+export { CreateOfferUseCase }

@@ -1,21 +1,13 @@
 import { Offer } from '../model/Offer'
-
+import { IOffersRepository, ICreateOffersDTO } from '../repositories/IOffersRepository';
 //DTO -> Data 
 
-interface ICreateOffersDTO {
-    id?: string;
-    offerID: string;
-    sellerID: string; 
-    skuID: string;
-    salesChannel: string;
-    created_at?: Date;
-    updated_at?: Date;
-}
 
 
-class OffersRepository {
+
+class OffersRepository implements IOffersRepository {
     private offers: Offer[];
-    
+
     constructor() {
         this.offers = [];
     };
