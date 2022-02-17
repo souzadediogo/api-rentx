@@ -1,4 +1,4 @@
-import { OffersRepository } from "../../repositories/offersRepository";
+import { OffersRepository } from "../../repositories/implementations/offersRepository";
 import { ListOffersController } from "./ListOffersController";
 import { ListOffersUseCase } from "./ListOffersUseCase";
 

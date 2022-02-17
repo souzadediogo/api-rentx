@@ -1,4 +1,3 @@
-import { OffersRepository } from '../../repositories/offersRepository'
 import { IOffersRepository } from '../../repositories/IOffersRepository';
 
 interface IRequest {
