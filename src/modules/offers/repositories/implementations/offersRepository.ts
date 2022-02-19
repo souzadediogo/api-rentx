@@ -1,46 +1,45 @@
-import { Offer } from '../../model/Offer';
+import { Offer } from '../../entities/Offer';
 import { IOffersRepository, ICreateOffersDTO } from '../IOffersRepository';
+import { getRepository, Repository } from 'typeorm';
 //DTO -> Data 
 
 
 
 
 class OffersRepository implements IOffersRepository {
-    private offers: Offer[];
 
-    private static INSTANCE: OffersRepository;
+    private repository: Repository<Offer>;
 
-    private constructor() {
-        this.offers = [];
-    };
+    // private static INSTANCE: OffersRepository;
 
-    public static getInstance(): OffersRepository {
-        if(!OffersRepository.INSTANCE){
-            OffersRepository.INSTANCE = new OffersRepository();
-        }; 
-        return OffersRepository.INSTANCE;
-    };
+    constructor() {
+        this.repository = getRepository(Offer);
+    }
 
-    create({offerID, sellerID, skuID, salesChannel}: ICreateOffersDTO): void {
-        const offer = new Offer();
-        Object.assign(offer, {
+    // public static getInstance(): OffersRepository {
+    //     if(!OffersRepository.INSTANCE){
+    //         OffersRepository.INSTANCE = new OffersRepository();
+    //     }; 
+    //     return OffersRepository.INSTANCE;
+    // };
+
+    async create({offerID, sellerID, skuID, salesChannel}: ICreateOffersDTO): Promise<void> {
+        const offer = this.repository.create({
             offerID, 
             sellerID, 
             skuID, 
             salesChannel, 
-            created_at: new Date(),
-            updated_at: new Date()
-        });
-    
-        this.offers.push(offer);
+        })
+        await this.repository.save(offer);
     }
 
-    list(): Offer[] {
-        return this.offers;
+    async list(): Promise<Offer[]> {
+        const offers = await this.repository.find();
+        return offers;
     };
 
-    findByOfferID(offerID: string): Offer {
-        const offer = this.offers.find(offer => offer.offerID === offerID);
+    async findByOfferID(offerID: string): Promise<Offer> {
+        const offer = await this.repository.findOne({ offerID });
         return offer;
     };
 };

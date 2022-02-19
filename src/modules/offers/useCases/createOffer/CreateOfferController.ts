@@ -1,14 +1,15 @@
 import { Request, Response } from 'express';
 import { CreateOfferUseCase } from '../../useCases/createOffer/CreateOfferUseCase';
-
+import { container } from "tsyringe";
 
 class CreateOfferController {
-    constructor(private createOfferUseCase: CreateOfferUseCase){}
     
-    handle(req: Request, res: Response): Response {
+    async handle(req: Request, res: Response): Promise<Response> {
         const { offerID, sellerID, skuID, salesChannel } = req.body;
         
-        this.createOfferUseCase.execute({offerID, sellerID, skuID, salesChannel});
+        const createOfferUseCase = container.resolve(CreateOfferUseCase);
+
+        await this.createOfferUseCase.execute({offerID, sellerID, skuID, salesChannel});
     
         return res.status(201).send();
     }

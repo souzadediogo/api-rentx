@@ -1,4 +1,4 @@
-import { Offer } from "../model/Offer";
+import { Offer } from "../entities/Offer";
 
 interface ICreateOffersDTO {
     id?: string;
@@ -11,9 +11,9 @@ interface ICreateOffersDTO {
 }
 
 interface IOffersRepository {
-    findByOfferID(offerID: string): Offer;
-    list(): Offer[];
-    create({offerID, sellerID, skuID, salesChannel}: ICreateOffersDTO);
+    findByOfferID(offerID: string): Promise<Offer>;
+    list(): Promise<Offer[]>;
+    create({offerID, sellerID, skuID, salesChannel}: ICreateOffersDTO): Promise<void>;
 };
 
 export { IOffersRepository,  ICreateOffersDTO }

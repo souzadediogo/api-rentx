@@ -1,3 +1,4 @@
+import { inject, injectable } from "tsyringe";
 import { IOffersRepository } from '../../repositories/IOffersRepository';
 
 interface IRequest {
@@ -8,15 +9,17 @@ interface IRequest {
 };
 
 
-
+@injectable()
 class CreateOfferUseCase {
-    constructor(private offersRepository: IOffersRepository) {}
+    constructor(
+        @inject("OffersRepository")
+        private offersRepository: IOffersRepository) {}
     
-    execute({offerID, sellerID, skuID, salesChannel}: IRequest): void {
-        const offerAlreadyExists = this.offersRepository.findByOfferID(offerID);
+    async execute({offerID, sellerID, skuID, salesChannel}: IRequest): Promise<void> {
+        const offerAlreadyExists = await this.offersRepository.findByOfferID(offerID);
 
         if(!offerAlreadyExists){
-            this.offersRepository.create({offerID, sellerID, skuID, salesChannel});
+            await this.offersRepository.create({offerID, sellerID, skuID, salesChannel});
         } else {
             throw new Error("Category already exists!")
         };
