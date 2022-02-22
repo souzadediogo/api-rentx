@@ -1,4 +1,5 @@
 import { inject, injectable } from "tsyringe";
+import { AppError } from "../../../../errors/AppError";
 import { IOffersRepository } from '../../repositories/IOffersRepository';
 
 interface IRequest {
@@ -21,7 +22,7 @@ class CreateOfferUseCase {
         if(!offerAlreadyExists){
             await this.offersRepository.create({offerID, sellerID, skuID, salesChannel});
         } else {
-            throw new Error("Category already exists!")
+            throw new AppError("Offer already exists!", 401)
         };
     }
 }

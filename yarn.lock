@@ -674,7 +674,12 @@
   "resolved" "https://registry.npmjs.org/etag/-/etag-1.8.1.tgz"
   "version" "1.8.1"
 
-"express@^4.17.2", "express@>=4.0.0":
+"express-async-errors@^3.1.1":
+  "integrity" "sha512-h6aK1da4tpqWSbyCa3FxB/V6Ehd4EEB15zyQq9qe75OZBp0krinNKuH4rAY+S/U/2I36vdLAUFSjQJ+TFmODng=="
+  "resolved" "https://registry.npmjs.org/express-async-errors/-/express-async-errors-3.1.1.tgz"
+  "version" "3.1.1"
+
+"express@^4.16.2", "express@^4.17.2", "express@>=4.0.0":
   "integrity" "sha512-oxlxJxcQlYwqPWKVJJtvQiwHgosH/LrLSPA+H4UxpyvSS6jC5aH+5MoHFM+KABgTOt0APue4w66Ha8jCUo9QGg=="
   "resolved" "https://registry.npmjs.org/express/-/express-4.17.2.tgz"
   "version" "4.17.2"
