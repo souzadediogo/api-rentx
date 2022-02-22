@@ -1,15 +1,17 @@
 import { Router } from 'express';
-import createOfferController from '../../src/modules/offers/useCases/createOffer/index';
-import { listOffersController } from '../modules/offers/useCases/listOffers/index';
+import { CreateOfferController } from '../../src/modules/offers/useCases/createOffer/CreateOfferController';
+import { ListOffersController } from '../modules/offers/useCases/listOffers/ListOffersController';
+import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 const offersRoutes = Router();
 
-offersRoutes.post("/", (req, res) => {
-    return createOfferController().handle(req, res);
-});
+const createOfferController = new CreateOfferController();
+const listOffersController = new ListOffersController();
 
-offersRoutes.get("/", (req, res) =>{
-    return listOffersController.handle(req, res);
-});
+offersRoutes.use(ensureAuthenticated);
+
+offersRoutes.post("/", createOfferController.handle);
+
+offersRoutes.get("/", listOffersController.handle);
 
 export { offersRoutes }
