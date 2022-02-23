@@ -22,7 +22,14 @@ class CreateSellerUseCase {
         const sellerAlreadyExists = await this.sellersRepository.findBySellerID(sellerID);
 
         if(!sellerAlreadyExists) {
-            await this.sellersRepository.create({name, sellerID, cnpj, salesChannels});
+            await this.sellersRepository.create({
+                    name, 
+                    sellerID, 
+                    cnpj, 
+                    salesChannels,
+                    created_at: new Date(),
+                    updated_at: new Date()
+                });
         } else {
             throw new AppError("Seller already exists!", 401);
         }

@@ -20,7 +20,14 @@ class CreateOfferUseCase {
         const offerAlreadyExists = await this.offersRepository.findByOfferID(offerID);
 
         if(!offerAlreadyExists){
-            await this.offersRepository.create({offerID, sellerID, skuID, salesChannel});
+            await this.offersRepository.create({
+                offerID, 
+                sellerID, 
+                skuID, 
+                salesChannel,
+                created_at: new Date(),
+                updated_at: new Date()
+            });
         } else {
             throw new AppError("Offer already exists!", 401)
         };

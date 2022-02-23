@@ -5,7 +5,8 @@ import { UsersRepository } from "../../modules/accounts/repositories/implementat
 import { IUsersRepository } from "../../modules/accounts/repositories/IUsersRepository";
 import { SellersRepository } from "@modules/sellers/repositories/implementations/SellersRepository";
 import { ISellersRepository } from "@modules/sellers/repositories/ISellersRepository";
-
+import { ISkusRepository } from "@modules/skus/repositories/ISkusRepository";
+import { SkusRepository } from "@modules/skus/repositories/implementations/SkusRepository";
 
 container.registerSingleton<IOffersRepository>(
     "OffersRepository", //Nome do container
@@ -21,5 +22,11 @@ container.registerSingleton<ISellersRepository>(
     "SellersRepository", //Nome do container
     SellersRepository  //Classe que ele chama
 )
+
+container.registerSingleton<ISkusRepository>(
+    "SkusRepository", //Nome do container
+    SkusRepository  //Classe que ele chama
+)
+
 
 
