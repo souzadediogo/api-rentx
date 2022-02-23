@@ -13,27 +13,27 @@ class Sku {
     @Column()
     skuID?: string;
 
-    @OneToMany(()=> Brand, (brand: Brand) => brand.brandName, {}) //fk
-    //@Column()
-    brandName: Brand; 
+    //@OneToMany(()=> Brand, (brand: Brand) => brand.brandName, {}) //fk
+    @Column()
+    brandName?: string; //Brand; 
 
     @Column()
-    category: string;
+    category?: string;
 
     @Column()
-    description: string;
+    description?: string;
 
     @CreateDateColumn() //FK
-    photos: Date;
+    photos?: Date;
 
     @Column()
     specification?: string;
     
     @CreateDateColumn()
-    created_at: Date;
+    created_at?: Date;
 
     @CreateDateColumn()
-    updated_at: Date;
+    updated_at?: Date;
 
     constructor() {
         if(!this.id) {this.id = uuid()}

@@ -33,19 +33,21 @@ class CreateSkuUseCase {
         const offerAlreadyExists = await this.skusRepository.findBySkuID(skuID);
 
         if(!offerAlreadyExists){
-            await this.skusRepository.create(
+                await this.skusRepository.create(
                 {
-                name, 
-                brandName, 
-                category, 
-                description, 
-                photos, 
-                specification,
-                created_at: new Date(),
-                updated_at: new Date()
+                    name, 
+                    skuID,
+                    brandName, 
+                    category, 
+                    description, 
+                    photos, 
+                    specification,
+                    created_at: new Date(),
+                    updated_at: new Date()
                 });
+                //throw new AppError("Incorrect or missing data in request!", 401)
             } else {
-                throw new AppError("Offer already exists!", 401)
+                throw new AppError("SkuID already exists!", 401)
         };
     }
 }

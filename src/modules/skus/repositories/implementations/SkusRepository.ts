@@ -25,7 +25,7 @@ class SkusRepository implements ISkusRepository {
         const sku = this.repository.create({
             name,
             skuID,
-            // brandName, 
+            brandName, 
             // Problema: imagino que seja pela relation
             // one-to-many do typeorm
             category,

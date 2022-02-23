@@ -9,7 +9,9 @@ class ListOffersUseCase {
         private offersRepository: IOffersRepository) {}
     
     async execute(): Promise<Offer[]> {
+      
         const offers = await this.offersRepository.list();
+  
         return offers;
     }
 };

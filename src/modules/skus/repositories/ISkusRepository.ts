@@ -4,7 +4,7 @@ interface ICreateSkusDTO {
     id?: string;
     name: string; 
     skuID?: string;
-    brandName: string; 
+    brandName?: string; 
     category: string;
     description: string;
     photos: Array<string>;

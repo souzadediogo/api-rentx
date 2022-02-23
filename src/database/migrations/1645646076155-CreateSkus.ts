@@ -22,7 +22,8 @@ export class CreateSkus1645646076155 implements MigrationInterface {
                     },                
                     {
                         name: "brandName",
-                        type: "varchar"
+                        type: "varchar",
+                        isNullable: true
                     },   
                     {
                         name: "category",
