@@ -25,7 +25,7 @@ export class CreateSellers1645621675504 implements MigrationInterface {
                         type: "varchar"
                     },   
                     {
-                        name: "emsalesChannels",
+                        name: "salesChannels",
                         type: "varchar"
                     },
                     {

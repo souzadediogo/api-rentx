@@ -17,7 +17,7 @@ class Sku {
     //@Column()
     brandName: Brand; 
 
-    @Column() FK
+    @Column()
     category: string;
 
     @Column()

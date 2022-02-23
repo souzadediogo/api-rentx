@@ -1,13 +1,11 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class AlterSellersTableSellerIdColumn1645622497749 implements MigrationInterface {
+export class CreateDistributors1645646193741 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("sellers");
-
         await queryRunner.createTable(
             new Table({
-                name: "sellers",
+                name: "distributors",
                 columns: [
                     {
                         name: "id",
@@ -18,18 +16,10 @@ export class AlterSellersTableSellerIdColumn1645622497749 implements MigrationIn
                         type: "varchar"
                     },
                     {
-                        name: "sellerID",
+                        name: "brands",
                         type: "varchar",
                         isUnique: true
-                    },                
-                    {
-                        name: "cnpj",
-                        type: "varchar"
-                    },   
-                    {
-                        name: "emsalesChannels",
-                        type: "varchar"
-                    },
+                    },                 
                     {
                         name: "created_at",
                         type: "timestamp",
@@ -40,13 +30,13 @@ export class AlterSellersTableSellerIdColumn1645622497749 implements MigrationIn
                         type: "timestamp",
                         default: "now()"
                     },
-                ]
+            ]
             })
         )
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("sellers");
+        await queryRunner.dropTable("distributors");
     }
 
 }
