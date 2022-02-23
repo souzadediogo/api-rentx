@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
-import { AppError } from "../../../../errors/AppError";
-import { IOffersRepository } from '../../repositories/IOffersRepository';
+import { AppError } from "@errors/AppError";
+import { IOffersRepository } from '@modules/offers/repositories/IOffersRepository';
 
 interface IRequest {
     offerID: string; 

@@ -4,8 +4,8 @@
   "description": "Projeto de inteligencai de mercado da VGDS",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
-    "typeorm": "ts-node-dev ./node_modules/typeorm/cli",
+    "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
+    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli",
     "test": "jest"
   },
   "keywords": [],
@@ -36,6 +36,7 @@
     "@types/uuid": "^8.3.4",
     "jest": "^27.5.1",
     "ts-jest": "^27.1.3",
+    "tsconfig-paths": "^3.12.0",
     "typescript": "^4.5.5",
     "yarn": "^1.22.17"
   }

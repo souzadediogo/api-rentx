@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { CreateOfferUseCase } from '../../useCases/createOffer/CreateOfferUseCase';
+import { CreateOfferUseCase } from '@modules/offers/useCases/createOffer/CreateOfferUseCase';
 import { container } from "tsyringe";
 
 class CreateOfferController {
