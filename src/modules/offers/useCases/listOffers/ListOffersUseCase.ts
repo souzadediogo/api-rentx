@@ -15,4 +15,3 @@ class ListOffersUseCase {
 };
 
 export { ListOffersUseCase };
-

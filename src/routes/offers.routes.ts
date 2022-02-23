@@ -8,7 +8,7 @@ const offersRoutes = Router();
 const createOfferController = new CreateOfferController();
 const listOffersController = new ListOffersController();
 
-offersRoutes.use(ensureAuthenticated);
+// offersRoutes.use(ensureAuthenticated);
 
 offersRoutes.post("/", createOfferController.handle);
 

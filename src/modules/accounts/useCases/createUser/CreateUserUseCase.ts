@@ -33,12 +33,6 @@ class CreateUserUseCase {
                 email, 
                 password: passwordHash,
             });
-            console.log(
-                name, 
-                username, 
-                email, 
-                passwordHash,
-            )
         }
 }
 
