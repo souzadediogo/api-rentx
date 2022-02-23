@@ -8,6 +8,6 @@ const createSkuController = new CreateSkuController();
 const listSkuController = new ListSkusController();
 
 skusRoutes.post("/", createSkuController.handle);
-skusRoutes.post("/", listSkuController.handle);
+skusRoutes.get("/", listSkuController.handle);
 
 export { skusRoutes }

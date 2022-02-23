@@ -9,9 +9,9 @@ class ListSkusUseCase {
         private skusRepository: ISkusRepository) {}
         
     async execute(): Promise<Sku[]> {
-        console.log('3');
+      
         const skus = await this.skusRepository.list();
-        console.log('4');
+     
         return skus;
     }
 };
