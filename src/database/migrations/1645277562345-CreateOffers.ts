@@ -15,6 +15,22 @@ export class CreateOffers1645210025361 implements MigrationInterface {
                             isPrimary: true,
                         },
                         {
+                            name: "offerTitle",
+                            type: "varchar",
+                        },
+                        {
+                            name: "offerSubTitle",
+                            type: "varchar",
+                        },
+                        {
+                            name: "status",
+                            type: "varchar",
+                        },
+                        {
+                            name: "salesChannel",
+                            type: "varchar",
+                        },
+                        {
                             name: "offerID",
                             type: "varchar",
                         },
@@ -27,7 +43,15 @@ export class CreateOffers1645210025361 implements MigrationInterface {
                             type: "varchar",
                         },
                         {
-                            name: "salesChannel",
+                            name: "categoryID",
+                            type: "varchar",
+                        },
+                        {
+                            name: "offer_created_date",
+                            type: "timestamp",
+                        },
+                        {
+                            name: "offer_last_updated_date",
                             type: "varchar",
                         },
                         {

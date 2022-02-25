@@ -49,10 +49,6 @@ class SellersRepository implements ISellersRepository {
 
     // REFATORAR AMBOS CHAMANDO SERVICO DO SALESCHANNELS
     
-    
-    // async listSellerSalesChannels(sellerID: string) {
-    //     return await (await this.repository.findOne({ sellerID }));
-    // }
 
     // async listSellerSalesChannelsByChannelName(sellerID: string, channelName: string) {
     //     const seller = await this.repository.findOne({ sellerID });

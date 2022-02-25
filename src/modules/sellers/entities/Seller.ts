@@ -1,20 +1,17 @@
 import { v4 as uuid} from 'uuid';
-import { Column, CreateDateColumn, UpdateDateColumn, Entity, PrimaryColumn, OneToMany, JoinColumn } from 'typeorm';
+import { Column, CreateDateColumn, UpdateDateColumn, Entity, PrimaryColumn, OneToMany, JoinColumn, JoinTable } from 'typeorm';
 import { SalesChannel } from './SalesChannels';
 
 @Entity("sellers")
 class Seller {
-    @PrimaryColumn()
+    @PrimaryColumn('uuid')
     id?: string;
 
     @Column()
     name: string;
 
-    @Column({unique: true})
+    @Column()
     sellerID?: string;
-    
-    @OneToMany(type => Seller, seller => SalesChannel)
-    salesChannels?: SalesChannel[]
 
     @Column()
     cnpj?: string;

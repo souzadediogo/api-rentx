@@ -1,5 +1,5 @@
 import { Seller } from "../../entities/Seller";
-import { ISellersRepository } from "../../repositories/ISellersRepository";
+import { ISalesChannelsRepository } from "../../repositories/ISalesChannelsRepository";
 import { inject, injectable } from "tsyringe";
 
 interface IRequest {
@@ -10,18 +10,18 @@ interface IRequest {
 @injectable()
 class ListSellerSalesChannelsUseCase {
     constructor(
-        @inject("SellersRepository")
-        private sellersRepository: ISellersRepository) {}
+        @inject("SalesChannelsRepository")
+        private salesChannelsRepository: ISalesChannelsRepository) {}
     
     async execute({sellerUUID, channelName}: IRequest) {  //ID is unique key from seller
         
         
         if(channelName==="") {
             console.log(`Case: Channel name = ""`);
-            return await this.sellersRepository.listSellerSalesChannels(sellerUUID);
+            return await this.salesChannelsRepository.listSellerSalesChannels(sellerUUID);
         } else {
             console.log(`Case: Channel name <> ""`);
-            return await this.sellersRepository.listSellerSalesChannelsByChannelName(sellerUUID, channelName);
+            return await this.salesChannelsRepository.listSellerSalesChannelsByChannelName(sellerUUID, channelName);
         }
     }
 };

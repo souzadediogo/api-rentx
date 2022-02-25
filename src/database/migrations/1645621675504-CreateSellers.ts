@@ -9,7 +9,8 @@ export class CreateSellers1645621675504 implements MigrationInterface {
                 columns: [
                     {
                         name: "id",
-                        type: "uuid"
+                        type: "uuid",
+                        isPrimary: true,
                     },
                     {
                         name: "name",
@@ -18,12 +19,11 @@ export class CreateSellers1645621675504 implements MigrationInterface {
                     {
                         name: "sellerID",
                         type: "varchar",
-                        isUnique: true
-                    },                
+                    },                  
                     {
                         name: "cnpj",
                         type: "varchar"
-                    },   
+                    },  
                     {
                         name: "created_at",
                         type: "timestamp",
@@ -34,7 +34,7 @@ export class CreateSellers1645621675504 implements MigrationInterface {
                         type: "timestamp",
                         default: "now()"
                     },
-            ]
+                ]
             })
         )
     }

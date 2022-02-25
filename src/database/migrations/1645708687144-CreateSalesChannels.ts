@@ -10,11 +10,12 @@ export class CreateSalesChannels1645708687144 implements MigrationInterface {
                     {
                         name: "id",
                         type: "uuid",
-                        isUnique: true
+                        isPrimary: true
                     },
                     {
-                        name: "sellerUniqueID",
-                        type: "varchar"
+                        name: "sellerUUID",
+                        type: "uuid",
+                        isNullable: true
                     },
                     {
                         name: "channelName",
@@ -42,7 +43,17 @@ export class CreateSalesChannels1645708687144 implements MigrationInterface {
                         type: "timestamp",
                         default: "now()"
                     },
-            ]
+                ],
+                foreignKeys: [
+                    {
+                        name: "FKSellerSalesChannels",
+                        referencedTableName: "sellers",
+                        referencedColumnNames: ["id"],
+                        columnNames: ["sellerUUID"],
+                        onDelete: "SET NULL",
+                        onUpdate:  "SET NULL",  //Mudar para cascade depois
+                    }
+                ]
             })
         )
     }

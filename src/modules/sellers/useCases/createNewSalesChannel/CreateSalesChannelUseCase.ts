@@ -3,17 +3,10 @@ import { AppError } from "@errors/AppError";
 import { ISalesChannelsRepository } from "@modules/sellers/repositories/ISalesChannelsRepository";
 import { SalesChannel } from "@modules/sellers/entities/SalesChannels";
 
-// interface IRequest {
-//     channelName: string; 
-//     sellerNameInChannel: string;
-//     channelSellerID: string;
-//     channelUrl: string;
-//     sellerUniqueID: string;
-// };
 
 interface ISalesChannelsDTO {
     id?: string;
-    seller: string;
+    seller;
     channelName: string;        //name of sales channel, like "mercado-livre", "americanas.com" etc...
     sellerNameInChannel: string;
     channelSellerID: string;
@@ -27,9 +20,9 @@ class CreateSalesChannelUseCase {
         private salesChannelsRepository: ISalesChannelsRepository) {}
     
     async execute({seller, channelName, sellerNameInChannel, channelSellerID,channelUrl}: ISalesChannelsDTO): Promise<void> {
-        const salesChannelAlreadyExists = await this.salesChannelsRepository.findByID(seller['id']);
+       // const salesChannelAlreadyExists = await this.salesChannelsRepository.findByID(seller['id']);
 
-        if(!salesChannelAlreadyExists) {
+       // if(!salesChannelAlreadyExists) {
             await this.salesChannelsRepository.create({
                 seller,
                 channelName, 
@@ -37,9 +30,9 @@ class CreateSalesChannelUseCase {
                 channelSellerID, 
                 channelUrl,
                 });
-        } else {
-            throw new AppError("Seller already exists!", 401);
-        }
+      //  } else {
+      //      throw new AppError("Seller already exists!", 401);
+      //  }
     }
 }
 

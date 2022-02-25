@@ -13,8 +13,9 @@ class SalesChannelsRepository implements ISalesChannelsRepository {
         this.repository = getRepository(SalesChannel);
     }
 
+
     async create({
-           seller, 
+            seller, 
             channelName, 
             sellerNameInChannel, 
             channelSellerID, 
@@ -22,7 +23,7 @@ class SalesChannelsRepository implements ISalesChannelsRepository {
         }: ISalesChannelsDTO): Promise<void> {
         
         const salesChannel = this.repository.create({
-            seller,
+            //seller,
             channelName, 
             sellerNameInChannel, 
             channelSellerID, 
@@ -38,10 +39,22 @@ class SalesChannelsRepository implements ISalesChannelsRepository {
 
     async findByID(sellerUUID: string): Promise<SalesChannel[]> {
         console.log(`Seller sellerUUID:`, sellerUUID)
+        
         const id = sellerUUID;
-        const salesChannels = await this.repository.find(id);
+        
+        const salesChannels = await this.repository.find({id});
+        console.log(salesChannels)
         return salesChannels;
     };
+
+    async listSellerSalesChannels(sellerUUID: string): Promise<SalesChannel[]> {
+        const id = sellerUUID;
+        return await this.repository.find({id});
+    }
+
+    async listSellerSalesChannelsByChannelName(sellerUUID: string, channelName: string): Promise<SalesChannel[]> {
+        throw new Error('Method not implemented.');
+    }
 
 };
 

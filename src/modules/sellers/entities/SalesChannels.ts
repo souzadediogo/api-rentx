@@ -1,5 +1,5 @@
 import { v4 as uuid} from 'uuid';
-import { Column, CreateDateColumn, UpdateDateColumn, Entity, PrimaryColumn, ManyToOne } from 'typeorm';
+import { JoinTable, Column, CreateDateColumn, UpdateDateColumn, Entity, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Seller } from './Seller';
 
 @Entity("sales_channels")
@@ -7,7 +7,8 @@ class SalesChannel {
     @PrimaryColumn('uuid')
     id?: string;
 
-    @ManyToOne(type => Seller, salesChannels => SalesChannel )
+    @ManyToOne(() => Seller)
+    @JoinColumn({name: "seller_id"})
     seller: Seller;
 
     @Column()
