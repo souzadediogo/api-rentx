@@ -1,6 +1,8 @@
 import { Seller } from '../../entities/Seller';
-import { ISellersRepository, ICreateSellersDTO } from '../ISellersRepository';
+import { ISellersRepository, ISellersDTO } from '../ISellersRepository';
 import { getRepository, Repository } from 'typeorm';
+import { SalesChannel } from '@modules/sellers/entities/SalesChannels';
+import { AppError } from '@errors/AppError';
 //DTO -> Data 
 
 class SellersRepository implements ISellersRepository {
@@ -12,15 +14,27 @@ class SellersRepository implements ISellersRepository {
     constructor() {
         this.repository = getRepository(Seller);
     }
+    listSellerSalesChannels(sellerID: string): Promise<SalesChannel[]> {
+        throw new Error('Method not implemented.');
+    }
+    listSellerSalesChannelsByChannelName(sellerID: string, channelName: string): Promise<SalesChannel[]> {
+        throw new Error('Method not implemented.');
+    }
 
-    async create({name, sellerID, cnpj, salesChannels}: ICreateSellersDTO): Promise<void> {
-        const seller = this.repository.create({
-            name, 
-            sellerID, 
-            cnpj, 
-            salesChannels, 
-        });
-        await this.repository.save(seller);
+    async create({name, sellerID, cnpj}: ISellersDTO): Promise<void> {
+        
+        const sellerIdAlreadyExists = await this.repository.findOne({sellerID});
+        
+        if(!sellerIdAlreadyExists) {
+            const seller = this.repository.create({
+                name, 
+                sellerID, 
+                cnpj,  
+            });
+            await this.repository.save(seller);
+            return
+        }
+        throw new AppError("SellerID already exists!", 401);
     }
 
     async list(): Promise<Seller[]> {
@@ -28,10 +42,27 @@ class SellersRepository implements ISellersRepository {
         return sellers;
     };
 
-    async findBySellerID(sellerID: string): Promise<Seller> {
-        const seller = await this.repository.findOne({ sellerID });
-        return seller;
+    async findBySellerID(sellerID: string): Promise<Seller[]> {
+        const sellerAccounts = await this.repository.find({ sellerID });
+        return sellerAccounts;
     };
+
+    // REFATORAR AMBOS CHAMANDO SERVICO DO SALESCHANNELS
+    
+    
+    // async listSellerSalesChannels(sellerID: string) {
+    //     return await (await this.repository.findOne({ sellerID }));
+    // }
+
+    // async listSellerSalesChannelsByChannelName(sellerID: string, channelName: string) {
+    //     const seller = await this.repository.findOne({ sellerID });
+
+    //     const channels = seller.salesChannels;
+        
+    //     const filteredChannels = channels.filter((channel)=> channel.channelName === channelName);
+        
+    //     return filteredChannels;
+    // }
 };
 
 export { SellersRepository }

@@ -1,12 +1,14 @@
 import { inject, injectable } from "tsyringe";
 import { AppError } from "@errors/AppError";
 import { ISellersRepository } from "@modules/sellers/repositories/ISellersRepository";
+import { ISalesChannels } from "@modules/sellers/entities/Seller";
 import { Seller } from "@modules/sellers/entities/Seller";
 
 interface IRequest {
     name: string; 
     sellerID: string; 
     cnpj: string; 
+    salesChannels: Array<ISalesChannels>;
 };
 
 
@@ -16,14 +18,15 @@ class CreateSellerUseCase {
         @inject("SellersRepository")
         private sellersRepository: ISellersRepository) {}
     
-    async execute({name, sellerID, cnpj}: IRequest): Promise<void> {
+    async execute({name, sellerID, cnpj, salesChannels}: IRequest): Promise<void> {
         const sellerAlreadyExists = await this.sellersRepository.findBySellerID(sellerID);
 
-        if(!sellerAlreadyExists || []) {
+        if(!sellerAlreadyExists) {
             await this.sellersRepository.create({
                     name, 
                     sellerID, 
                     cnpj, 
+                    salesChannels,
                     created_at: new Date(),
                     updated_at: new Date()
                 });

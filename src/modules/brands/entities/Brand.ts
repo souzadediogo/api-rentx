@@ -1,10 +1,10 @@
 import { v4 as uuid} from 'uuid';
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import { Distributor } from '@modules/distributors/entities/Distributor';
 
 @Entity("brands")
 class Brand {
-    @PrimaryColumn()
+    @PrimaryColumn('uuid')
     id?: string;
 
     @Column()
@@ -17,12 +17,14 @@ class Brand {
     // @OneToMany(()=> Brand, (brand: Brand) => brand.brandName, {}) 
     // brands: Brand; 
 
-    @ManyToMany(()=> Distributor, distributor => distributor.brands, {
-        cascade: true,
-    })
-    @JoinTable()
+    @ManyToMany(type => Distributor, brands => Brand)
     distributors: Distributor[];
 
+    @CreateDateColumn()
+    created_at: Date;
+    
+    @UpdateDateColumn()
+    updated_at: Date;
 
     addDistributor(distributor: Distributor) {
         if(this.distributors == null) {

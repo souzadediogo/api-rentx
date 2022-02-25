@@ -1,10 +1,10 @@
 import { v4 as uuid} from 'uuid';
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import { Brand } from "@modules/brands/entities/Brand";
 
 @Entity("skus")
 class Sku {
-    @PrimaryColumn()
+    @PrimaryColumn('uuid')
     id?: string;
 
     @Column()
@@ -32,7 +32,7 @@ class Sku {
     @CreateDateColumn()
     created_at?: Date;
 
-    @CreateDateColumn()
+    @UpdateDateColumn()
     updated_at?: Date;
 
     constructor() {

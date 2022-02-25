@@ -1,29 +1,37 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class CreateSellers1645621675504 implements MigrationInterface {
+export class CreateSalesChannels1645708687144 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "sellers",
+                name: "sales_channels",
                 columns: [
                     {
                         name: "id",
-                        type: "uuid"
-                    },
-                    {
-                        name: "name",
-                        type: "varchar"
-                    },
-                    {
-                        name: "sellerID",
-                        type: "varchar",
+                        type: "uuid",
                         isUnique: true
-                    },                
+                    },
                     {
-                        name: "cnpj",
+                        name: "sellerUniqueID",
                         type: "varchar"
-                    },   
+                    },
+                    {
+                        name: "channelName",
+                        type: "varchar"
+                    },
+                    {
+                        name: "sellerNameInChannel",
+                        type: "varchar",                        
+                    },
+                    {
+                        name: "channelSellerID",
+                        type: "varchar",                        
+                    },  
+                    {
+                        name: "channelUrl",
+                        type: "varchar",                        
+                    },                   
                     {
                         name: "created_at",
                         type: "timestamp",
@@ -40,7 +48,8 @@ export class CreateSellers1645621675504 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("sellers");
+        await queryRunner.dropTable("sales_channels");
     }
 
 }
+

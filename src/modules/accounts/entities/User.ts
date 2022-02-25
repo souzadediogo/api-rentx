@@ -1,9 +1,9 @@
 import { v4 as uuid} from "uuid";
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity("users")
 class User {
-    @PrimaryColumn()
+    @PrimaryColumn('uuid')
     id: string;
 
     @Column()
@@ -21,7 +21,7 @@ class User {
     @CreateDateColumn()
     idAdmin: boolean;
     
-    @CreateDateColumn()
+    @UpdateDateColumn()
     created_at: Date;
 
     constructor() {

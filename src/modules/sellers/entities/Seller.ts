@@ -1,12 +1,6 @@
 import { v4 as uuid} from 'uuid';
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
-
-interface ISalesChannels {
-    id: string;
-    channelName: string; //name of sales channel
-    channelSellerID: string;
-    chanelSellerCreatedAt?: Date;
-}
+import { Column, CreateDateColumn, UpdateDateColumn, Entity, PrimaryColumn, OneToMany, JoinColumn } from 'typeorm';
+import { SalesChannel } from './SalesChannels';
 
 @Entity("sellers")
 class Seller {
@@ -16,43 +10,25 @@ class Seller {
     @Column()
     name: string;
 
-    @Column()
+    @Column({unique: true})
     sellerID?: string;
+    
+    @OneToMany(type => Seller, seller => SalesChannel)
+    salesChannels?: SalesChannel[]
 
     @Column()
     cnpj?: string;
 
-    @Column({type: "text", array: true, default: []})
-    salesChannels?: Array<ISalesChannels>;
-
     @CreateDateColumn()
     created_at: Date;
     
-    @CreateDateColumn()
+    @UpdateDateColumn()
     updated_at: Date;
 
     constructor() {
         if(!this.id) {
             this.id = uuid()
         }
-        
-        // this.salesChannels.map((channel)=>{
-        //     if(!channel.id) {
-        //         let newId = uuid()
-        //         console.log({
-        //             id: newId,
-        //             channelName: channel.channelName,
-        //             channelSellerID: channel.channelSellerID,
-        //             chanelSellerCreatedAt: Date.now()
-        //         })
-        //         return {
-        //             id: newId,
-        //             channelName: channel.channelName,
-        //             channelSellerID: channel.channelSellerID,
-        //             chanelSellerCreatedAt: Date.now()
-        //         }
-        //     }    
-        // });
     };
 }
-export { Seller, ISalesChannels }
+export { Seller }

@@ -1,22 +1,22 @@
 import { v4 as uuid} from 'uuid';
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import { Brand } from '@modules/brands/entities/Brand';
 
 @Entity("distributors")
 class Distributor {
-    @PrimaryColumn()
+    @PrimaryColumn('uuid')
     id?: string;
 
     @Column()
     name: string;
 
-    @OneToMany(()=> Brand, (brand: Brand) => brand.brandName, {}) 
+    @OneToMany(type => Brand, distributors => Distributor ) 
     brands: Brand[]; 
     
     @CreateDateColumn()
     created_at: Date;
 
-    @CreateDateColumn()
+    @UpdateDateColumn()
     updated_at: Date;
 
 

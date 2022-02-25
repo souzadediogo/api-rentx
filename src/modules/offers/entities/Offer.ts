@@ -1,12 +1,12 @@
 import { v4 as uuid} from 'uuid';
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity("offers")
 class Offer {
-    @PrimaryColumn()
+    @PrimaryColumn('uuid')
     id?: string;
 
-    @Column()
+    @Column({length: 100, unique: true})
     offerID: string;
 
     @Column()
@@ -21,7 +21,7 @@ class Offer {
     @CreateDateColumn()
     created_at: Date;
     
-    @CreateDateColumn()
+    @UpdateDateColumn()
     updated_at: Date;
 
     constructor() {
