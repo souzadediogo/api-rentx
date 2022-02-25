@@ -2,6 +2,10 @@ import { Offer } from "../entities/Offer";
 
 interface ICreateOffersDTO {
     id?: string;
+    offerTitle: string;
+    offerSubTitle: string;
+    status: string;
+    categoryID: string;
     offerID: string;
     sellerID: string; 
     skuID: string;

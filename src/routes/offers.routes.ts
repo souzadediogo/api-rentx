@@ -1,17 +1,33 @@
 import { Router } from 'express';
 import { CreateOfferController } from '../../src/modules/offers/useCases/createOffer/CreateOfferController';
 import { ListOffersController } from '../modules/offers/useCases/listOffers/ListOffersController';
+import { CreateDatapointController } from '@modules/offers/useCases/createDatapoint/CreateDatapointController';
+import { FindDatapointByIDController } from '@modules/offers/useCases/findDatapointByID/FindDatapointByIDController';
+
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
+
 
 const offersRoutes = Router();
 
-const createOfferController = new CreateOfferController();
-const listOffersController = new ListOffersController();
+//CONTROLLERS
+    //Offers
+    const createOfferController = new CreateOfferController();
+    const listOffersController = new ListOffersController();
+
+    //Datapoints
+    const createDatapointController = new CreateDatapointController();
+    const findDatapointByIDController = new FindDatapointByIDController();
+
+//ROUTES
+    //Offers
+    offersRoutes.get("/", listOffersController.handle);
+    offersRoutes.post("/", createOfferController.handle);
+
+    //Datapoints
+    offersRoutes.post("/datapoints", createDatapointController.handle);
+    offersRoutes.get("/datapoints/find-by-id", findDatapointByIDController.handle);
+//    offersRoutes.get("/datapoints/find-by-offerid-and-daterange", .handle);
 
 // offersRoutes.use(ensureAuthenticated);
-
-offersRoutes.post("/", createOfferController.handle);
-
-offersRoutes.get("/", listOffersController.handle);
 
 export { offersRoutes }

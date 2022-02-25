@@ -3,9 +3,14 @@ import { AppError } from "@errors/AppError";
 import { IOffersRepository } from '@modules/offers/repositories/IOffersRepository';
 
 interface IRequest {
-    offerID: string; 
+    id?: string;
+    offerTitle: string;
+    offerSubTitle: string;
+    status: string;
+    categoryID: string;
+    offerID: string;
     sellerID: string; 
-    skuID: string; 
+    skuID: string;
     salesChannel: string;
 };
 
@@ -16,14 +21,27 @@ class CreateOfferUseCase {
         @inject("OffersRepository")
         private offersRepository: IOffersRepository) {}
     
-    async execute({offerID, sellerID, skuID, salesChannel}: IRequest): Promise<void> {
+    async execute({
+        offerTitle,
+        offerSubTitle,
+        status,
+        categoryID,
+        offerID,
+        sellerID, 
+        skuID,
+        salesChannel
+    }: IRequest): Promise<void> {
         const offerAlreadyExists = await this.offersRepository.findByOfferID(offerID);
 
         if(!offerAlreadyExists){
             await this.offersRepository.create({
-                offerID, 
+                offerTitle,
+                offerSubTitle,
+                status,
+                categoryID,
+                offerID,
                 sellerID, 
-                skuID, 
+                skuID,
                 salesChannel,
                 created_at: new Date(),
                 updated_at: new Date()
@@ -34,4 +52,4 @@ class CreateOfferUseCase {
     }
 }
 
-export { CreateOfferUseCase }
+export { CreateOfferUseCase, IRequest }

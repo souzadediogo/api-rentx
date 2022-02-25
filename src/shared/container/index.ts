@@ -9,10 +9,19 @@ import { SkusRepository } from "@modules/skus/repositories/implementations/SkusR
 import { ISkusRepository } from "@modules/skus/repositories/ISkusRepository";
 import { ISalesChannelsRepository } from "@modules/sellers/repositories/ISalesChannelsRepository";
 import { SalesChannelsRepository } from "@modules/sellers/repositories/implementations/SalesChannelsRepository";
+import { IDatapointsRepository } from "@modules/offers/repositories/IDatapointsRepository";
+import { DatapointsRepository } from "@modules/offers/repositories/implementations/DatapointsRepository";
+
 
 container.registerSingleton<IOffersRepository>(
     "OffersRepository", //Nome do container
     OffersRepository  //Clase que ele chama
+)
+
+
+container.registerSingleton<IDatapointsRepository>(
+    "DatapointsRepository", //Nome do container
+    DatapointsRepository  //Classe que ele chama
 )
 
 container.registerSingleton<IUsersRepository>(

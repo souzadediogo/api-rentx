@@ -7,10 +7,10 @@ class Offer {
     id?: string;
 
     @Column()
-    offerTitle: string; 
+    offerTitle?: string; 
 
     @Column()
-    offerSubTitle: string; 
+    offerSubTitle?: string; 
 
     @Column({length: 100, unique: true})
     offerID: string;

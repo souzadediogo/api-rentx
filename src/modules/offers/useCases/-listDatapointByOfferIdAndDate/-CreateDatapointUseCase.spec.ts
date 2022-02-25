@@ -1,4 +1,4 @@
-import { CreateOfferUseCase } from "./CreateOfferUseCase";
+import { CreateOfferUseCase } from "./-CreateDatapointUseCase";
 import { OffersRepositoryInMemory } from "../../repositories/in-memory/OffersRepositoryInMemory";
 import { AppError } from "../../../../errors/AppError";
 

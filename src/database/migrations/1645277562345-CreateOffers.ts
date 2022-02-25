@@ -17,10 +17,12 @@ export class CreateOffers1645210025361 implements MigrationInterface {
                         {
                             name: "offerTitle",
                             type: "varchar",
+                            isNullable: true
                         },
                         {
                             name: "offerSubTitle",
                             type: "varchar",
+                            isNullable: true
                         },
                         {
                             name: "status",
@@ -49,10 +51,12 @@ export class CreateOffers1645210025361 implements MigrationInterface {
                         {
                             name: "offer_created_date",
                             type: "timestamp",
+                            default: "now()"
                         },
                         {
                             name: "offer_last_updated_date",
                             type: "varchar",
+                            default: "now()"
                         },
                         {
                             name: "created_at",
