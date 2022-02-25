@@ -9,13 +9,13 @@ class Datapoint {
     @Column()
     offerID: string;
 
-    @Column()
+    @Column({type: 'float'})
     price: number; 
 
-    @Column()
+    @Column({type: 'float'})
     basePrice: number;
 
-    @Column()
+    @Column({type: 'float'})
     originalPrice: number;
 
     @Column()

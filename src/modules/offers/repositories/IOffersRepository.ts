@@ -10,6 +10,8 @@ interface ICreateOffersDTO {
     sellerID: string; 
     skuID: string;
     salesChannel: string;
+    offer_created_date?: Date,
+    offer_last_updated_date?: Date,
     created_at?: Date;
     updated_at?: Date;
 }
@@ -17,7 +19,8 @@ interface ICreateOffersDTO {
 interface IOffersRepository {
     findByOfferID(offerID: string): Promise<Offer>;
     list(): Promise<Offer[]>;
-    create({offerID, sellerID, skuID, salesChannel}: ICreateOffersDTO): Promise<void>;
+    create({offerTitle, offerSubTitle, status, categoryID, offerID, sellerID, skuID, salesChannel}: ICreateOffersDTO): Promise<void>;
 };
 
 export { IOffersRepository,  ICreateOffersDTO }
+

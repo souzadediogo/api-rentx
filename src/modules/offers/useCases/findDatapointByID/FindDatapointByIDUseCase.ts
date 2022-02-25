@@ -1,5 +1,6 @@
 import { inject, injectable } from "tsyringe";
 import { IDatapointsRepository } from "@modules/offers/repositories/IDatapointsRepository";
+import { Datapoint } from "../../entities/Datapoint";
 
 @injectable()
 class FindDatapointByIDUseCase {
@@ -7,8 +8,8 @@ class FindDatapointByIDUseCase {
         @inject("DatapointsRepository")
         private datapointsRepository: IDatapointsRepository) {}
     
-    async execute({ id }): Promise<void> {
-        await this.datapointsRepository.findByID(id);
+    async execute({ id }): Promise<Datapoint> {
+        return await this.datapointsRepository.findByID(id);
     }
 }
 

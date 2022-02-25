@@ -23,13 +23,26 @@ class OffersRepository implements IOffersRepository {
     //     return OffersRepository.INSTANCE;
     // };
 
-    async create({offerID, sellerID, skuID, salesChannel}: ICreateOffersDTO): Promise<void> {
+    async create({
+                offerTitle, 
+                offerSubTitle, 
+                status, 
+                categoryID, 
+                offerID, 
+                sellerID, 
+                skuID, 
+                salesChannel
+             }: ICreateOffersDTO): Promise<void> {
         const offer = this.repository.create({
+            offerTitle, 
+            offerSubTitle, 
+            status, 
+            categoryID, 
             offerID, 
             sellerID, 
             skuID, 
-            salesChannel, 
-        })
+            salesChannel
+    })
         await this.repository.save(offer);
     }
 

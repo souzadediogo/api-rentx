@@ -32,7 +32,7 @@ class DatapointsRepository implements IDatapointsRepository {
     }
 
     async findByID(id): Promise<Datapoint> {
-        const datapoint = await this.repository.findOne(id);
+        const datapoint = await this.repository.findOne({id});
         return datapoint;
     }   
 

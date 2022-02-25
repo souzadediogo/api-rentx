@@ -16,13 +16,10 @@ export class CreateOffers1645210025361 implements MigrationInterface {
                         },
                         {
                             name: "offerTitle",
-                            type: "varchar",
-                            isNullable: true
-                        },
+                            type: "varchar"                        },
                         {
                             name: "offerSubTitle",
-                            type: "varchar",
-                            isNullable: true
+                            type: "varchar"
                         },
                         {
                             name: "status",

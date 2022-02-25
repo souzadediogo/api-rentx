@@ -8,9 +8,9 @@ class FindDatapointByIDController {
         
         const findDatapointByIDUseCase = container.resolve(FindDatapointByIDUseCase);
 
-        await findDatapointByIDUseCase.execute({ id });
+        const datapoint = await findDatapointByIDUseCase.execute({ id });
     
-        return res.status(201).send();
+        return res.status(200).json(datapoint).send();
     }
 }
 

@@ -43,6 +43,8 @@ class CreateOfferUseCase {
                 sellerID, 
                 skuID,
                 salesChannel,
+                offer_created_date: new Date(),
+                offer_last_updated_date: new Date(),
                 created_at: new Date(),
                 updated_at: new Date()
             });
