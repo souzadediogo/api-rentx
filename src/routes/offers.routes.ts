@@ -3,7 +3,7 @@ import { CreateOfferController } from '../../src/modules/offers/useCases/createO
 import { ListOffersController } from '../modules/offers/useCases/listOffers/ListOffersController';
 import { CreateDatapointController } from '@modules/offers/useCases/createDatapoint/CreateDatapointController';
 import { FindDatapointByIDController } from '@modules/offers/useCases/findDatapointByID/FindDatapointByIDController';
-
+import { ListDatapointsByOfferIdAndDateController } from "@modules/offers/useCases/listDatapointByOfferIdAndDate/listDatapointsByOfferIdAndDaterangeController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 
@@ -17,7 +17,7 @@ const offersRoutes = Router();
     //Datapoints
     const createDatapointController = new CreateDatapointController();
     const findDatapointByIDController = new FindDatapointByIDController();
-
+    const listDatapointsByOfferIdAndDaterangeController = new ListDatapointsByOfferIdAndDateController();
 //ROUTES
     //Offers
     offersRoutes.get("/", listOffersController.handle);
@@ -26,7 +26,7 @@ const offersRoutes = Router();
     //Datapoints
     offersRoutes.post("/datapoints", createDatapointController.handle);
     offersRoutes.get("/datapoints/find-by-id", findDatapointByIDController.handle);
-//    offersRoutes.get("/datapoints/find-by-offerid-and-daterange", .handle);
+    offersRoutes.get("/datapoints/find-by-offerid-and-daterange", listDatapointsByOfferIdAndDaterangeController.handle);
 
 // offersRoutes.use(ensureAuthenticated);
 

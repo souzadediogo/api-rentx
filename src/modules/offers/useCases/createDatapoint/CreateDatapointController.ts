@@ -5,7 +5,7 @@ import { container } from "tsyringe";
 class CreateDatapointController {
     async handle(req: Request, res: Response): Promise<Response> {
         const { 
-            offerID,
+            offerid,
             price, 
             basePrice,
             originalPrice,
@@ -16,7 +16,7 @@ class CreateDatapointController {
         const createDatapointUseCase = container.resolve(CreateDatapointUseCase);
 
         await createDatapointUseCase.execute({
-            offerID,
+            offerid,
             price, 
             basePrice,
             originalPrice,

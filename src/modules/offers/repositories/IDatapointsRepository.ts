@@ -1,8 +1,9 @@
+import { Timestamp } from "typeorm";
 import { Datapoint } from "../entities/Datapoint";
 
 interface IDatapointDTO {
     id?: string;
-    offerID: string;
+    offerid: string;
     price: number; 
     basePrice: number;
     originalPrice: number;
@@ -12,7 +13,7 @@ interface IDatapointDTO {
 
 interface IDatapointsRepository {
     create({
-        offerID,
+        offerid,
         price, 
         basePrice,
         originalPrice,
@@ -20,7 +21,7 @@ interface IDatapointsRepository {
         soldQty
     }: IDatapointDTO): Promise<void>;
     findByID(id: string): Promise<Datapoint>;
-    listByOfferIdAndDateRange(offerID: string): Promise<Datapoint[]>; //, dateRange: Date[]
+    listByOfferIdAndDateRange(offerid: string, beginDate: Timestamp, endDate: Timestamp): Promise<Datapoint[]>; //, dateRange: Date[]
 };
 
 export { IDatapointsRepository,  IDatapointDTO }

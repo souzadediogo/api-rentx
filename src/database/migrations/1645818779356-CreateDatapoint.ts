@@ -13,7 +13,7 @@ export class CreateDatapoint1645818779356 implements MigrationInterface {
                             isUnique: true
                         },
                         {
-                            name: "offerID",
+                            name: "offerid",
                             type: "varchar"
                         },
                         {

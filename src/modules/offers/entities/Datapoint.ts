@@ -7,7 +7,7 @@ class Datapoint {
     id?: string;
 
     @Column()
-    offerID: string;
+    offerid: string;
 
     @Column({type: 'float'})
     price: number; 

@@ -1,6 +1,6 @@
 import { Datapoint } from '../../entities/Datapoint';
 import { IDatapointsRepository, IDatapointDTO } from '../IDatapointsRepository';
-import { getRepository, Repository } from 'typeorm';
+import { Between, getRepository, LessThanOrEqual, MoreThan, MoreThanOrEqual, Repository } from 'typeorm';
 
 
 class DatapointsRepository implements IDatapointsRepository {
@@ -13,7 +13,7 @@ class DatapointsRepository implements IDatapointsRepository {
         this.repository = getRepository(Datapoint);
     }
     async create({
-        offerID,
+        offerid,
         price, 
         basePrice,
         originalPrice,
@@ -21,7 +21,7 @@ class DatapointsRepository implements IDatapointsRepository {
         soldQty
     }: IDatapointDTO): Promise<void> {
         const datapoint = this.repository.create({
-            offerID,
+            offerid,
             price, 
             basePrice,
             originalPrice,
@@ -36,12 +36,15 @@ class DatapointsRepository implements IDatapointsRepository {
         return datapoint;
     }   
 
-    async listByOfferIdAndDateRange(offerID: string): Promise<Datapoint[]> { //, dateRange: Date[]
+    async listByOfferIdAndDateRange(offerid: string, beginDate, endDate): Promise<Datapoint[]> { 
+        
         const datapoints = await this.repository
-            .createQueryBuilder("datapoints")
-            .where("datapoints.offerID = offerID", {offerID: offerID})  // find({ offerID });
-            .getMany();
-            
+                            .createQueryBuilder("datapoints")
+                            .select("datapoints")
+                            .andWhere(`offerid = :offerid `, {offerid: `${offerid}`})
+                            .andWhere(`created_at >= :begin `, {begin: `${beginDate}`})
+                            .andWhere(`created_at <= :end `, {end: `${endDate}`})
+                            .getMany()
         return datapoints;
     };
 };

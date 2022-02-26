@@ -10,7 +10,7 @@ class CreateDatapointUseCase {
         private datapointsRepository: IDatapointsRepository) {}
     
     async execute({
-        offerID,
+        offerid,
         price, 
         basePrice,
         originalPrice,
@@ -19,7 +19,7 @@ class CreateDatapointUseCase {
     }: IDatapointDTO): Promise<void> {
 
         await this.datapointsRepository.create({
-            offerID,
+            offerid,
             price, 
             basePrice,
             originalPrice,
