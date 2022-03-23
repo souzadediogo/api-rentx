@@ -16,6 +16,11 @@ class Seller {
     @Column()
     cnpj?: string;
 
+    @OneToMany(()=> SalesChannel, salesChannel => salesChannel.seller, {
+        cascade: true
+    })
+    salesChannels: SalesChannel[];
+
     @CreateDateColumn()
     created_at: Date;
     
@@ -27,5 +32,14 @@ class Seller {
             this.id = uuid()
         }
     };
+
+    addSalesChannel(salesChannel: SalesChannel) {
+        if(this.salesChannels == null) {
+            this.salesChannels = new Array<SalesChannel>();
+        }
+        this.salesChannels.push(salesChannel)
+    }
+
+
 }
 export { Seller }

@@ -23,7 +23,7 @@ class SalesChannelsRepository implements ISalesChannelsRepository {
         }: ISalesChannelsDTO): Promise<void> {
         
         const salesChannel = this.repository.create({
-            //seller,
+            seller,
             channelName, 
             sellerNameInChannel, 
             channelSellerID, 
@@ -53,9 +53,14 @@ class SalesChannelsRepository implements ISalesChannelsRepository {
     }
 
     async listSellerSalesChannelsByChannelName(sellerUUID: string, channelName: string): Promise<SalesChannel[]> {
-        throw new Error('Method not implemented.');
+        const sellerSalesChannels = await this.repository
+                            .createQueryBuilder("sellers")
+                            .select("sellers")
+                            .andWhere(`id = :sellerUUID `, {sellerUUID: `${sellerUUID}`})
+                            // .andWhere(`created_at >= :begin `, {begin: `${beginDate}`})
+                            .getMany()
+        return sellerSalesChannels;    
     }
-
 };
 
 export { SalesChannelsRepository }

@@ -7,8 +7,8 @@ class SalesChannel {
     @PrimaryColumn('uuid')
     id?: string;
 
-    @ManyToOne(() => Seller)
-    @JoinColumn({name: "seller_id"})
+    @ManyToOne(() => Seller, seller => seller.salesChannels)
+    @JoinColumn({name: "sellerUUID"})
     seller: Seller;
 
     @Column()

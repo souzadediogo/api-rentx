@@ -16,7 +16,7 @@ class ListSellerSalesChannelsUseCase {
     async execute({sellerUUID, channelName}: IRequest) {  //ID is unique key from seller
         
         
-        if(channelName==="") {
+        if(channelName==="" || null || false) {
             console.log(`Case: Channel name = ""`);
             return await this.salesChannelsRepository.listSellerSalesChannels(sellerUUID);
         } else {

@@ -11,11 +11,7 @@ const rotaSalesChannels = '/sales-channels';
 //    -> Recebe {sellerUUID, channelName} e lista todos sales channels
 
 
-
-
 class RunMeliOffersRoutine {
-
-
     
     static async searchMeliOffers() {
         // const allOffersFromSeller;
@@ -30,7 +26,6 @@ class RunMeliOffersRoutine {
             (await axios.get(`${url}${rotaSeller}${rotaSalesChannels}`))
             
         //=> Busca sellerIdNoMeli de todos SalesChannels deste seller
-
         
 /* 
 => Busca sellerIdNoMeli de todos SalesChannels deste seller
@@ -87,4 +82,5 @@ E CRIAREMOS DATAPOINTS
 // .get("/sales-channels", listSellerSalesChannelsController.handle);
 // .post("/sales-channels", createSalesChannelController.handle);
 
-RunMeliOffersRoutine.searchMeliOffers().then(v=>{console.log(v)});
+RunMeliOffersRoutine.searchMeliOffers()
+    .then(v=>{console.log(v)});

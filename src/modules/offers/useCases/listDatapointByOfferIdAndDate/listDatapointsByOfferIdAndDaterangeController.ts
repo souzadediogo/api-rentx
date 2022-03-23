@@ -9,7 +9,7 @@ class ListDatapointsByOfferIdAndDateController {
         const listDatapointsByOfferIdAndDaterangeUseCase = container.resolve(ListDatapointsByOfferIdAndDaterangeUseCase);
 
         const datapoints = await listDatapointsByOfferIdAndDaterangeUseCase
-            .execute({offerid,  beginDate, endDate});
+            .execute({offerid, beginDate, endDate});
     
         return res.status(201).json(datapoints).send();
     }
