@@ -16,8 +16,9 @@ interface ISalesChannelsRepository {
     findByID(sellerUUID: string): Promise<SalesChannel[]>;
     listSellerSalesChannels(sellerUUID: string): Promise<SalesChannel[]>;
     listSellerSalesChannelsByChannelName(sellerUUID: string, channelName: string): Promise<SalesChannel[]>;
-
-};
+    listAllSalesChannelsByChannelName(): Promise<SalesChannel[]>;
+    listAllSalesChannels(): Promise<SalesChannel[]>;
+};  
 
 export { ISalesChannelsRepository,  ISalesChannelsDTO }
 

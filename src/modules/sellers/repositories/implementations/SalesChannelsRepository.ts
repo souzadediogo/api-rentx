@@ -49,18 +49,45 @@ class SalesChannelsRepository implements ISalesChannelsRepository {
 
     async listSellerSalesChannels(sellerUUID: string): Promise<SalesChannel[]> {
         const id = sellerUUID;
-        return await this.repository.find({id});
-    }
+        //If seller empty, returns all, else returns seller offers'
+            const sellerSalesChannels = await this.repository
+                .find({sellerUUID: id})
+            return sellerSalesChannels
+    }                 
 
     async listSellerSalesChannelsByChannelName(sellerUUID: string, channelName: string): Promise<SalesChannel[]> {
         const sellerSalesChannels = await this.repository
-                            .createQueryBuilder("sellers")
-                            .select("sellers")
-                            .andWhere(`id = :sellerUUID `, {sellerUUID: `${sellerUUID}`})
-                            // .andWhere(`created_at >= :begin `, {begin: `${beginDate}`})
-                            .getMany()
+        .find({ where: { sellerUUID: sellerUUID, channelName: channelName } });
+                            // .find({
+                            //         where:{
+                            //             sellerUUID: sellerUUID, 
+                            //             channelName: channelName
+                            //         })
+                            // .createQueryBuilder("salesChannels")
+                            // .select("salesChannels")
+                            // .where(`sellerUUID = :sellerUUID`, {sellerUUID: `${sellerUUID}`})
+                            // .andWhere(`channelName = :channelName `, {channelName: `${channelName}`})                          
+                                    // .andWhere(`created_at >= :begin `, {begin: `${beginDate}`})
+                            // .getMany()
         return sellerSalesChannels;    
     }
+    async listAllSalesChannelsByChannelName(channelName: string): Promise<SalesChannel[]> {
+        const allSalesChannels = await this.repository
+                            .find({channelName: channelName})
+                            // .createQueryBuilder("sellers")
+                            // .select("sellers")
+                            // .andWhere(`channelName = :channelName `, {channelName: `${channelName}`})
+                            // // .andWhere(`created_at >= :begin `, {begin: `${beginDate}`})
+                            // .getMany()
+        return allSalesChannels;    
+    }  
+
+    async listAllSalesChannels(): Promise<SalesChannel[]> {
+            const allSalesChannels = await this.repository
+                .find()
+            return allSalesChannels
+    }   
+    
 };
 
 export { SalesChannelsRepository }

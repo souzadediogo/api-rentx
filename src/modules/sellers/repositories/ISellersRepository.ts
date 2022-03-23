@@ -7,6 +7,7 @@ interface ISellersDTO {
     name?: string; 
     sellerID: string;
     cnpj?: string;
+    salesChannels: string;
     created_at: Date;
     updated_at?: Date;
 };

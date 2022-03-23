@@ -5,7 +5,7 @@ export class CreateSalesChannels1645708687144 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "sales_channels",
+                name: "salesChannels",
                 columns: [
                     {
                         name: "id",

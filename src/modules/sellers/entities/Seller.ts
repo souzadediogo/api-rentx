@@ -17,8 +17,10 @@ class Seller {
     cnpj?: string;
 
     @OneToMany(()=> SalesChannel, salesChannel => salesChannel.seller, {
-        cascade: true
+        cascade: true,
+        // eager: true
     })
+    @JoinColumn({name: "salesChannels"})
     salesChannels: SalesChannel[];
 
     @CreateDateColumn()

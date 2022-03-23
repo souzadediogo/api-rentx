@@ -2,14 +2,19 @@ import { v4 as uuid} from 'uuid';
 import { JoinTable, Column, CreateDateColumn, UpdateDateColumn, Entity, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Seller } from './Seller';
 
-@Entity("sales_channels")
+@Entity("salesChannels")
 class SalesChannel {
     @PrimaryColumn('uuid')
     id?: string;
 
-    @ManyToOne(() => Seller, seller => seller.salesChannels)
+    @ManyToOne(() => Seller, seller => seller.salesChannels, {
+        eager: true,
+    })
     @JoinColumn({name: "sellerUUID"})
     seller: Seller;
+
+    @Column()
+    sellerUUID: string;
 
     @Column()
     channelName: string;
