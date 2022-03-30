@@ -1,29 +1,29 @@
 // import axios from "axios";
-const axios = require('axios');
+// const axios = require('axios');
 
-const url = 'http://localhost:3333';
-const rotaSeller = '/sellers';
-const rotaSalesChannels = '/sales-channels';
+// const url = 'http://localhost:3333';
+// const rotaSeller = '/sellers';
+// const rotaSalesChannels = '/sales-channels';
 
-//  GET /sellers/  
-//     -> Lista todos sellers
-// GET /sellers/sales-channels  
-//    -> Recebe {sellerUUID, channelName} e lista todos sales channels
+// //  GET /sellers/  
+// //     -> Lista todos sellers
+// // GET /sellers/sales-channels  
+// //    -> Recebe {sellerUUID, channelName} e lista todos sales channels
 
 
-class RunMeliOffersRoutine {
+// class RunMeliOffersRoutine {
     
-    static async searchMeliOffers() {
-        // const allOffersFromSeller;
+//     static async searchMeliOffers() {
+//         // const allOffersFromSeller;
         
-        //=> Buscar todos selelers e Isolar UUID
-        const allSellersIds = 
-            (await axios.get(`${url}${rotaSeller}`))
-                .data
-                .map(seller => seller.id);
+//         //=> Buscar todos selelers e Isolar UUID
+//         const allSellersIds = 
+//             (await axios.get(`${url}${rotaSeller}`))
+//                 .data
+//                 .map(seller => seller.id);
         
-        const allSellerIdsInMeliFromSeller =
-            (await axios.get(`${url}${rotaSeller}${rotaSalesChannels}`))
+//         const allSellerIdsInMeliFromSeller =
+//             (await axios.get(`${url}${rotaSeller}${rotaSalesChannels}`))
             
         //=> Busca sellerIdNoMeli de todos SalesChannels deste seller
         

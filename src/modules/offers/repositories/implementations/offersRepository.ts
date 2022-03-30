@@ -16,6 +16,7 @@ class OffersRepository implements IOffersRepository {
         this.repository = getRepository(Offer);
     }
 
+
     // public static getInstance(): OffersRepository {
     //     if(!OffersRepository.INSTANCE){
     //         OffersRepository.INSTANCE = new OffersRepository();
@@ -55,6 +56,17 @@ class OffersRepository implements IOffersRepository {
         const offer = await this.repository.findOne({ offerID });
         return offer;
     };
+
+    async listOffersBySellerUUID(sellerUUID: any): Promise<Offer[]> {
+        const sellerOffers = 
+            await this.repository
+                    .find({ sellerID: sellerUUID });
+        return sellerOffers;
+
+    //     const sellerSalesChannels = await this.repository
+    //     .find({sellerUUID: id})
+    // return sellerSalesChannels
+    }    
 };
 
 export { OffersRepository }

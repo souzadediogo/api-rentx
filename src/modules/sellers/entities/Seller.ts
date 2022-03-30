@@ -1,6 +1,7 @@
 import { v4 as uuid} from 'uuid';
 import { Column, CreateDateColumn, UpdateDateColumn, Entity, PrimaryColumn, OneToMany, JoinColumn, JoinTable } from 'typeorm';
 import { SalesChannel } from './SalesChannels';
+import { Offer } from '@modules/offers/entities/Offer';
 
 @Entity("sellers")
 class Seller {
@@ -22,6 +23,10 @@ class Seller {
     })
     @JoinColumn({name: "salesChannels"})
     salesChannels: SalesChannel[];
+
+    @OneToMany(()=> Offer, offers => offers.seller)
+    @JoinColumn({name: "offers"})
+    offers: Offer[];
 
     @CreateDateColumn()
     created_at: Date;

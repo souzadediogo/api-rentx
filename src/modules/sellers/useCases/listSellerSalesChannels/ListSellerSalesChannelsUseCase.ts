@@ -16,7 +16,7 @@ class ListSellerSalesChannelsUseCase {
     async execute({sellerUUID, channelName}: IRequest) {  //ID is unique key from seller
         let seller = null;
         let channel = null;
-        sellerUUID !== "" ? seller = 'ok' : seller = 'not-ok';
+        sellerUUID !== "na" ? seller = 'ok' : seller = 'not-ok';
         channelName !== "" ? channel = 'ok' : channel = 'not-ok';
         let mySwitch = `${seller}-${channel}`
         
@@ -29,7 +29,11 @@ class ListSellerSalesChannelsUseCase {
                 break;
             case 'ok-ok':
                 return await this.salesChannelsRepository.listSellerSalesChannelsByChannelName(sellerUUID, channelName);    
-                break;                        
+                break;    
+            case 'not-ok-ok':
+                return await this.salesChannelsRepository.listAllSalesChannelsByChannelName(channelName);    
+                break;    
+    
         }
 
 

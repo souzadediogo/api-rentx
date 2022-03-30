@@ -5,7 +5,7 @@ import { container } from "tsyringe";
 
 class ListSellerSalesChannelsController {    
     async handle(req: Request, res: Response ): Promise<Response> {
-        const { sellerUUID, channelName } = req.body;
+        const { sellerUUID, channelName } = req.params;
 
         const listSellerSalesChannelsUseCase = container.resolve(ListSellerSalesChannelsUseCase);
 

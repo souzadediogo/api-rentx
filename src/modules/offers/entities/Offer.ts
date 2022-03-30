@@ -1,10 +1,17 @@
 import { v4 as uuid} from 'uuid';
-import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Seller } from '@modules/sellers/entities/Seller'
 
 @Entity("offers")
 class Offer {
     @PrimaryColumn('uuid')
     id?: string;
+    
+    @ManyToOne(() => Seller, seller => seller.id, {
+            eager: true,
+        })
+    @JoinColumn({name: "id"})    
+    seller: Seller;     
 
     @Column()
     offerTitle?: string; 
@@ -14,9 +21,6 @@ class Offer {
 
     @Column({length: 100, unique: true})
     offerID: string;
-
-    @Column()
-    sellerID: string; 
 
     @Column()
     skuID: string;

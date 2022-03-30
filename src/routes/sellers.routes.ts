@@ -17,7 +17,7 @@ const createSalesChannelController = new CreateSalesChannelController();
 sellersRoutes.get("/", listSellersController.handle);
 sellersRoutes.post("/", createSellerController.handle);
 
-sellersRoutes.get("/sales-channels", listSellerSalesChannelsController.handle);
+sellersRoutes.get("/sales-channels/:sellerUUID/:channelName", listSellerSalesChannelsController.handle);
 sellersRoutes.post("/sales-channels", createSalesChannelController.handle);
 
 export { sellersRoutes }

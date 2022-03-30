@@ -20,6 +20,7 @@ interface IOffersRepository {
     findByOfferID(offerID: string): Promise<Offer>;
     list(): Promise<Offer[]>;
     create({offerTitle, offerSubTitle, status, categoryID, offerID, sellerID, skuID, salesChannel}: ICreateOffersDTO): Promise<void>;
+    listOffersBySellerUUID(sellerUUID): Promise<Offer[]>;
 };
 
 export { IOffersRepository,  ICreateOffersDTO }
