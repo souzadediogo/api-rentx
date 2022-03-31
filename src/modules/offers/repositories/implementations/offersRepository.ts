@@ -58,14 +58,8 @@ class OffersRepository implements IOffersRepository {
     };
 
     async listOffersBySellerUUID(sellerUUID: any): Promise<Offer[]> {
-        const sellerOffers = 
-            await this.repository
-                    .find({ sellerID: sellerUUID });
+        const sellerOffers = await this.repository.find({ seller: sellerUUID });
         return sellerOffers;
-
-    //     const sellerSalesChannels = await this.repository
-    //     .find({sellerUUID: id})
-    // return sellerSalesChannels
     }    
 };
 

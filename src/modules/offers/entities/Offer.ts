@@ -7,11 +7,18 @@ class Offer {
     @PrimaryColumn('uuid')
     id?: string;
     
-    @ManyToOne(() => Seller, seller => seller.id, {
+    @ManyToOne(() => Seller, seller => seller.offers, {
             eager: true,
         })
-    @JoinColumn({name: "id"})    
+    @JoinColumn({name: "sellerUUID"})    
     seller: Seller;     
+
+
+    // @ManyToOne(() => Seller, seller => seller.salesChannels, {
+    //     eager: true,
+    // })
+    // @JoinColumn({name: "sellerUUID"})
+    // seller: Seller;
 
     @Column()
     offerTitle?: string; 

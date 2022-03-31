@@ -15,6 +15,10 @@ class OfferServices {
 // 	"sellerUUID": "",
 // 	"channelName": "meli"
 // }
+    //Return all offers from sellerUUID ou all offers if no uuid sent
+    getAllOffersBySellerUUID(sellerUUID){
+        return axios.get(`${baseUrl}/offers?sellerUUID=${sellerUUID}`)
+    }
 
 
     //Return all existing offers in given channel

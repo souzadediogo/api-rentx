@@ -8,11 +8,14 @@ class ListOffersUseCase {
         @inject("OffersRepository")
         private offersRepository: IOffersRepository) {}
     
-    async execute(): Promise<Offer[]> {
+    async execute(sellerUUID): Promise<Offer[]> {
       
-        const offers = await this.offersRepository.list();
-  
-        return offers;
+        if(sellerUUID){
+            return await this.offersRepository.listOffersBySellerUUID(sellerUUID)
+        } else {
+            return await this.offersRepository.list();
+        }
+
     }
 };
 
