@@ -38,9 +38,10 @@ export class CreateOffers1645210025361 implements MigrationInterface {
                             type: "varchar",
                         },
                         {
-                            name: "sellerID",
-                            type: "varchar",
-                        },
+                            name: "sellerUUID",
+                            type: "uuid",
+                            isNullable: true
+                        },                        
                         {
                             name: "categoryID",
                             type: "varchar",
@@ -66,6 +67,16 @@ export class CreateOffers1645210025361 implements MigrationInterface {
                             default: "now()"
                         }
                     ],
+                    foreignKeys: [
+                        {
+                            name: "FKSellerOffers",
+                            referencedTableName: "sellers",
+                            referencedColumnNames: ["id"],
+                            columnNames: ["sellerUUID"],
+                            onDelete: "SET NULL",
+                            onUpdate:  "SET NULL",  //Mudar para cascade depois
+                        }
+                    ]                    
                 }
             )
         )

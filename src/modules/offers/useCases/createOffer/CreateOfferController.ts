@@ -5,6 +5,7 @@ import { container } from "tsyringe";
 class CreateOfferController {
     async handle(req: Request, res: Response): Promise<Response> {
         const {             
+            seller,
             offerTitle,
             offerSubTitle,
             status,

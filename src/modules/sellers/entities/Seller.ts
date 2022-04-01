@@ -24,7 +24,7 @@ class Seller {
     @JoinColumn({name: "salesChannels"})
     salesChannels: SalesChannel[];
 
-    @OneToMany(()=> Offer, offers => offers.seller)
+    @OneToMany(()=> Offer, offer => offer.seller)
     @JoinColumn({name: "offers"})
     offers: Offer[];
 
@@ -46,7 +46,13 @@ class Seller {
         }
         this.salesChannels.push(salesChannel)
     }
-
+    
+    addOffer(offer: Offer) {
+        if(this.offers == null) {
+            this.offers = new Array<Offer>();
+        }
+        this.offers.push(offer)
+    }
 
 }
 export { Seller }

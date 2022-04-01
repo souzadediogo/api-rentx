@@ -35,6 +35,7 @@ class CreateOfferUseCase {
 
         if(!offerAlreadyExists){
             await this.offersRepository.create({
+                seller,
                 offerTitle,
                 offerSubTitle,
                 status,

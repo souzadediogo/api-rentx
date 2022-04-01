@@ -13,13 +13,9 @@ class Offer {
     @JoinColumn({name: "sellerUUID"})    
     seller: Seller;     
 
-
-    // @ManyToOne(() => Seller, seller => seller.salesChannels, {
-    //     eager: true,
-    // })
-    // @JoinColumn({name: "sellerUUID"})
-    // seller: Seller;
-
+    @Column()
+    sellerUUID: string;
+    
     @Column()
     offerTitle?: string; 
 

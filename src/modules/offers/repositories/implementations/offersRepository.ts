@@ -25,6 +25,7 @@ class OffersRepository implements IOffersRepository {
     // };
 
     async create({
+                seller,
                 offerTitle, 
                 offerSubTitle, 
                 status, 
@@ -35,6 +36,7 @@ class OffersRepository implements IOffersRepository {
                 salesChannel
              }: ICreateOffersDTO): Promise<void> {
         const offer = this.repository.create({
+            seller,
             offerTitle, 
             offerSubTitle, 
             status, 

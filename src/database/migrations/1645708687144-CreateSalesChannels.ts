@@ -69,7 +69,7 @@ export class CreateSalesChannels1645708687144 implements MigrationInterface {
     // }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("sales_channels");
+        await queryRunner.dropTable("salesChannels");
     }
 
 }
