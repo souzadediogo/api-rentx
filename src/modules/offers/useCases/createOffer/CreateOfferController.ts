@@ -18,6 +18,7 @@ class CreateOfferController {
         const createOfferUseCase = container.resolve(CreateOfferUseCase);
 
         await createOfferUseCase.execute({
+            seller,
             offerTitle,
             offerSubTitle,
             status,

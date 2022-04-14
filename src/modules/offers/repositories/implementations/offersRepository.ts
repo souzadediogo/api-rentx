@@ -35,17 +35,18 @@ class OffersRepository implements IOffersRepository {
                 skuID, 
                 salesChannel
              }: ICreateOffersDTO): Promise<void> {
-        const offer = this.repository.create({
-            seller,
-            offerTitle, 
-            offerSubTitle, 
-            status, 
-            categoryID, 
-            offerID, 
-            sellerID, 
-            skuID, 
-            salesChannel
-    })
+    
+    const offer = this.repository.create({
+        seller,
+        offerTitle, 
+        offerSubTitle, 
+        status, 
+        categoryID, 
+        offerID, 
+        sellerID, 
+        skuID, 
+        salesChannel
+})
         await this.repository.save(offer);
     }
 

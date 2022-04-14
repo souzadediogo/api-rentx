@@ -1,5 +1,5 @@
 import { GetMeliOffers } from './mercadoLivre/--getMeliOffers'
-import { GetOffers } from './mercadoLivre/getOffers'
+import { GetOffers } from './getMeliOffersUseCase'
 
 // async function runAll(){
 //     const all = await GetMeliOffers.getAllChannels();

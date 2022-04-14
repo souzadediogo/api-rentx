@@ -11,6 +11,10 @@ import { ISalesChannelsRepository } from "@modules/sellers/repositories/ISalesCh
 import { SalesChannelsRepository } from "@modules/sellers/repositories/implementations/SalesChannelsRepository";
 import { IDatapointsRepository } from "@modules/offers/repositories/IDatapointsRepository";
 import { DatapointsRepository } from "@modules/offers/repositories/implementations/DatapointsRepository";
+import { IMeliAuthCodeRepository } from '@modules/meliAuth/repositories/IMeliAuthCodeRepository';
+import { MeliAuthCodeRepository } from '@modules/meliAuth/repositories/implementations/MeliAuthCodeRepository';
+import { IMeliTokenRepository } from '@modules/meliAuth/repositories/IMeliTokenRepository';
+import { MeliTokenRepository } from '@modules/meliAuth/repositories/implementations/MeliTokenRepository';
 
 
 container.registerSingleton<IOffersRepository>(
@@ -44,6 +48,20 @@ container.registerSingleton<ISkusRepository>(
     SkusRepository  //Classe que ele chama
 )
 
+container.registerSingleton<ISkusRepository>(
+    "SkusRepository", //Nome do container
+    SkusRepository  //Classe que ele chama
+)
+
+container.registerSingleton<IMeliAuthCodeRepository>(
+    "MeliAuthCodeRepository", //Nome do container
+    MeliAuthCodeRepository  //Classe que ele chama
+)
+
+container.registerSingleton<IMeliTokenRepository>(
+    "MeliTokenRepository", //Nome do container
+    MeliTokenRepository  //Classe que ele chama
+)
 
 
 

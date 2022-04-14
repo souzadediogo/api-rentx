@@ -6,12 +6,12 @@ import { Seller } from '@modules/sellers/entities/Seller'
 class Offer {
     @PrimaryColumn('uuid')
     id?: string;
-    
+
     @ManyToOne(() => Seller, seller => seller.offers, {
             eager: true,
         })
     @JoinColumn({name: "sellerUUID"})    
-    seller: Seller;     
+    seller?: Seller;     
 
     @Column()
     sellerUUID: string;
