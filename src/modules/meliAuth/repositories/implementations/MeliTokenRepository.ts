@@ -18,10 +18,14 @@ class MeliTokenRepository implements IMeliTokenRepository {
 
     async createOrRefreshToken({ meliToken }: IMeliTokenDTO): Promise<void> {
         const id = '1';
-        console.log(`repository: ${meliToken}`);
         const token = this.repository.create({meliToken});
         await this.repository.save(token);
         return
+     }
+    
+    async listToken(): Promise<IMeliTokenDTO> {
+        let id = "1";
+        return await this.repository.findOne(id);
      }
     }
 

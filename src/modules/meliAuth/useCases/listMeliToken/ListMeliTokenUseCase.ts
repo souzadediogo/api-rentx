@@ -10,15 +10,15 @@ interface IMeliTokenDTO {
 }
 
 @injectable()
-class CreateMeliTokenUseCase {
+class ListMeliTokenUseCase {
     constructor(
         @inject("MeliTokenRepository")
         private meliTokenRepository: IMeliTokenRepository) {}
     
-    async execute({meliToken}: IMeliTokenDTO): Promise<void> {
-            await this.meliTokenRepository.createOrRefreshToken({meliToken});
+    async execute(): Promise<MeliToken> {
+        return await this.meliTokenRepository.listToken();
     }
 }
 
-export { CreateMeliTokenUseCase }
+export { ListMeliTokenUseCase }
 

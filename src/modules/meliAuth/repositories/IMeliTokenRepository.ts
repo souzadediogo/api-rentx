@@ -8,6 +8,7 @@ interface IMeliTokenDTO {
 
 interface IMeliTokenRepository {
     createRefreshToken({meliToken}: IMeliTokenDTO): Promise<void>;
+    listToken(): Promise<IMeliTokenDTO>;
 };  
 
 export { IMeliTokenRepository,  IMeliTokenDTO }

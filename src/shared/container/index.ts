@@ -62,8 +62,3 @@ container.registerSingleton<IMeliTokenRepository>(
     "MeliTokenRepository", //Nome do container
     MeliTokenRepository  //Classe que ele chama
 )
-
-
-
-
-
