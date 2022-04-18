@@ -41,7 +41,8 @@ interface IOffersRepository {
         free_shipping, 
         catalog_listing, 
         catalog_product_id,
-        listing_type_id}: ICreateOffersDTO): Promise<void>;
+        listing_type_id
+    }: ICreateOffersDTO): Promise<void>;
     updateByOfferId({      
         id,
         offerTitle, 
@@ -57,7 +58,8 @@ interface IOffersRepository {
         free_shipping, 
         catalog_listing, 
         catalog_product_id,
-        listing_type_id}: ICreateOffersDTO): Promise<void>;
+        listing_type_id
+    }: ICreateOffersDTO): Promise<void>;
     listOffersBySellerUUID(sellerUUID): Promise<Offer[]>;
 };
 
