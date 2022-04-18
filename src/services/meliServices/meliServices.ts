@@ -106,7 +106,7 @@ class MeliServices {
 
       return offerArray.map((meliOffer)=>{
           return {
-            seller: {'id': `${sellerUUID}`},
+            seller: {id: `${sellerUUID}`},
             offerTitle: meliOffer.title,
             offerSubTitle: "",
             status: meliOffer.buying_mode,

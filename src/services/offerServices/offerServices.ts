@@ -68,9 +68,53 @@ class OfferServices {
         for(let offer in newOffersArray){
             let offerInfo = newOffersArray[offer];
             console.log(`Saving: ${newOffersArray[offer].offerID}`)
-            return axios.post(`${myUrls.appBaseUrl}/offers`,{
-                data: offerInfo
-            })
+
+            var options = {
+                method: 'POST',
+                url: 'http://localhost:3333/offers',
+                headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU2MTQ1MDIsImV4cCI6MTY0NTcwMDkwMiwic3ViIjoiMTc1YmNhNzYtMzE1Yy00Y2I2LTk1MTktY2ExMDNkM2JiYzNjIn0.8Qo5zYZabKFYsAmK5T2-6N-AXOYZd43P5gnUXfi2abc'
+                },
+                data: {
+                    seller: {id: `${offerInfo.seller.id}`},
+                    offerID: offerInfo.offerID,
+                    offerTitle: offerInfo.offerTitle,
+                    offerSubTitle: offerInfo.offerTitle,
+                    offerUrl: offerInfo.offerUrl,
+                    status: offerInfo.status,
+                    salesChannel: offerInfo.salesChannel,
+                    catalog_listing: offerInfo.catalog_listing,
+                    categoryID: offerInfo.categoryID,
+                    condition: offerInfo.condition,
+                    free_shipping: offerInfo.free_shipping,
+                    catalog_product_id: offerInfo.catalog_product_id,
+                    listing_type_id: offerInfo.listing_type_id
+                }
+            };
+            
+            axios.request(options).then(function (response) {
+                console.log(response.data);
+            }).catch(function (error) {
+                console.error(error);
+            });
+            // return axios.post(`${myUrls.appBaseUrl}/offers`,{
+            //     data: {
+            //         seller: {id: `${offerInfo.seller.id}`},
+            //         offerTitle: offerInfo.offerTitle,
+            //         offerSubTitle: offerInfo.offerTitle,
+            //         status: offerInfo.status,
+            //         offerUrl: offerInfo.offerUrl,
+            //         categoryID: offerInfo.categoryID,
+            //         offerID: offerInfo.offerID,
+            //         salesChannel: offerInfo.salesChannel,
+            //         condition: offerInfo.condition,
+            //         free_shipping: offerInfo.free_shipping,
+            //         catalog_listing: offerInfo.catalog_listing,
+            //         catalog_product_id: offerInfo.catalog_product_id,
+            //         listing_type_id: offerInfo.listing_type_id,
+            //     }
+            // })
       }
     }
 
@@ -80,9 +124,37 @@ class OfferServices {
             let offerInfo = existingOffersArray[offer];
             console.log(offerInfo)
             console.log(`Updating: ${existingOffersArray[offer].offerID}`)
-            return axios.put(`${myUrls.appBaseUrl}/offers`,{
-                data: offerInfo
-            })
+           
+            var options = {
+                method: 'put',
+                url: 'http://localhost:3333/offers',
+                headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU2MTQ1MDIsImV4cCI6MTY0NTcwMDkwMiwic3ViIjoiMTc1YmNhNzYtMzE1Yy00Y2I2LTk1MTktY2ExMDNkM2JiYzNjIn0.8Qo5zYZabKFYsAmK5T2-6N-AXOYZd43P5gnUXfi2abc'
+                },
+                data: {
+                    seller: {id: `${offerInfo.seller.id}`},
+                    offerID: offerInfo.offerID,
+                    offerTitle: offerInfo.offerTitle,
+                    offerSubTitle: offerInfo.offerTitle,
+                    offerUrl: offerInfo.offerUrl,
+                    status: offerInfo.status,
+                    salesChannel: offerInfo.salesChannel,
+                    catalog_listing: offerInfo.catalog_listing,
+                    categoryID: offerInfo.categoryID,
+                    condition: offerInfo.condition,
+                    free_shipping: offerInfo.free_shipping,
+                    catalog_product_id: offerInfo.catalog_product_id,
+                    listing_type_id: offerInfo.listing_type_id
+                }
+            };
+            
+            axios.request(options).then(function (response) {
+                console.log(response.data);
+            }).catch(function (error) {
+                console.error(error);
+            });
+
           }
     }    
 }
