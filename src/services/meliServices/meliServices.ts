@@ -57,7 +57,7 @@ interface IPaging {
 //Return all existing offers in given channel
 async function getOffersInMeli(channelSellerID){
     const meliAccessToken = await getNewRefreshToken(); // Trocar por get no refresh token na API
-    console.log(`meliAccessToken is ${meliAccessToken}`)
+    // console.log(`meliAccessToken is ${meliAccessToken}`)
 
     const sellerOffers = [];
 
@@ -67,11 +67,12 @@ async function getOffersInMeli(channelSellerID){
         }
     })
     const paging: IPaging = results.data.paging;
-    console.log(paging) //results.data.paging
+    // console.log(paging) //results.data.paging
 
     let currentOffset = 0;
-    while(currentOffset<paging.total){
-        console.log(`Current offset = ${currentOffset}`);
+    if(paging.total>0){
+      while(currentOffset<150){     //!!!!!!!!!!!!!!!!!!!!!!!!!!!! alterar, deixei o cap baixo para rodar rapido os testes ||  while(currentOffset<paging.total){
+        // console.log(`Current offset = ${currentOffset}`);
 
         ///
         var options = {
@@ -96,7 +97,9 @@ async function getOffersInMeli(channelSellerID){
 
         currentOffset+=50
     }
-    return sellerOffers
+  }
+
+    return sellerOffers;
 }
 
 //Cria novas ofertas que ainda não existem na base do canal

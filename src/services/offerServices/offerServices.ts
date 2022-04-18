@@ -1,14 +1,12 @@
 import axios from 'axios';
+import { myUrls } from '@shared/urls';
 
-const baseUrl = 'http://localhost:3333'
-const meliUrl = 'https://api.mercadolibre.com/sites/'
-const meliAccessToken = ''
 
 class OfferServices {
-
+    contructor(){}
     // Search sales channel in proprietary API
-    getSalesChannels(sellerUUID, channelName){
-        return axios.get(`${baseUrl}/sellers/sales-channels/${sellerUUID}/${channelName}`)
+    async getSalesChannels(sellerUUID, channelName){
+        return axios.get(`${myUrls.appBaseUrl}/sellers/sales-channels/${sellerUUID}/${channelName}`)
     }
 
 // {
@@ -16,29 +14,11 @@ class OfferServices {
 // 	"channelName": "meli"
 // }
     //Return all offers from sellerUUID ou all offers if no uuid sent
-    getAllOffersBySellerUUID(sellerUUID){
-        return axios.get(`${baseUrl}/offers?sellerUUID=${sellerUUID}`)
+    async getAllOffersBySellerUUID(sellerUUID){
+        return axios.get(`${myUrls.appBaseUrl}/offers?sellerUUID=${sellerUUID}`)
     }
 
 
-    //Return all existing offers in given channel
-    getOffersInMeli(channelSellerID){
-        return axios.get(`${meliUrl}/MLB/search?seller_id=${channelSellerID}`, {
-            headers: {
-                "Authorization": `Bearer ${meliAccessToken}`
-            }
-        })
-    }
-
-    //Cria novas ofertas que ainda não existem na base do canal
-    saveNewMeliOffers(){
-
-    }
-
-    //Atualiza campos de ofertas existentes no canal
-    updateMeliOffers(){ 
-
-    }
 
 }
 

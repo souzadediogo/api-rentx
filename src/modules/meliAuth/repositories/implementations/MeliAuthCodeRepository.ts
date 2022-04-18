@@ -28,6 +28,11 @@ class MeliAuthCodeRepository implements IMeliAuthCodeRepository {
      
     }
 
+    async listCode(): Promise<IMeliAuthCodeDTO> {
+        let id = "1";
+        return await this.repository.findOne(id);
+     }
+
 };
 
 export { MeliAuthCodeRepository }

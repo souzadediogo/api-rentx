@@ -1,18 +1,18 @@
 import { Request, Response } from 'express';
-import { ListMeliTokenUseCase } from '@modules/meliAuth/useCases/ListMeliToken/ListMeliTokenUseCase';
+import { ListMeliAuthInfoUseCase } from '@modules/meliAuth/useCases/ListMeliAuthInfo/ListMeliAuthInfoUseCase';
 import { container } from "tsyringe";
 
-class ListMeliTokenController {
+class ListMeliAuthInfoController {
     async handle(req: Request, res: Response): Promise<Response> {
         
-        const listMeliTokenUseCase = container.resolve(ListMeliTokenUseCase);
-        const token = await listMeliTokenUseCase.execute();
+        const listMeliAuthInfoUseCase = container.resolve(ListMeliAuthInfoUseCase);
+        const token = await listMeliAuthInfoUseCase.execute();
     
         return res.status(200).json(token);
     }
 }
 
-export { ListMeliTokenController }
+export { ListMeliAuthInfoController }
 
 
 // class CreateMeliAuthCodeController {
