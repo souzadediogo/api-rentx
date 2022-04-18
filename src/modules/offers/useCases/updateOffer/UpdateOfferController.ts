@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { CreateOfferUseCase, IRequestOffer } from '@modules/offers/useCases/createOffer/CreateOfferUseCase';
+import { UpdateOfferUseCase, IRequestOffer } from '@modules/offers/useCases/updateOffer/updateOfferUseCase';
 import { container } from "tsyringe";
 
-class CreateOfferController {
+class UpdateOfferController {
     async handle(req: Request, res: Response): Promise<Response> {
         const {             
             seller,
@@ -22,9 +22,9 @@ class CreateOfferController {
             listing_type_id 
             }: IRequestOffer = req.body;
         
-        const createOfferUseCase = container.resolve(CreateOfferUseCase);
+        const updateOfferUseCase = container.resolve(UpdateOfferUseCase);
 
-        await createOfferUseCase.execute({
+        await updateOfferUseCase.execute({
             seller,
             offerTitle,
             offerSubTitle,
@@ -46,4 +46,4 @@ class CreateOfferController {
     }
 }
 
-export { CreateOfferController }
+export { UpdateOfferController }

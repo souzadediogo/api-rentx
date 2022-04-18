@@ -5,7 +5,7 @@ import { CreateDatapointController } from '@modules/offers/useCases/createDatapo
 import { FindDatapointByIDController } from '@modules/offers/useCases/findDatapointByID/FindDatapointByIDController';
 import { ListDatapointsByOfferIdAndDateController } from "@modules/offers/useCases/listDatapointByOfferIdAndDate/listDatapointsByOfferIdAndDaterangeController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
-
+import { UpdateOfferController } from "@modules/offers/useCases/updateOffer/UpdateOfferController";
 
 const offersRoutes = Router();
 
@@ -13,6 +13,7 @@ const offersRoutes = Router();
     //Offers
     const createOfferController = new CreateOfferController();
     const listOffersController = new ListOffersController();
+    const updateOfferController = new UpdateOfferController();
 
     //Datapoints
     const createDatapointController = new CreateDatapointController();
@@ -22,6 +23,8 @@ const offersRoutes = Router();
     //Offers
     offersRoutes.get("/", listOffersController.handle);
     offersRoutes.post("/", createOfferController.handle);
+    offersRoutes.put("/", updateOfferController.handle);
+
 
     //Datapoints
     offersRoutes.post("/datapoints", createDatapointController.handle);

@@ -22,10 +22,13 @@ class Offer {
     @Column()
     offerSubTitle?: string; 
 
+    @Column({nullable: true})
+    offerUrl?: string; 
+
     @Column({length: 100, unique: true})
     offerID: string;
 
-    @Column()
+    @Column({nullable: true})
     skuID: string;
 
     @Column()
@@ -36,6 +39,21 @@ class Offer {
 
     @Column()
     salesChannel: string;
+
+    @Column({nullable: true})
+    condition: string;
+
+    @Column({nullable: true})
+    free_shipping: boolean;
+    
+    @Column({nullable: true})
+    catalog_listing: boolean;
+
+    @Column({nullable: true})
+    catalog_product_id: string;    
+
+    @Column({nullable: true})
+    listing_type_id: string;   
 
     @CreateDateColumn()
     offer_created_date: Date;

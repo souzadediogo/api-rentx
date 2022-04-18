@@ -21,7 +21,7 @@ interface IRequestOffer {
 
 
 @injectable()
-class CreateOfferUseCase {
+class UpdateOfferUseCase {
     constructor(
         @inject("OffersRepository")
         private offersRepository: IOffersRepository) {}
@@ -42,11 +42,15 @@ class CreateOfferUseCase {
         catalog_listing,
         catalog_product_id,
         listing_type_id,
-    }: IRequestOffer): Promise<void> {
+      }: IRequestOffer): Promise<void> {
         const offerAlreadyExists = await this.offersRepository.findByOfferID(offerID);
 
-        if(!offerAlreadyExists){
-            await this.offersRepository.create({
+        if(offerAlreadyExists){
+            const offer = await this.offersRepository.findByOfferID(offerID);//Busca UUID da oferta        
+            const id = offer.id;
+            
+            await this.offersRepository.updateByOfferId({
+                id,
                 seller,
                 offerTitle,
                 offerSubTitle,
@@ -68,9 +72,9 @@ class CreateOfferUseCase {
                 updated_at: new Date()
             });
         } else {
-            throw new AppError("Offer already exists!", 401)
+            throw new AppError("Could not update! Offer doesn't exist yet!", 401)
         };
     }
 }
 
-export { CreateOfferUseCase, IRequest }
+export { UpdateOfferUseCase, IRequest }

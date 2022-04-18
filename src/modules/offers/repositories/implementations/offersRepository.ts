@@ -28,28 +28,78 @@ class OffersRepository implements IOffersRepository {
                 seller,
                 offerTitle, 
                 offerSubTitle, 
+                offerUrl,
                 status, 
                 categoryID, 
                 offerID, 
                 sellerID, 
                 skuID, 
-                salesChannel
+                salesChannel,
+                condition,
+                free_shipping,
+                catalog_listing,
+                catalog_product_id,
+                listing_type_id,
              }: ICreateOffersDTO): Promise<void> {
     
-    const offer = this.repository.create({
+        const offer = this.repository.create({
+            seller,
+            offerTitle, 
+            offerSubTitle, 
+            offerUrl,
+            status, 
+            categoryID, 
+            offerID, 
+            sellerID, 
+            skuID, 
+            salesChannel,
+            condition,
+            free_shipping,
+            catalog_listing,
+            catalog_product_id,
+            listing_type_id,
+     })
+            await this.repository.save(offer);
+    }
+    async updateByOfferId({
+        id,
         seller,
         offerTitle, 
         offerSubTitle, 
+        offerUrl,
         status, 
         categoryID, 
         offerID, 
         sellerID, 
         skuID, 
-        salesChannel
-})
-        await this.repository.save(offer);
-    }
-
+        salesChannel,
+        condition,
+        free_shipping,
+        catalog_listing,
+        catalog_product_id,
+        listing_type_id,
+     }: ICreateOffersDTO): Promise<void> {
+        
+        const offer = this.repository.create({
+            id,
+            seller,
+            offerTitle, 
+            offerSubTitle, 
+            offerUrl,
+            status, 
+            categoryID, 
+            offerID, 
+            sellerID, 
+            skuID, 
+            salesChannel,
+            condition,
+            free_shipping,
+            catalog_listing,
+            catalog_product_id,
+            listing_type_id,
+        })
+            await this.repository.save(offer);
+}
     async list(): Promise<Offer[]> {
         const offers = await this.repository.find();
         return offers;
@@ -63,7 +113,12 @@ class OffersRepository implements IOffersRepository {
     async listOffersBySellerUUID(sellerUUID: any): Promise<Offer[]> {
         const sellerOffers = await this.repository.find({ seller: sellerUUID });
         return sellerOffers;
-    }    
+    }
+    
+    async listOffersBySalesChannelID(salesChannelID: string): Promise<Offer[]> {
+        const salesChannelIdOffers = await this.repository.find({ salesChannel: salesChannelID });
+        return salesChannelIdOffers;
+    }   
 };
 
 export { OffersRepository }
