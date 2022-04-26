@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { myUrls } from '../../shared/urls.ts';
 import { IRequestOffer } from '@modules/offers/useCases/createOffer/CreateOfferUseCase'
-
+import { MercadoLivreRequests } from '@requests/axios/mercadoLivre'
 
 interface IMeliOffer {
   id: string;                                //offerID
@@ -24,82 +24,135 @@ interface IPaging {
 }
 
 class MeliServices {
-  contructor(){}
+  contructor(){
+    const mercadoLivreRequests = new MercadoLivreRequests();
+  }
     async listMeliCodeAndToken(){
-        return axios.get(`${myUrls.appBaseUrl}/meliAuthentication/list-auth-info`)
+      console.log(`Retrieving token`)
+      var options = {method: 'GET', url: 'http://localhost:3333/meliAuthentication/list-auth-info'};
+
+      axios.request(options).then(function (response) {
+        console.log(`Inside ListMeliCode`)
+        console.log(response.data);
+        return response.data
+
+      }).catch(function (error) {
+        console.error(error);
+        return error
+
+      });
     }
 
-    async getNewRefreshToken(){
-          const res = await axios({
-            url: `${myUrls.meliOAuthUrl}`,
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            data: {
-              grant_type: 'refresh_token',
-              client_id: '2076599210990714',
-              client_secret: 'nrVrt6dzYjTGFibMhJA5CqrFbrEpyoRH',
-              refresh_token: 'TG-625c33b542bac7001b6865b5-473621462', //TG-625c328bed9fa8001ba19dd3-473621462
-            }        
-          });
-          return res.data.access_token;
-        //   axios.post(`${myUrls.meliOAuthUrl}`,{options}).then(response=>{console.log(response)})
-        // axios.request(options).then(function (response) {
-        //     let access_token = response.data.access_token;
-        //     console.log(`access_token is ${access_token}`)
-        //     return access_token;
-        //   }).catch(function (error) {
-        //     console.error(error);
-        //     return
-        //   }); 
+    async retrieveRefreshToken(){
+      console.log(`0`)
+
+      
+      console.log(`0.1`)
+  
+        const res = await axios({
+          url: `${myUrls.meliOAuthUrl}`,
+          method: 'post',
+          headers: {'Content-Type': 'application/json'},
+          data: {
+            grant_type: 'refresh_token',
+            client_id: '2076599210990714',
+            client_secret: 'nrVrt6dzYjTGFibMhJA5CqrFbrEpyoRH',
+            refresh_token: 'TG-625c33b542bac7001b6865b5-473621462', //TG-625c328bed9fa8001ba19dd3-473621462
+          }        
+        }).catch((e)=>{console.log(e)});
+        return res.data.meliToken;
+
+        // var options = {
+        //   method: 'GET',
+        //   url: `${myUrls.appBaseUrl}/meliAuthentication/list-auth-info`,
+        //   headers: {'Content-Type': 'application/json'}
+        // };
+      //   console.log(options)
+      console.log(`0.2`);
+      //   let token = await axios.get(`${myUrls.appBaseUrl}/meliAuthentication/list-auth-info`, {
+      //     headers: {
+      //         "Authorization": `Bearer ${meliAccessToken}`
+      //     }
+      // }).catch((e)=>{
+      //   console.log(e)
+      //   throw new AppError
+      // })
+      //   console.log(token)
+      //   return token.data.meliToken;
+
+          // let res = await axios.request(options).then(function (response) {
+          //   console.log(`Access Token: ${response.data.meliToken}`);
+          //   return response.data.meliToken;
+          // }).catch(function (error) {
+          //   console.error(error);
+          // });   
+
+
+          // console.log(`AcessToken: ${res.data.access_token}`)
+      
+      
+          //   axios.post(`${myUrls.meliOAuthUrl}`,{options}).then(response=>{console.log(response)})
+          // axios.request(options).then(function (response) {
+          //     let access_token = response.data.access_token;
+          //     console.log(`access_token is ${access_token}`)
+          //     return access_token;
+          //   }).catch(function (error) {
+          //     console.error(error);
+          //     return
+          //   }); 
           
     }
 
     //Return all existing offers in given channel
     async getOffersInMeli(channelSellerID){
-        const meliAccessToken = await this.getNewRefreshToken(); // Trocar por get no refresh token na API
-        // console.log(`meliAccessToken is ${meliAccessToken}`)
+      const meliAccessToken = 'APP_USR-2076599210990714-042615-3ea92996368145ac2c0e57b140875beb-473621462';//await this.listMeliCodeAndToken(); // Trocar por get no refresh token na API
 
-        const sellerOffers = [];
+      const sellerOffers = [];
 
-        const results = await axios.get(`${myUrls.meliBaseUrl}/MLB/search?seller_id=${channelSellerID}`, {
-            headers: {
-                "Authorization": `Bearer ${meliAccessToken}`
-            }
-        })
-        const paging: IPaging = results.data.paging;
-        // console.log(paging) //results.data.paging
+      //Buscar resultados para ter paginação
 
-        let currentOffset = 0;
-        if(paging.total>0){
-          while(currentOffset<200){     //!!!!!!!!!!!!!!!!!!!!!!!!!!!! alterar, deixei o cap baixo para rodar rapido os testes ||  while(currentOffset<paging.total){
-            // console.log(`Current offset = ${currentOffset}`);
+      const results = await axios.get(`${myUrls.meliBaseUrl}/MLB/search?seller_id=${channelSellerID}`, {
+        headers: {
+            "Authorization": `Bearer ${meliAccessToken}`
+        }
+      })
+      console.log(`1`)
 
-            ///
-            var options = {
-                method: 'GET',
-                url: `${myUrls.meliBaseUrl}/MLB/search?seller_id=${channelSellerID}&offset=${currentOffset}&limit=50`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    "Authorization": `Bearer ${meliAccessToken}`
-                }
-              };
-            //   console.log(options)
-              let res = await axios.request(options).then(function (response) {
-                //   console.log(response.data.results)
-                    for(let offer in response.data.results){
-                        if(response.data.results[offer]){
-                            sellerOffers.push(response.data.results[offer])
-                        }
-                    }              
-              }).catch(function (error) {
-                console.error(error);
-              }); 
+      //!! const results = await this.mercadoLivreRequests.searchSellerResultsByChannelSellerID(channelSellerID);
+      const paging: IPaging = results.data.paging;
+        
+      console.log(`2`)
+      console.log(paging)
+      let currentOffset = 0;
+      
+      if(paging.total>0){
+        while(currentOffset<2){    //!! paging.total
+          console.log(`Current offset = ${currentOffset}/${paging.total}`);
 
-            currentOffset+=50
+          
+          var options = {
+              method: 'GET',
+              url: `${myUrls.meliBaseUrl}/MLB/search?seller_id=${channelSellerID}&offset=${currentOffset}&limit=50`,
+              headers: {
+                  'Content-Type': 'application/json',
+                  "Authorization": `Bearer ${meliAccessToken}`
+              }
+            };
+            let res = await axios.request(options).then(function (response) {
+                  for(let offer in response.data.results){
+                      if(response.data.results[offer]){
+                          sellerOffers.push(response.data.results[offer])
+                      }
+                  }              
+            }).catch(function (error) {
+              // console.error(error);
+            }); 
+
+          currentOffset+=50
         }
       }
 
-        return sellerOffers;
+      return sellerOffers;
     }
 
     async mapMeliOfferArrayToInterface(channelSellerID, sellerUUID, offerArray:Array<IMeliOffer>):Array<IRequestOffer>{

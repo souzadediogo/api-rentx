@@ -11,7 +11,7 @@ var options = {
     data: {
       seller: {id: 'cec9733c-1e3d-451e-8c3e-b042da28ee4e'},
       offerID: 'MLB2171329935',
-      offerTitle: 'mudou!',
+      offerTitle: 'mudou-certo!',
       offerSubTitle: 'offerSubTitle',
       offerUrl: 'www.testeurlmeliNOVO.com.br',
       status: 'active',

@@ -9,11 +9,6 @@ class OfferServices {
     async getSalesChannels(sellerUUID, channelName){
         return axios.get(`${myUrls.appBaseUrl}/sellers/sales-channels/${sellerUUID}/${channelName}`)
     }
-
-// {
-// 	"sellerUUID": "",
-// 	"channelName": "meli"
-// }
     //Return all offers from sellerUUID ou all offers if no uuid sent
     async getAllOffersBySellerUUID(sellerUUID){
         return axios.get(`${myUrls.appBaseUrl}/offers?sellerUUID=${sellerUUID}`)
@@ -59,11 +54,10 @@ class OfferServices {
         }
         return 
     }
-    
     //Cria novas ofertas que ainda não existem na base do canal
     async saveNewMeliOffers(newOffersArray: Array<IRequestOffer>){
         console.log(`newOffersArray has ${newOffersArray.length} offers to save`)
-        console.log(newOffersArray[0])
+        // console.log(newOffersArray[0])
         
         for(let offer in newOffersArray){
             let offerInfo = newOffersArray[offer];
@@ -118,11 +112,126 @@ class OfferServices {
       }
     }
 
+    //Cria novas ofertas que ainda não existem na base do canal
+    async saveNewMeliOffersInBatch(newOffersArray: Array<IRequestOffer>){
+        let add = 5
+
+        for(
+            let currentStartPosition =0; 
+            currentStartPosition<myArray.length; 
+            currentStartPosition+add){
+                let currentStopPosition = currentStartPosition+add;
+        
+        
+                console.log(`currentStartPosition: ${currentStartPosition}`);
+                console.log(`currentStopPosition: ${currentStopPosition}`);
+                if(myArray.length<add){
+                    let lastPositionInArray = myArray.length-1;
+                    let arrayToPost = myArray.slice(0,lastPositionInArray)
+                    let adjustedArray = arrayToPost.map((offer)=>{
+                        return {
+                            seller: {id: `${offer.seller.id}`},
+                            offerID: offer.offerID,
+                            offerTitle: offer.offerTitle,
+                            offerSubTitle: offer.offerTitle,
+                            offerUrl: offer.offerUrl,
+                            status: offer.status,
+                            salesChannel: offer.salesChannel,
+                            catalog_listing: offer.catalog_listing,
+                            categoryID: offer.categoryID,
+                            condition: offer.condition,
+                            free_shipping: offer.free_shipping,
+                            catalog_product_id: offer.catalog_product_id,
+                            listing_type_id: offer.listing_type_id                    
+                        }
+                    })
+                    var options = {
+                        method: 'POST',
+                        url: 'http://localhost:3333/offers',
+                        headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU2MTQ1MDIsImV4cCI6MTY0NTcwMDkwMiwic3ViIjoiMTc1YmNhNzYtMzE1Yy00Y2I2LTk1MTktY2ExMDNkM2JiYzNjIn0.8Qo5zYZabKFYsAmK5T2-6N-AXOYZd43P5gnUXfi2abc'
+                        },
+                        data: {
+                            adjustedArray
+                        }
+                    };
+                    
+                    axios.request(options).then(function (response) {
+                        console.log(response.data);
+                    }).catch(function (error) {
+                        console.error(error);
+                    });        
+                } else {
+                    let arrayToPost = myArray.slice(currentStartPosition,currentStopPosition)
+                    let adjustedArray = arrayToPost.map((offer)=>{
+                        return {
+                            seller: {id: `${offer.seller.id}`},
+                            offerID: offer.offerID,
+                            offerTitle: offer.offerTitle,
+                            offerSubTitle: offer.offerTitle,
+                            offerUrl: offer.offerUrl,
+                            status: offer.status,
+                            salesChannel: offer.salesChannel,
+                            catalog_listing: offer.catalog_listing,
+                            categoryID: offer.categoryID,
+                            condition: offer.condition,
+                            free_shipping: offer.free_shipping,
+                            catalog_product_id: offer.catalog_product_id,
+                            listing_type_id: offer.listing_type_id                    
+                        }
+                    })
+        
+
+                    var options = {
+                        method: 'POST',
+                        url: 'http://localhost:3333/offers',
+                        headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU2MTQ1MDIsImV4cCI6MTY0NTcwMDkwMiwic3ViIjoiMTc1YmNhNzYtMzE1Yy00Y2I2LTk1MTktY2ExMDNkM2JiYzNjIn0.8Qo5zYZabKFYsAmK5T2-6N-AXOYZd43P5gnUXfi2abc'
+                        },
+                        data: {
+                            adjustedArray
+                        }
+                    };
+                    
+                    axios.request(options).then(function (response) {
+                        console.log(response.data);
+                    }).catch(function (error) {
+                        console.error(error);
+                    });
+                }
+                // postArray()
+                currentStartPosition+=add;
+                currentStopPosition+=add;
+        }
+
+            // return axios.post(`${myUrls.appBaseUrl}/offers`,{
+            //     data: {
+            //         seller: {id: `${offerInfo.seller.id}`},
+            //         offerTitle: offerInfo.offerTitle,
+            //         offerSubTitle: offerInfo.offerTitle,
+            //         status: offerInfo.status,
+            //         offerUrl: offerInfo.offerUrl,
+            //         categoryID: offerInfo.categoryID,
+            //         offerID: offerInfo.offerID,
+            //         salesChannel: offerInfo.salesChannel,
+            //         condition: offerInfo.condition,
+            //         free_shipping: offerInfo.free_shipping,
+            //         catalog_listing: offerInfo.catalog_listing,
+            //         catalog_product_id: offerInfo.catalog_product_id,
+            //         listing_type_id: offerInfo.listing_type_id,
+            //     }
+            // })
+      }
+    }
+
+
     //Atualiza campos de ofertas existentes no canal
     async updateMeliOffers(existingOffersArray: Array<IRequestOffer>){ 
         for(let offer in existingOffersArray){
             let offerInfo = existingOffersArray[offer];
-            console.log(offerInfo)
+            // console.log(offerInfo)
             console.log(`Updating: ${existingOffersArray[offer].offerID}`)
            
             var options = {
@@ -148,18 +257,18 @@ class OfferServices {
                     listing_type_id: offerInfo.listing_type_id
                 }
             };
-            
             axios.request(options).then(function (response) {
                 console.log(response.data);
             }).catch(function (error) {
                 console.error(error);
             });
 
-          }
-    }    
-}
+          };
+    }  
+    
+    
 
-
+} //end of class
 
 
 export { OfferServices }

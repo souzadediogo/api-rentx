@@ -8,6 +8,7 @@
     "paths": {
       "@modules/*": ["modules/*"],
       "@services/*": ["services/*"],
+      "@requests/*": ["requests/*"],
       "@shared/*": ["shared/*"],
       "@config/*": ["config/*"],
       "@shared/*": ["shared/*"],

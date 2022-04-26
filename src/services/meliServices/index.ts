@@ -10,6 +10,7 @@ async function getOffersNow(){
     //BUSCA TODOS CANAIS DO MELI
     const offerServices = new OfferServices();
     const meliServices = new MeliServices();
+
     const res = await offerServices.getSalesChannels('na', 'meli');
     const mySalesChannels = res.data;
     console.log(mySalesChannels);
@@ -22,13 +23,13 @@ async function getOffersNow(){
         //PARA CADA CANAL, BUSCA OFERTAS NO MELI
             for(let id in channelIds){
                 console.log(`Searching SellerID: ${channelIds[id].channelSellerID}`);
-                await meliServices.getOffersInMeli(channelIds[id].channelSellerID).then((response)=>{
+                meliServices.getOffersInMeli(channelIds[id].channelSellerID).then((response)=>{
                 
                     //REMAPEIA ARRAY DE OFERTAS NO FORMATO QUE PRECISAMOS ENVIAR PARA A API
-                    let sellerUniqueID = channelIds[id].sellerUUID;
-                    let sellerChannelID = channelIds[id].channelSellerID;
-                    meliServices.mapMeliOfferArrayToInterface(sellerChannelID, sellerUniqueID, response)
-                    .then((mappedArray)=>{
+                        let sellerUniqueID = channelIds[id].sellerUUID;
+                        let sellerChannelID = channelIds[id].channelSellerID;
+                        meliServices.mapMeliOfferArrayToInterface(sellerChannelID, sellerUniqueID, response)
+                        .then((mappedArray)=>{
                         //SEPARA AS OFERTAS QUE EXISTEM E DAS QUE NÃO EXISTEM
                             offerServices.getAllOffersBySalesChannelID(sellerChannelID).then((response)=>{
                                 console.log(`sellerChannelID ${sellerChannelID} has ${response?.data.length} offers`);
@@ -53,8 +54,8 @@ async function getOffersNow(){
                                 console.log(`allExistingOffersIDsInMappedArray = ${allExistingOffersIDsInMappedArray.length}`);
                                 console.log(`existingOfferIDs = ${existingOfferIDs.length}`);
                                 console.log(`newOfferIDs = ${newOfferIDs.length}`);
-                                console.log(`newOfferIDs = ${newOfferIDs}`)
-                                console.log(`existingOfferIDs = ${existingOfferIDs}`)
+                                console.log(`newOfferIDs = ${newOfferIDs}`);
+                                console.log(`existingOfferIDs = ${existingOfferIDs}`);
 
                                 let mappedArrayOfExistingOffers = mappedArray.filter(offer => {
                                     return newOfferIDs.indexOf(offer.offerID) === -1;
@@ -62,13 +63,12 @@ async function getOffersNow(){
                                 let mappedArrayOfNewOffers = mappedArray.filter(offer => {
                                     return newOfferIDs.indexOf(offer.offerID) !== -1;
                                 });
-                                console.log(`mappedArrayOfExistingOffers = ${mappedArrayOfExistingOffers.length}`)
-                                console.log(`mappedArrayOfNewOffers = ${mappedArrayOfNewOffers.length}`)
-                                // console.log(mappedArrayOfNewOffers[0])
-                                offerServices.saveNewMeliOffers(mappedArrayOfNewOffers)
-
+                                console.log(`mappedArrayOfExistingOffers = ${mappedArrayOfExistingOffers.length}`);
+                                console.log(`mappedArrayOfNewOffers = ${mappedArrayOfNewOffers.length}`);
+                                console.log(mappedArrayOfExistingOffers);
+                                offerServices.saveNewMeliOffers(mappedArrayOfNewOffers); //
+                                //saveNewMeliOffersInBatch
                                 offerServices.updateMeliOffers(mappedArrayOfExistingOffers);
-                                // mappedArrayOfNewOffers
                         })
                     })
             })
@@ -78,18 +78,9 @@ async function getOffersNow(){
 
 }
 
-// interface IRequest {
-//     id?: string;
-//     offerTitle: string;
-//     offerSubTitle: string;
-//     status: string;
-//     categoryID: string;
-//     offerID: string;
-//     sellerID: string; 
-//     skuID: string;
-//     salesChannel: string;
-// };
 
+async function runMeliServices (){
+    await getOffersNow();
+}
 
-
-getOffersNow();
+runMeliServices();
