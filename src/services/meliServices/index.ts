@@ -66,8 +66,8 @@ async function getOffersNow(){
                                 console.log(`mappedArrayOfExistingOffers = ${mappedArrayOfExistingOffers.length}`);
                                 console.log(`mappedArrayOfNewOffers = ${mappedArrayOfNewOffers.length}`);
                                 console.log(mappedArrayOfExistingOffers);
-                                offerServices.saveNewMeliOffers(mappedArrayOfNewOffers); //
-                                //saveNewMeliOffersInBatch
+                                offerServices.saveNewMeliOffersInBatch(mappedArrayOfNewOffers); //
+                                //saveNewMeliOffersInBatch //saveNewMeliOffers
                                 offerServices.updateMeliOffers(mappedArrayOfExistingOffers);
                         })
                     })

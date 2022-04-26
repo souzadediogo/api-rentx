@@ -4,6 +4,12 @@ import { container } from "tsyringe";
 
 class CreateOfferController {
     async handle(req: Request, res: Response): Promise<Response> {
+        
+        // function printLength(){
+        //     console.log(`Typeof body is ${typeof req.body} and length ${req.body.length}`);
+        //     console.log(req.body[0])
+        // }
+        // setTimeout(printLength,6000)
         const {             
             seller,
             offerTitle,

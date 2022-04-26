@@ -118,16 +118,16 @@ class OfferServices {
 
         for(
             let currentStartPosition =0; 
-            currentStartPosition<myArray.length; 
+            currentStartPosition<newOffersArray.length; 
             currentStartPosition+add){
                 let currentStopPosition = currentStartPosition+add;
         
         
                 console.log(`currentStartPosition: ${currentStartPosition}`);
                 console.log(`currentStopPosition: ${currentStopPosition}`);
-                if(myArray.length<add){
-                    let lastPositionInArray = myArray.length-1;
-                    let arrayToPost = myArray.slice(0,lastPositionInArray)
+                if(newOffersArray.length<add){
+                    let lastPositionInArray = newOffersArray.length-1;
+                    let arrayToPost = newOffersArray.slice(0,lastPositionInArray)
                     let adjustedArray = arrayToPost.map((offer)=>{
                         return {
                             seller: {id: `${offer.seller.id}`},
@@ -163,7 +163,7 @@ class OfferServices {
                         console.error(error);
                     });        
                 } else {
-                    let arrayToPost = myArray.slice(currentStartPosition,currentStopPosition)
+                    let arrayToPost = newOffersArray.slice(currentStartPosition,currentStopPosition)
                     let adjustedArray = arrayToPost.map((offer)=>{
                         return {
                             seller: {id: `${offer.seller.id}`},
@@ -224,7 +224,7 @@ class OfferServices {
             //     }
             // })
       }
-    }
+    
 
 
     //Atualiza campos de ofertas existentes no canal
@@ -265,7 +265,7 @@ class OfferServices {
 
           };
     }  
-    
+
     
 
 } //end of class

@@ -126,7 +126,7 @@ class MeliServices {
       let currentOffset = 0;
       
       if(paging.total>0){
-        while(currentOffset<2){    //!! paging.total
+        while(currentOffset<3){    //!! paging.total
           console.log(`Current offset = ${currentOffset}/${paging.total}`);
 
           
