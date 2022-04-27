@@ -1,10 +1,11 @@
 import axios from 'axios';
-import { myUrls } from '../../shared/urls.ts';
+import { myUrls } from '@shared/urls.ts';
 import { IRequestOffer } from '@modules/offers/useCases/createOffer/CreateOfferUseCase'
 import { MercadoLivreRequests } from '@requests/axios/mercadoLivre'
 import { AppError } from '@errors/AppError';
 import { SimpleConsoleLogger } from 'typeorm';
 import { ICreateOffersDTO } from '@modules/offers/repositories/IOffersRepository';
+import { OfferServices } from '@services/offerServices/offerServices';
 
 interface IMeliOffer {
   id: string;                                //offerID
@@ -30,7 +31,6 @@ interface IPaging {
 class MeliServices {
   contructor(){
   }
-
 
     async retrieveRefreshToken(){
       console.log(`0`)
@@ -146,7 +146,83 @@ class MeliServices {
         })
     };
 
+    async multiGetBatchOfOffers(arrayOfMLBs: Array<string>):Promise<IMeliOffer[]>{
+      const mercadoLivreRequests = new MercadoLivreRequests();
+      let meliAccessToken = await  mercadoLivreRequests.listMeliAccessToken();
+      console.log(`MeliToken: ${meliAccessToken}`);
+      console.log(`Array has ${arrayOfMLBs.length} MLBs`)
+      //Slice array and calls request passing 20 MLBs per cicle
+      // let stringOfMLBs = arrayOfMLBs.toString();
+      /////////
+      var myOffers = [];
+      let add = 20
+        for(let currentStartPosition =0; currentStartPosition<arrayOfMLBs.length; currentStartPosition+add){
+            let currentStopPosition = currentStartPosition+add;
+
+            console.log(`currentStartPosition: ${currentStartPosition}`);
+            console.log(`currentStopPosition: ${currentStopPosition}`);
+            if(arrayOfMLBs.length<add){
+                let lastPositionInArray = arrayOfMLBs.length-1;
+                let arrayToGet = arrayOfMLBs.slice(0,lastPositionInArray);
+                let stringifiedArrayToGet = arrayToGet.toString();
+                // console.log(`Array to get: ${arrayToGet}`)
+
+                // mercadoLivreRequests.saveNewOffers(adjustedArray)
+                //     .catch((e)=>{console.log(e)})
+                try {
+                  let response = await axios.get(`https://api.mercadolibre.com/items`,{
+                      headers: {
+                          'Content-Type': 'application/json',
+                          "Authorization": `Bearer ${meliAccessToken}`
+                      },
+                      params: {
+                          ids: stringifiedArrayToGet
+                      }
+                  })
+                  // console.log(`Current offset: ${offset} | Response has ${result.data.results.length} offers`);
+                  console.log(`Just got ${response.data.length} offers in ML`)
+                  // return response.data;
+                  for(let meliOffer in response.data){
+                    myOffers.push(response.data[meliOffer].body); 
+                  }
+              }catch(e){
+                  return e
+              }          
+            } else {
+                let arrayToGet = arrayOfMLBs.slice(currentStartPosition,currentStopPosition);
+                let stringifiedArrayToGet = arrayToGet.toString();
+                // console.log(`Array to get: ${arrayToGet}`)
+    
+                try {
+                  let response = await axios.get(`https://api.mercadolibre.com/items`,{
+                      headers: {
+                          'Content-Type': 'application/json',
+                          "Authorization": `Bearer ${meliAccessToken}`
+                      },
+                      params: {
+                          ids: stringifiedArrayToGet
+                      }
+                  })
+                  // console.log(`Current offset: ${offset} | Response has ${result.data.results.length} offers`);
+                  console.log(`Just got ${response.data.length} offers in ML`)                  // return response.data;
+                  // console.log(response.data);
+                  for(let meliOffer in response.data){
+                    myOffers.push(response.data[meliOffer].body); 
+                  }
+                  
+              }catch(e){
+                return e  
+                // throw new AppError(`Error getting data from Meli `, 500)
+              }  
+            }
+            currentStartPosition+=add;
+            currentStopPosition+=add;
+        }
+      /////////
+      return myOffers;
+    }
+
 
 }
 
-export { MeliServices }
+export { MeliServices, IMeliOffer }

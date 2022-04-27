@@ -1,6 +1,8 @@
 import { AppError } from '@errors/AppError';
 import { ICreateOffersDTO } from '@modules/offers/repositories/IOffersRepository';
 import { myUrls } from '@shared/urls';
+import { IMeliOffer } from '@services/meliServices/meliServices'
+
 import axios from 'axios';
 
 class MercadoLivreRequests {
@@ -91,6 +93,27 @@ class MercadoLivreRequests {
         }
     }
      
+    async getMultipleOffersByMLB(arrayOfMLBs: Array<string>):Promise<IMeliOffer[]>{
+        let meliAccessToken = await this.listMeliAccessToken();
+
+        try {
+            let response = await axios.get(`https://api.mercadolibre.com/items`,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${meliAccessToken}`
+                },
+                params: {
+                    ids: arrayOfMLBs
+                }
+            })
+            // console.log(`Current offset: ${offset} | Response has ${result.data.results.length} offers`);
+            console.log(response.data)
+            return response.data;
+        }catch(e){
+            throw new AppError(`Error fetching offers from ChannelSellerID ${channelSellerID} and offset ${offset} in Mercado Livre`, 500)
+        }    
+    }
+
 
 } //End of class
 
