@@ -1,8 +1,9 @@
 import { Offer } from "../entities/Offer";
+import { IItems } from "@modules/offers/useCases/createOffer/CreateOfferUseCase"
 
 interface ICreateOffersDTO {
     id?: string;
-    seller: string;
+    seller: {id: string};
     offerTitle: string;
     offerSubTitle: string;
     offerUrl: string;
@@ -10,7 +11,7 @@ interface ICreateOffersDTO {
     categoryID: string;
     offerID: string;
     sellerID: string; 
-    skuID: string;
+    skuID?: string;
     salesChannel: string;
     condition: string;
     free_shipping: boolean;
@@ -36,13 +37,14 @@ interface IOffersRepository {
         offerID, 
         sellerID, 
         skuID, 
-        alesChannel, 
+        salesChannel, 
         condition, 
         free_shipping, 
         catalog_listing, 
         catalog_product_id,
         listing_type_id
-    }: ICreateOffersDTO): Promise<void>;
+    }: ICreateOffersDTO): Promise<void>; //ICreateOffersDTO
+    createBatch(items: IItems): Promise<void>; 
     updateByOfferId({      
         id,
         offerTitle, 

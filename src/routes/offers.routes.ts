@@ -6,6 +6,8 @@ import { FindDatapointByIDController } from '@modules/offers/useCases/findDatapo
 import { ListDatapointsByOfferIdAndDateController } from "@modules/offers/useCases/listDatapointByOfferIdAndDate/listDatapointsByOfferIdAndDaterangeController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 import { UpdateOfferController } from "@modules/offers/useCases/updateOffer/UpdateOfferController";
+import { CreateOffersInBatchController } from '../../src/modules/offers/useCases/createOffersInBatch/CreateOffersInBatchController';
+import { CreateOffersInBatchOneByOneController } from '../../src/modules/offers/useCases/createOffersInBatchOneByOne/CreateOffersInBatchOneByOneController';
 
 const offersRoutes = Router();
 
@@ -14,15 +16,18 @@ const offersRoutes = Router();
     const createOfferController = new CreateOfferController();
     const listOffersController = new ListOffersController();
     const updateOfferController = new UpdateOfferController();
+    const createOffersInBatchController = new CreateOffersInBatchController();
+    const createOffersInBatchOneByOneController = new CreateOffersInBatchOneByOneController();
 
     //Datapoints
     const createDatapointController = new CreateDatapointController();
     const findDatapointByIDController = new FindDatapointByIDController();
     const listDatapointsByOfferIdAndDaterangeController = new ListDatapointsByOfferIdAndDateController();
+
 //ROUTES
     //Offers
     offersRoutes.get("/", listOffersController.handle);
-    offersRoutes.post("/", createOfferController.handle);
+    offersRoutes.post("/", createOffersInBatchOneByOneController.handle);
     offersRoutes.put("/", updateOfferController.handle);
 
 

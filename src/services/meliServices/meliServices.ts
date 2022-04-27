@@ -2,6 +2,9 @@ import axios from 'axios';
 import { myUrls } from '../../shared/urls.ts';
 import { IRequestOffer } from '@modules/offers/useCases/createOffer/CreateOfferUseCase'
 import { MercadoLivreRequests } from '@requests/axios/mercadoLivre'
+import { AppError } from '@errors/AppError';
+import { SimpleConsoleLogger } from 'typeorm';
+import { ICreateOffersDTO } from '@modules/offers/repositories/IOffersRepository';
 
 interface IMeliOffer {
   id: string;                                //offerID
@@ -10,6 +13,7 @@ interface IMeliOffer {
   buying_mode: string;                       //status
   category_id: string;                       //categoryID
   catalogue_listing: boolean;
+  seller_id: string;
   catalog_product_id: string;
   listing_type_id: string;
   condition: string;
@@ -25,23 +29,8 @@ interface IPaging {
 
 class MeliServices {
   contructor(){
-    const mercadoLivreRequests = new MercadoLivreRequests();
   }
-    async listMeliCodeAndToken(){
-      console.log(`Retrieving token`)
-      var options = {method: 'GET', url: 'http://localhost:3333/meliAuthentication/list-auth-info'};
 
-      axios.request(options).then(function (response) {
-        console.log(`Inside ListMeliCode`)
-        console.log(response.data);
-        return response.data
-
-      }).catch(function (error) {
-        console.error(error);
-        return error
-
-      });
-    }
 
     async retrieveRefreshToken(){
       console.log(`0`)
@@ -103,59 +92,39 @@ class MeliServices {
           
     }
 
-    //Return all existing offers in given channel
-    async getOffersInMeli(channelSellerID){
-      const meliAccessToken = 'APP_USR-2076599210990714-042615-3ea92996368145ac2c0e57b140875beb-473621462';//await this.listMeliCodeAndToken(); // Trocar por get no refresh token na API
-
-      const sellerOffers = [];
-
+    //Return all existing offers from meli in given channel
+    async getOffersInMeli(channelSellerID):Promise<IMeliOffer[]>{
+      const mercadoLivreRequests = new MercadoLivreRequests();
       //Buscar resultados para ter paginação
-
-      const results = await axios.get(`${myUrls.meliBaseUrl}/MLB/search?seller_id=${channelSellerID}`, {
-        headers: {
-            "Authorization": `Bearer ${meliAccessToken}`
-        }
-      })
-      console.log(`1`)
-
+      const results = await axios.get(`${myUrls.meliBaseUrl}/MLB/search?seller_id=${channelSellerID}`);
       //!! const results = await this.mercadoLivreRequests.searchSellerResultsByChannelSellerID(channelSellerID);
       const paging: IPaging = results.data.paging;
-        
-      console.log(`2`)
-      console.log(paging)
       let currentOffset = 0;
-      
-      if(paging.total>0){
-        while(currentOffset<3){    //!! paging.total
-          console.log(`Current offset = ${currentOffset}/${paging.total}`);
-
+      var sellerOffers = [];
+      // console.log(paging.total)
+      // if(paging.total>0){
+        while(currentOffset<paging.total){    //!! paging.total
+          // console.log(`Current offset = ${currentOffset}/${paging.total}`);
           
-          var options = {
-              method: 'GET',
-              url: `${myUrls.meliBaseUrl}/MLB/search?seller_id=${channelSellerID}&offset=${currentOffset}&limit=50`,
-              headers: {
-                  'Content-Type': 'application/json',
-                  "Authorization": `Bearer ${meliAccessToken}`
-              }
-            };
-            let res = await axios.request(options).then(function (response) {
-                  for(let offer in response.data.results){
-                      if(response.data.results[offer]){
-                          sellerOffers.push(response.data.results[offer])
-                      }
-                  }              
-            }).catch(function (error) {
-              // console.error(error);
-            }); 
 
+          var offers = await mercadoLivreRequests.searchSellerOffers(channelSellerID, currentOffset);
+          // console.log(`sellerOffers currently had ${sellerOffers.length}`)
+          for(let offer in offers){
+                  if(offers[offer]){
+                    // console.log(offers[offer])
+                      sellerOffers.push(offers[offer])
+                  }
+              }              
           currentOffset+=50
         }
-      }
-
+        console.log(`getOfferInMeli: 6`)
+      console.log(`Seller offer has ${sellerOffers.length} offers`)
+      // console.log(sellerOffers)
+      console.log(`Returning seller offers`)
       return sellerOffers;
     }
 
-    async mapMeliOfferArrayToInterface(channelSellerID, sellerUUID, offerArray:Array<IMeliOffer>):Array<IRequestOffer>{
+    async mapMeliOfferArrayToInterface(channelSellerID, sellerUUID, offerArray:Array<IMeliOffer>):Promise<ICreateOffersDTO[]>{
 
       return offerArray.map((meliOffer)=>{
           return {
@@ -166,6 +135,7 @@ class MeliServices {
             offerUrl: meliOffer.permalink,
             categoryID: meliOffer?.category_id,
             offerID: meliOffer.id,
+            sellerID: meliOffer.seller_id,
             salesChannel: channelSellerID,
             condition: meliOffer?.condition,
             free_shipping: meliOffer.shipping?.free_shipping,

@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { myUrls } from '@shared/urls';
 import { IRequestOffer } from '@modules/offers/useCases/createOffer/CreateOfferUseCase'
+import { ICreateOffersDTO } from '@modules/offers/repositories/IOffersRepository';
 import { AppError } from '@errors/AppError';
+import { MercadoLivreRequests } from '@requests/axios/mercadoLivre'
 
 class OfferServices {
     contructor(){}
@@ -14,13 +16,7 @@ class OfferServices {
         return axios.get(`${myUrls.appBaseUrl}/offers?sellerUUID=${sellerUUID}`)
     }
     async getAllOffersBySalesChannelID(salesChannelID){
-                // console.log(`Requesting: ${myUrls.appBaseUrl}/sellers/sales-channels/offers?salesChannelID=${salesChannelID}`)
-                return axios.get(`${myUrls.appBaseUrl}/sellers/sales-channels/offers?salesChannelID=${salesChannelID}`)
-                // //.then((response)=>{
-                //     return response
-                // }).catch((err)=>{
-                //  console.log(`Erro ao buscar ofertas do canall ${salesChannelID}`)
-                // });            
+        return axios.get(`${myUrls.appBaseUrl}/sellers/sales-channels/offers?salesChannelID=${salesChannelID}`)
     }
 
     async saveMeliOfferArrayInDatabase(sellerUUID, offerArray: Array<IRequestOffer>) {
@@ -86,7 +82,7 @@ class OfferServices {
                     listing_type_id: offerInfo.listing_type_id
                 }
             };
-            
+    
             axios.request(options).then(function (response) {
                 console.log(response.data);
             }).catch(function (error) {
@@ -113,97 +109,104 @@ class OfferServices {
     }
 
     //Cria novas ofertas que ainda não existem na base do canal
-    async saveNewMeliOffersInBatch(newOffersArray: Array<IRequestOffer>){
-        let add = 5
+    async saveNewMeliOffersInBatch(newOffersArray: Array<ICreateOffersDTO>){
+        const mercadoLivreRequests = new MercadoLivreRequests();
+        function delay(){
+            setTimeout(()=>{console.log(`Delaying 1 sec`)},1000)
+        }
 
-        for(
-            let currentStartPosition =0; 
-            currentStartPosition<newOffersArray.length; 
-            currentStartPosition+add){
-                let currentStopPosition = currentStartPosition+add;
-        
-        
-                console.log(`currentStartPosition: ${currentStartPosition}`);
-                console.log(`currentStopPosition: ${currentStopPosition}`);
-                if(newOffersArray.length<add){
-                    let lastPositionInArray = newOffersArray.length-1;
-                    let arrayToPost = newOffersArray.slice(0,lastPositionInArray)
-                    let adjustedArray = arrayToPost.map((offer)=>{
-                        return {
-                            seller: {id: `${offer.seller.id}`},
-                            offerID: offer.offerID,
-                            offerTitle: offer.offerTitle,
-                            offerSubTitle: offer.offerTitle,
-                            offerUrl: offer.offerUrl,
-                            status: offer.status,
-                            salesChannel: offer.salesChannel,
-                            catalog_listing: offer.catalog_listing,
-                            categoryID: offer.categoryID,
-                            condition: offer.condition,
-                            free_shipping: offer.free_shipping,
-                            catalog_product_id: offer.catalog_product_id,
-                            listing_type_id: offer.listing_type_id                    
-                        }
-                    })
-                    var options = {
-                        method: 'POST',
-                        url: 'http://localhost:3333/offers',
-                        headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU2MTQ1MDIsImV4cCI6MTY0NTcwMDkwMiwic3ViIjoiMTc1YmNhNzYtMzE1Yy00Y2I2LTk1MTktY2ExMDNkM2JiYzNjIn0.8Qo5zYZabKFYsAmK5T2-6N-AXOYZd43P5gnUXfi2abc'
-                        },
-                        data: {
-                            adjustedArray
-                        }
-                    };
-                    
-                    axios.request(options).then(function (response) {
-                        console.log(response.data);
-                    }).catch(function (error) {
-                        console.error(error);
-                    });        
-                } else {
-                    let arrayToPost = newOffersArray.slice(currentStartPosition,currentStopPosition)
-                    let adjustedArray = arrayToPost.map((offer)=>{
-                        return {
-                            seller: {id: `${offer.seller.id}`},
-                            offerID: offer.offerID,
-                            offerTitle: offer.offerTitle,
-                            offerSubTitle: offer.offerTitle,
-                            offerUrl: offer.offerUrl,
-                            status: offer.status,
-                            salesChannel: offer.salesChannel,
-                            catalog_listing: offer.catalog_listing,
-                            categoryID: offer.categoryID,
-                            condition: offer.condition,
-                            free_shipping: offer.free_shipping,
-                            catalog_product_id: offer.catalog_product_id,
-                            listing_type_id: offer.listing_type_id                    
-                        }
-                    })
-        
+        let add = 50
+        for(let currentStartPosition =0; currentStartPosition<newOffersArray.length; currentStartPosition+add){
+            delay();
+            let currentStopPosition = currentStartPosition+add;
 
-                    var options = {
-                        method: 'POST',
-                        url: 'http://localhost:3333/offers',
-                        headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU2MTQ1MDIsImV4cCI6MTY0NTcwMDkwMiwic3ViIjoiMTc1YmNhNzYtMzE1Yy00Y2I2LTk1MTktY2ExMDNkM2JiYzNjIn0.8Qo5zYZabKFYsAmK5T2-6N-AXOYZd43P5gnUXfi2abc'
-                        },
-                        data: {
-                            adjustedArray
-                        }
-                    };
-                    
-                    axios.request(options).then(function (response) {
-                        console.log(response.data);
-                    }).catch(function (error) {
-                        console.error(error);
-                    });
-                }
-                // postArray()
-                currentStartPosition+=add;
-                currentStopPosition+=add;
+            console.log(`currentStartPosition: ${currentStartPosition}`);
+            console.log(`currentStopPosition: ${currentStopPosition}`);
+            if(newOffersArray.length<add){
+                let lastPositionInArray = newOffersArray.length-1;
+                let arrayToPost = newOffersArray.slice(0,lastPositionInArray)
+                let adjustedArray = arrayToPost.map((offer)=>{
+                    return {
+                        seller: {id: `${offer.seller.id}`},
+                        offerID: offer.offerID,
+                        offerTitle: offer.offerTitle,
+                        offerSubTitle: offer.offerTitle,
+                        offerUrl: offer.offerUrl,
+                        sellerID: offer.sellerID,
+                        status: offer.status,
+                        salesChannel: offer.salesChannel,
+                        catalog_listing: offer.catalog_listing,
+                        categoryID: offer.categoryID,
+                        condition: offer.condition,
+                        free_shipping: offer.free_shipping,
+                        catalog_product_id: offer.catalog_product_id,
+                        listing_type_id: offer.listing_type_id                    
+                    }
+                })
+                // mercadoLivreRequests.saveNewOffers(adjustedArray)
+                //     .catch((e)=>{console.log(e)})
+                let options = {
+                    method: 'POST',
+                    url: 'http://localhost:3333/offers',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU2MTQ1MDIsImV4cCI6MTY0NTcwMDkwMiwic3ViIjoiMTc1YmNhNzYtMzE1Yy00Y2I2LTk1MTktY2ExMDNkM2JiYzNjIn0.8Qo5zYZabKFYsAmK5T2-6N-AXOYZd43P5gnUXfi2abc'
+                    },
+                    data: {
+                        items: adjustedArray
+                    }
+                };
+                
+                axios.request(options).then(function (response) {
+                    console.log(response.data);
+                }).catch(function (error) {
+                    console.error(error);
+                });        
+            } else {
+                let arrayToPost = newOffersArray.slice(currentStartPosition,currentStopPosition)
+                let adjustedArray = arrayToPost.map((offer)=>{
+                    return {
+                        seller: {id: `${offer.seller.id}`},
+                        offerID: offer.offerID,
+                        offerTitle: offer.offerTitle,
+                        offerSubTitle: offer.offerTitle,
+                        offerUrl: offer.offerUrl,
+                        status: offer.status,
+                        sellerID: offer.sellerID,
+                        salesChannel: offer.salesChannel,
+                        catalog_listing: offer.catalog_listing,
+                        categoryID: offer.categoryID,
+                        condition: offer.condition,
+                        free_shipping: offer.free_shipping,
+                        catalog_product_id: offer.catalog_product_id,
+                        listing_type_id: offer.listing_type_id                    
+                    }
+                })
+    
+                // mercadoLivreRequests.saveNewOffers(adjustedArray)
+                //     .catch((e)=>{console.log(e)})
+                let options = {
+                    method: 'POST',
+                    url: 'http://localhost:3333/offers',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU2MTQ1MDIsImV4cCI6MTY0NTcwMDkwMiwic3ViIjoiMTc1YmNhNzYtMzE1Yy00Y2I2LTk1MTktY2ExMDNkM2JiYzNjIn0.8Qo5zYZabKFYsAmK5T2-6N-AXOYZd43P5gnUXfi2abc'
+                    },
+                    data: {
+                        items: adjustedArray
+                    }
+                };
+                
+                axios.request(options).then(function (response) {
+                    console.log(response.data);
+                }).catch(function (error) {
+                    console.error(error);
+                });
+            }
+            currentStartPosition+=add;
+            currentStopPosition+=add;
+            // console.log(`Inside: loop `)
+                // setTimeout(saveInBatch,100,newOffersArray, currentStartPosition)
         }
 
             // return axios.post(`${myUrls.appBaseUrl}/offers`,{
@@ -225,14 +228,12 @@ class OfferServices {
             // })
       }
     
-
-
     //Atualiza campos de ofertas existentes no canal
     async updateMeliOffers(existingOffersArray: Array<IRequestOffer>){ 
         for(let offer in existingOffersArray){
             let offerInfo = existingOffersArray[offer];
             // console.log(offerInfo)
-            console.log(`Updating: ${existingOffersArray[offer].offerID}`)
+            // console.log(`Updating: ${existingOffersArray[offer].offerID}`)
            
             var options = {
                 method: 'put',

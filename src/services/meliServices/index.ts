@@ -13,7 +13,7 @@ async function getOffersNow(){
 
     const res = await offerServices.getSalesChannels('na', 'meli');
     const mySalesChannels = res.data;
-    console.log(mySalesChannels);
+    // console.log(mySalesChannels);
     let channelIds = mySalesChannels.map((channel)=>{
         return {
             channelSellerID: channel.channelSellerID,
@@ -24,8 +24,9 @@ async function getOffersNow(){
             for(let id in channelIds){
                 console.log(`Searching SellerID: ${channelIds[id].channelSellerID}`);
                 meliServices.getOffersInMeli(channelIds[id].channelSellerID).then((response)=>{
-                
+                    console.log(`1`)
                     //REMAPEIA ARRAY DE OFERTAS NO FORMATO QUE PRECISAMOS ENVIAR PARA A API
+                        console.log("2");
                         let sellerUniqueID = channelIds[id].sellerUUID;
                         let sellerChannelID = channelIds[id].channelSellerID;
                         meliServices.mapMeliOfferArrayToInterface(sellerChannelID, sellerUniqueID, response)
@@ -50,27 +51,31 @@ async function getOffersNow(){
                                         newOfferIDs.push(allExistingOffersIDsInMappedArray[id])
                                     }
                                 }
-                                console.log(`allExistingOffersIDsInDB = ${allExistingOffersIDsInDB.length}`);
-                                console.log(`allExistingOffersIDsInMappedArray = ${allExistingOffersIDsInMappedArray.length}`);
-                                console.log(`existingOfferIDs = ${existingOfferIDs.length}`);
-                                console.log(`newOfferIDs = ${newOfferIDs.length}`);
-                                console.log(`newOfferIDs = ${newOfferIDs}`);
-                                console.log(`existingOfferIDs = ${existingOfferIDs}`);
-
+                                
+                                // console.log(`allExistingOffersIDsInDB = ${allExistingOffersIDsInDB.length}`);
+                                // console.log(`allExistingOffersIDsInMappedArray = ${allExistingOffersIDsInMappedArray.length}`);
+                                // console.log(`existingOfferIDs = ${existingOfferIDs.length}`);
+                                // console.log(`newOfferIDs = ${newOfferIDs.length}`);
+                                // console.log(`newOfferIDs = ${newOfferIDs}`);
+                                // console.log(`existingOfferIDs = ${existingOfferIDs}`);
                                 let mappedArrayOfExistingOffers = mappedArray.filter(offer => {
                                     return newOfferIDs.indexOf(offer.offerID) === -1;
                                 });
                                 let mappedArrayOfNewOffers = mappedArray.filter(offer => {
                                     return newOfferIDs.indexOf(offer.offerID) !== -1;
                                 });
-                                console.log(`mappedArrayOfExistingOffers = ${mappedArrayOfExistingOffers.length}`);
-                                console.log(`mappedArrayOfNewOffers = ${mappedArrayOfNewOffers.length}`);
-                                console.log(mappedArrayOfExistingOffers);
-                                offerServices.saveNewMeliOffersInBatch(mappedArrayOfNewOffers); //
-                                //saveNewMeliOffersInBatch //saveNewMeliOffers
-                                offerServices.updateMeliOffers(mappedArrayOfExistingOffers);
+                                // console.log(`mappedArrayOfExistingOffers = ${mappedArrayOfExistingOffers.length}`);
+                                // console.log(`mappedArrayOfNewOffers = ${mappedArrayOfNewOffers.length}`);
+                                console.log(`New Offers to Create: ${mappedArrayOfNewOffers.length} `);
+                                offerServices.saveNewMeliOffersInBatch(mappedArrayOfNewOffers)
+                                    // .catch((e)=>{console.log(e)}) //
+                                //saveNewMeliOffersInBatch //saveNewMeliOffers //saveNewMeliOffersInBatch
+                                console.log(`Offers to update: ${mappedArrayOfExistingOffers.length} `);
+                                // clearofferServices.updateMeliOffers(mappedArrayOfExistingOffers);
                         })
                     })
+            }).catch((e)=>{
+                console.log(e)
             })
             
         }
@@ -81,6 +86,7 @@ async function getOffersNow(){
 
 async function runMeliServices (){
     await getOffersNow();
+    console.log(`End of script`)
 }
 
 runMeliServices();

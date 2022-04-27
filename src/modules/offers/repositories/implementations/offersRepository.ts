@@ -1,6 +1,7 @@
 import { Offer } from '../../entities/Offer';
 import { IOffersRepository, ICreateOffersDTO } from '../IOffersRepository';
 import { getRepository, Repository } from 'typeorm';
+import { IItems } from '@modules/offers/useCases/createOffer/CreateOfferUseCase'
 //DTO -> Data 
 
 
@@ -24,7 +25,9 @@ class OffersRepository implements IOffersRepository {
     //     return OffersRepository.INSTANCE;
     // };
 
-    async create({
+    async create(
+        // items
+        {
                 seller,
                 offerTitle, 
                 offerSubTitle, 
@@ -40,9 +43,15 @@ class OffersRepository implements IOffersRepository {
                 catalog_listing,
                 catalog_product_id,
                 listing_type_id,
-             }: ICreateOffersDTO): Promise<void> {
-    
-        const offer = this.repository.create({
+             }
+             : ICreateOffersDTO): Promise<void> { //ICreateOffersDTO
+        
+        // console.log(`Repository array:`);
+        // console.log(items);
+        // const offersEntities = Offer.create(items);
+            const offer = this.repository.create(
+            // items
+            {
             seller,
             offerTitle, 
             offerSubTitle, 
@@ -58,9 +67,21 @@ class OffersRepository implements IOffersRepository {
             catalog_listing,
             catalog_product_id,
             listing_type_id,
-     })
+     }
+
+     )
             await this.repository.save(offer);
     }
+
+    async createBatch(items: IItems): Promise<void> { 
+        
+        console.log(`Repository array:`);
+        console.log(items);
+        // const offersEntities = Offer.create(items);
+        const offerBatch = this.repository.create(items)
+        await this.repository.save(offerBatch);
+    }
+
     async updateByOfferId({
         id,
         seller,

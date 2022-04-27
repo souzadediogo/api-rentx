@@ -1,6 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { AppError } from "@errors/AppError";
 import { IOffersRepository } from '@modules/offers/repositories/IOffersRepository';
+import { ICreateOffersDTO } from '@modules/offers/repositories/IOffersRepository'
 
 interface IRequestOffer {
     id?: string;
@@ -10,7 +11,7 @@ interface IRequestOffer {
     categoryID: string;
     offerID: string;
     sellerID: string; 
-    skuID: string;
+    skuID?: string;
     salesChannel: string;
     condition: string;
     free_shipping: boolean;
@@ -19,7 +20,6 @@ interface IRequestOffer {
     listing_type_id: string;
 };
 
-
 @injectable()
 class CreateOfferUseCase {
     constructor(
@@ -27,6 +27,7 @@ class CreateOfferUseCase {
         private offersRepository: IOffersRepository) {}
     
     async execute({
+        // items
         seller, //
         offerTitle,
         offerSubTitle,
@@ -42,11 +43,14 @@ class CreateOfferUseCase {
         catalog_listing,
         catalog_product_id,
         listing_type_id,
-    }: IRequestOffer): Promise<void> {
-        const offerAlreadyExists = await this.offersRepository.findByOfferID(offerID);
-
-        if(!offerAlreadyExists){
-            await this.offersRepository.create({
+    }: ICreateOffersDTO): Promise<void> {
+        // const offerAlreadyExists = await this.offersRepository.findByOfferID(offerID);
+        // console.log(`Use Case array:`);
+        // console.log(items);
+        // if(!offerAlreadyExists){
+            await this.offersRepository.create(
+                // items
+                {
                 seller,
                 offerTitle,
                 offerSubTitle,
@@ -66,11 +70,12 @@ class CreateOfferUseCase {
                 offer_last_updated_date: new Date(),
                 created_at: new Date(),
                 updated_at: new Date()
-            });
-        } else {
-            throw new AppError("Offer already exists!", 401)
-        };
+            }
+            );
+        // } else {
+        //     throw new AppError("Offer already exists!", 401)
+        // };
     }
 }
 
-export { CreateOfferUseCase, IRequestOffer }
+export { CreateOfferUseCase, IRequestOffer, IItems }
