@@ -1,6 +1,7 @@
 import { v4 as uuid} from 'uuid';
-import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Seller } from '@modules/sellers/entities/Seller'
+import { Datapoint } from './Datapoint';
 
 @Entity("offers")
 class Offer {
@@ -48,7 +49,16 @@ class Offer {
     
     @Column({nullable: true})
     catalog_listing: boolean;
+    
+    @OneToMany(()=> Datapoint, datapoints => datapoints.offer, {
+        cascade: true,
+        // eager: true
+    })
+    @JoinColumn({name: "datapoints"})
+    datapoints: Datapoint[];
 
+    ///
+    
     @Column({nullable: true})
     catalog_product_id: string;    
 
@@ -70,6 +80,14 @@ class Offer {
     constructor() {
         if(!this.id) {this.id = uuid()}
     }
+
+    addDatapoint(datapoint: Datapoint) {
+        if(this.datapoints == null) {
+            this.datapoints = new Array<Datapoint>();
+        }
+        this.datapoints.push(datapoint)
+    }
+        
 }
 
 export { Offer }

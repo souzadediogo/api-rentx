@@ -6,6 +6,7 @@ import { AppError } from '@errors/AppError';
 import { SimpleConsoleLogger } from 'typeorm';
 import { ICreateOffersDTO } from '@modules/offers/repositories/IOffersRepository';
 import { OfferServices } from '@services/offerServices/offerServices';
+import { IDatapointDTO } from '@modules/offers/repositories/IDatapointsRepository';
 
 interface IMeliOffer {
   id: string;                                //offerID
@@ -124,7 +125,7 @@ class MeliServices {
       return sellerOffers;
     }
 
-    async mapMeliOfferArrayToInterface(channelSellerID, sellerUUID, offerArray:Array<IMeliOffer>):Promise<ICreateOffersDTO[]>{
+    async mapMeliOfferArrayToInterface(offerArray:Array<IMeliOffer>):Promise<ICreateOffersDTO[]>{
 
       return offerArray.map((meliOffer)=>{
           return {
@@ -142,6 +143,30 @@ class MeliServices {
             catalog_listing: meliOffer?.catalogue_listing,
             catalog_product_id: meliOffer?.catalog_product_id,
             listing_type_id: meliOffer?.listing_type_id,
+          }
+        })
+    };
+
+    async mapMeliOfferArrayToDailyDataInterface(channelSellerID, sellerUUID, offerArray:Array<IMeliOffer>):Promise<IDatapointDTO[]>{
+    //   interface IDatapointDTO {
+    //     id?: string;
+    //     offerid: string;
+    //     price: number; 
+    //     basePrice: number;
+    //     originalPrice: number;
+    //     availableQty: number;
+    //     soldQty: number;
+    // }
+
+
+      return offerArray.map((meliOffer)=>{
+          return {
+            offerID: meliOffer.id,
+            price: meliOffer.price,
+            basePrice: meliOffer?.base_price,
+            originalPrice: meliOffer?.original_price,
+            availableQty: meliOffer?.available_quantity,
+            soldQty: meliOffer?.sold_quantity,
           }
         })
     };

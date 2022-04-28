@@ -1,5 +1,6 @@
 import { v4 as uuid} from 'uuid';
-import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Offer } from './Offer';
 
 @Entity("datapoints")
 class Datapoint {
@@ -8,6 +9,12 @@ class Datapoint {
 
     @Column()
     offerid: string;
+
+    @ManyToOne(() => Offer, offer => offer.datapoints, {
+        eager: true,
+    })
+    @JoinColumn({name: "offer"})    
+    offer?: Offer;       
 
     @Column({type: 'float'})
     price: number; 
