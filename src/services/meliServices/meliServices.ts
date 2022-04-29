@@ -169,10 +169,11 @@ class MeliServices {
       //buscar offer UUID da ofertas
       let items = []
       // console.log(`offerUUID: ${offerUUID}`)
-      
+      let count = 1;
       for(const meliOffer of offerArray){
         let offer = await offerServices.getOfferByOfferID(meliOffer.id); //offerArray[0].id
         let offerUUID = await offer[0].id;
+        console.log(`Retrieving UUID ${count}/${offerArray.length}`)
         // console.log(`offer`, offer[0]);
         // console.log(`id`, offerUUID);
         //console.log(`index: ${index}, MeliOffer: ${meliOffer}`);
@@ -186,6 +187,7 @@ class MeliServices {
           soldQty: meliOffer?.sold_quantity,
         }
         items.push(currentOffer);
+        count++
       }
       // offerArray.forEach( async (meliOffer, index)=>{
         // console.log(`1`);
@@ -211,7 +213,7 @@ class MeliServices {
       // })
       console.log(`4`);
       console.log(`items length: ${items.length}`);
-      console.log(`items`, items)
+      // console.log(`items`, items)
       return items;
     };
 
@@ -297,12 +299,101 @@ class MeliServices {
 
     async saveBatchDailyData(batchOfDailyData: Array<IDatapointDTO>){
       const intelligenceSuiteRequests = new IntelligenceSuiteRequests();
-      try {
-        return intelligenceSuiteRequests.saveBatchDailyDataRequest(batchOfDailyData);
-      }catch(e){
-        console.log(e)
-      }
-      return
+      // try {
+      //   return intelligenceSuiteRequests.saveBatchDailyDataRequest(batchOfDailyData);
+      // }catch(e){
+      //   console.log(e)
+      // }
+      // return
+        let add = 100
+        console.log(`Batch size: ${batchOfDailyData.length}`)
+        for(let currentStartPosition =0; 
+          currentStartPosition<batchOfDailyData.length; 
+          currentStartPosition+add){
+            
+            let currentStopPosition = currentStartPosition+add;
+            console.log(`Starting ${currentStartPosition}/${batchOfDailyData.length}`)  
+            
+            if(batchOfDailyData.length<add){
+                let lastPositionInArray = batchOfDailyData.length-1;
+                let arrayToPost = batchOfDailyData.slice(0,lastPositionInArray)
+
+                try{
+                  axios.post(`${myUrls.appBaseUrl}/offers/datapoints`,{
+                      body: {
+                          items: arrayToPost
+                      }
+                  })
+                }catch(e){
+                  console.log({
+                      message: "erro em saveBatchDailyDataRequest",
+                      erro: e
+                  })
+              }
+
+                // mercadoLivreRequests.saveNewOffers(adjustedArray)
+                //     .catch((e)=>{console.log(e)})
+                // let options = {
+                //     method: 'POST',
+                //     url: 'http://localhost:3333/offers',
+                //     headers: {
+                //     'Content-Type': 'application/json',
+                //     Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU2MTQ1MDIsImV4cCI6MTY0NTcwMDkwMiwic3ViIjoiMTc1YmNhNzYtMzE1Yy00Y2I2LTk1MTktY2ExMDNkM2JiYzNjIn0.8Qo5zYZabKFYsAmK5T2-6N-AXOYZd43P5gnUXfi2abc'
+                //     },
+                //     data: {
+                //         items: arrayToPost
+                //     }
+                // };
+                
+                // axios.request(options).then(function (response) {
+                //     console.log(response.data);
+                // }).catch(function (error) {
+                //     console.error(error);
+                // });        
+            } else {
+                console.log(`Starting ${currentStartPosition}/${batchOfDailyData.length}`)  
+                let arrayToPost = batchOfDailyData.slice(currentStartPosition,currentStopPosition)
+                try{
+                  axios.post(`${myUrls.appBaseUrl}/offers/datapoints`,{
+                      body: {
+                          items: arrayToPost
+                      }
+                  })
+              }catch(e){
+                  console.log({
+                      message: "erro em saveBatchDailyDataRequest",
+                      erro: e
+                  })
+              }
+                // mercadoLivreRequests.saveNewOffers(adjustedArray)
+                //     .catch((e)=>{console.log(e)})
+                // let options = {
+                //     method: 'POST',
+                //     url: 'http://localhost:3333/offers',
+                //     headers: {
+                //     'Content-Type': 'application/json',
+                //     Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDU2MTQ1MDIsImV4cCI6MTY0NTcwMDkwMiwic3ViIjoiMTc1YmNhNzYtMzE1Yy00Y2I2LTk1MTktY2ExMDNkM2JiYzNjIn0.8Qo5zYZabKFYsAmK5T2-6N-AXOYZd43P5gnUXfi2abc'
+                //     },
+                //     data: {
+                //         items: arrayToPost
+                //     }
+                // };
+                
+                // axios.request(options).then(function (response) {
+                //     console.log(response.data);
+                // }).catch(function (error) {
+                //     console.error(error);
+                // });
+                  }
+          // currentStartPosition+=add;
+            // currentStopPosition+=add;
+            // console.log(`Inside: loop `)
+                // setTimeout(saveInBatch,100,newOffersArray, currentStartPosition)
+                currentStartPosition+=add;
+
+        }
+        return
+
     }
 
 

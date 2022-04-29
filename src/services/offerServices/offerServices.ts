@@ -125,13 +125,13 @@ class OfferServices {
     //Cria novas ofertas que ainda não existem na base do canal
     async saveNewMeliOffersInBatch(newOffersArray: Array<ICreateOffersDTO>){
         const mercadoLivreRequests = new MercadoLivreRequests();
-        function delay(){
-            setTimeout(()=>{console.log(`Delaying 1 sec`)},1000)
-        }
+        // function delay(){
+        //     setTimeout(()=>{console.log(`Delaying 1 sec`)},1000)
+        // }
 
-        let add = 50
+        let add = 100
         for(let currentStartPosition =0; currentStartPosition<newOffersArray.length; currentStartPosition+add){
-            delay();
+            
             let currentStopPosition = currentStartPosition+add;
 
             console.log(`currentStartPosition: ${currentStartPosition}`);
@@ -281,7 +281,7 @@ class OfferServices {
           };
     }  
 
-    async retrieveUUIDsFromOfferIDs(offerIDs: Array<>){
+    async retrieveUUIDsFromOfferIDs(offerIDs: Array<string>){
 
     }
 
