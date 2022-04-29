@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { CreateOfferController } from '../../src/modules/offers/useCases/createOffer/CreateOfferController';
 import { ListOffersController } from '../modules/offers/useCases/listOffers/ListOffersController';
 import { CreateDatapointController } from '@modules/offers/useCases/createDatapoint/CreateDatapointController';
+import { CreateDatapointsInBatchController } from '@modules/offers/useCases/createDatapointsInBatch/CreateDatapointsInBatchController';
 import { FindDatapointByIDController } from '@modules/offers/useCases/findDatapointByID/FindDatapointByIDController';
 import { ListDatapointsByOfferIdAndDateController } from "@modules/offers/useCases/listDatapointByOfferIdAndDate/listDatapointsByOfferIdAndDaterangeController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
@@ -18,6 +19,7 @@ const offersRoutes = Router();
     const updateOfferController = new UpdateOfferController();
     const createOffersInBatchController = new CreateOffersInBatchController();
     const createOffersInBatchOneByOneController = new CreateOffersInBatchOneByOneController();
+    const createDatapointsInBatchController = new CreateDatapointsInBatchController();
 
     //Datapoints
     const createDatapointController = new CreateDatapointController();
@@ -32,7 +34,7 @@ const offersRoutes = Router();
 
 
     //Datapoints
-    offersRoutes.post("/datapoints", createDatapointController.handle);
+    offersRoutes.post("/datapoints", createDatapointsInBatchController.handle);
     offersRoutes.get("/datapoints/find-by-id", findDatapointByIDController.handle);
     offersRoutes.get("/datapoints/find-by-offerid-and-daterange", listDatapointsByOfferIdAndDaterangeController.handle);
 

@@ -24,6 +24,21 @@ interface ICreateOffersDTO {
     updated_at?: Date;
 }
 
+interface IOfferIDsArray {
+    items: Array<string>
+}
+
+
+interface IOfferIDandUUIDTuple {
+    offerID: {                 //É o próprio offerID
+        offerID: string,
+        uuid: string,
+        }
+}
+
+interface IOfferIDsTupleArray {
+    items: Array<IOfferIDandUUIDTuple>
+}
 
 interface IOffersRepository {
     findByOfferID(offerID: string): Promise<Offer>;
@@ -63,7 +78,9 @@ interface IOffersRepository {
         listing_type_id
     }: ICreateOffersDTO): Promise<void>;
     listOffersBySellerUUID(sellerUUID): Promise<Offer[]>;
+    listOfferByOfferID(offerID): Promise<Offer>;
+    listUUIDsfromOfferIDs(offerIDsArray): Promise<IOfferIDsTupleArray>;
 };
 
-export { IOffersRepository,  ICreateOffersDTO }
+export { IOffersRepository,  ICreateOffersDTO, IOfferIDsArray, IOfferIDandUUIDTuple }
 

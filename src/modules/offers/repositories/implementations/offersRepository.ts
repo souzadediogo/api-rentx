@@ -2,6 +2,7 @@ import { Offer } from '../../entities/Offer';
 import { IOffersRepository, ICreateOffersDTO } from '../IOffersRepository';
 import { getRepository, Repository } from 'typeorm';
 import { IItems } from '@modules/offers/useCases/createOffer/CreateOfferUseCase'
+import { IOfferIDsTupleArray } from '@modules/offers/repositories/IOffersRepository';
 //DTO -> Data 
 
 
@@ -17,17 +18,8 @@ class OffersRepository implements IOffersRepository {
         this.repository = getRepository(Offer);
     }
 
-
-    // public static getInstance(): OffersRepository {
-    //     if(!OffersRepository.INSTANCE){
-    //         OffersRepository.INSTANCE = new OffersRepository();
-    //     }; 
-    //     return OffersRepository.INSTANCE;
-    // };
-
     async create(
-        // items
-        {
+            {
                 seller,
                 offerTitle, 
                 offerSubTitle, 
@@ -125,9 +117,17 @@ class OffersRepository implements IOffersRepository {
         const offers = await this.repository.find();
         return offers;
     };
-
-    async findByOfferID(offerID: string): Promise<Offer> {
-        const offer = await this.repository.findOne({ offerID });
+    
+    async listOfferByOfferID(offerID: string): Promise<Offer> {
+        // console.log(`Searching offerID ${offerID}`)
+        const offer = await this.repository
+                                    .createQueryBuilder()
+                                    .select("offers")
+                                    .from(Offer, "offers")
+                                    .where("offers.offerID = :offerID", { offerID: offerID })
+                                    .getOne()            //findOne(offerID);
+        
+        // console.log(`OfferID ${offerID} is:` , offer)
         return offer;
     };
 
@@ -140,6 +140,31 @@ class OffersRepository implements IOffersRepository {
         const salesChannelIdOffers = await this.repository.find({ salesChannel: salesChannelID });
         return salesChannelIdOffers;
     }   
+
+    async listUUIDsfromOfferIDs(offerIDsArray):Promise<IOfferIDsTupleArray>{
+        
+        let items = offerIDsArray.map(async (offer)=>{
+            return {
+                offer: {
+                    offerID: offer,
+                    uuid: await this.listOfferByOfferID(offer)
+                }
+            }
+        })
+        console.log(items)        
+        return 
+    }
 };
 
 export { OffersRepository }
+
+// interface IOfferIDsArray {
+//     items: Array<string>
+// }
+
+// interface IOfferIDandUUIDTuple {
+//     offerID: {                 //É o próprio offerID
+//         offerID: string,
+//         uuid: string,
+//         }
+// }

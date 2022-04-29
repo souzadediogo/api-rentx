@@ -50,15 +50,10 @@ class Offer {
     @Column({nullable: true})
     catalog_listing: boolean;
     
-    @OneToMany(()=> Datapoint, datapoints => datapoints.offer, {
-        cascade: true,
-        // eager: true
-    })
+    @OneToMany(()=> Datapoint, datapoints => datapoints.offer)
     @JoinColumn({name: "datapoints"})
     datapoints: Datapoint[];
 
-    ///
-    
     @Column({nullable: true})
     catalog_product_id: string;    
 

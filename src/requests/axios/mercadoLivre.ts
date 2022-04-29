@@ -2,17 +2,14 @@ import { AppError } from '@errors/AppError';
 import { ICreateOffersDTO } from '@modules/offers/repositories/IOffersRepository';
 import { myUrls } from '@shared/urls';
 import { IMeliOffer } from '@services/meliServices/meliServices'
-
+import { IntelligenceSuiteRequests } from '@requests/axios/intelligenceSuiteAPI'
 import axios from 'axios';
 
 class MercadoLivreRequests {
 
-    async listMeliCodeAndToken(){
-        return axios.get('http://localhost:3333/meliAuthentication/list-auth-info')
-      }
-
     async listMeliAccessToken(){
-      const authInfo = await this.listMeliCodeAndToken(); // Trocar por get no refresh token na API
+      const intelligenceSuiteRequests = new IntelligenceSuiteRequests();
+      const authInfo = await intelligenceSuiteRequests.listMeliCodeAndToken(); // Trocar por get no refresh token na API
       if(!authInfo){
         throw new AppError("authInfo didn't return", 500)
       }
@@ -29,11 +26,19 @@ class MercadoLivreRequests {
             })
             return results
         }catch(e){
-            throw new AppError("error", )
+            console.log({
+                message: "erro em searchSellerResultsByChannelSellerID",
+                erro: e
+            })            
+            return {
+                message: "erro em searchSellerResultsByChannelSellerID",
+                erro: e                                
+            }
         }
     }
 
     async searchSellerOffers(channelSellerID, offset){
+        
         let meliAccessToken = await this.listMeliAccessToken();
         // console.log(`Searching seller ${channelSellerID} and offset ${offset}`)
         // console.log(`Got it,  meliAccessToekn is ${meliAccessToken}`);
@@ -56,7 +61,15 @@ class MercadoLivreRequests {
             // console.log(`Current offset: ${offset} | Response has ${result.data.results.length} offers`);
             return result.data.results;
         }catch(e){
-            throw new AppError(`Error fetching offers from ChannelSellerID ${channelSellerID} and offset ${offset} in Mercado Livre`, 500)
+            console.log({
+                message: "erro em searchSellerOffers",
+                erro: e
+            })            
+            return {
+                message: "erro em searchSellerOffers",
+                erro: e                             
+            }
+            // throw new AppError(`Error fetching offers from ChannelSellerID ${channelSellerID} and offset ${offset} in Mercado Livre`, 500)
         }
         
         // .then((response) => {
@@ -88,7 +101,14 @@ class MercadoLivreRequests {
             return
         }
         catch(e){
-            return e
+            console.log({
+                message: "erro em saveNewOffers",
+                erro: e
+            })            
+            return {
+                message: "erro em saveNewOffers",
+                erro: e                
+            }
             // throw new AppError(`Error saving new batch of offers`, 500)
         }
     }
@@ -110,6 +130,10 @@ class MercadoLivreRequests {
             console.log(response.data)
             return response.data;
         }catch(e){
+            console.log({
+                message: "erro em getMultipleOffersByMLB",
+                erro: e
+            })            
             throw new AppError(`Error fetching offers from ChannelSellerID ${channelSellerID} and offset ${offset} in Mercado Livre`, 500)
         }    
     }

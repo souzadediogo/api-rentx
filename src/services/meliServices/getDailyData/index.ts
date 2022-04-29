@@ -14,25 +14,43 @@ async function getDailyData(){
         for(let channel in mySalesChannels){
             channelIds.push(mySalesChannels[channel].channelSellerID);
         }
+        console.log(`ChannelIDs`, channelIds)
     // Get all offers MLBs from each salesChannel  
-        var myMLBs = [];
+        
         for(let salesChannel in channelIds){
+            const myMLBs = [];
             let currentChannel = channelIds[salesChannel];
-            offerServices.getAllOffersBySalesChannelID(currentChannel)
-                .then((response)=>{
-                    for(let offer in response.data){
-                        myMLBs.push(response.data[offer].offerID)
-                    }
-                    // console.log(myMLBs)
-                }).then(()=>{
-                    const offers = meliServices.multiGetBatchOfOffers(myMLBs.slice(1,123))
-                    return offers
-                        }).then((offers)=>{
-                            console.log(`Got in total ${offers.length} offers from channel ${currentChannel}`)
-                            console.log(`Type is ${typeof offers} `)
-                            console.log(offers)
+            offerServices.getAllOffersBySalesChannelID(currentChannel).then((response)=>{
+                for(let offer in response.data){
+                    myMLBs.push(response.data[offer].offerID)
+                }
+                console.log(`Starting to fetch offers in Meli from channel ${currentChannel}`)
+                meliServices.multiGetBatchOfOffers(myMLBs).then( (res2) => {
+                    console.log('res2', `${res2.length}`)
+                    console.log(`Finished fetching offers in Meli from channel ${currentChannel}`);
+                    console.log(currentChannel)
+                    //Mapear Array<MeliOffer[]> para array de createdailydata
+                    meliServices.mapMeliOfferArrayToDailyDataInterface(currentChannel, res2).then((res3)=>{
+                        console.log(`res3 in savebatch has ${res3.length} offers`)
+                        meliServices.saveBatchDailyData(res3).then((res4)=>{
+                            console.log(`Done saving`)
+                        }, err =>{
+                            console.log(err)
+                        })
+                        console.log(`did que get here?`);
+                    }, err =>{
+                        console.log(`erro em mapMeliOfferArrayToDailyDataInterface`, err)
+                        })
+                }, err => {
+                    console.log(`erro em multiGetBatchOfOffers`, err)
+                })
+               
+            }, err => {
+                console.log("erro aqui no fim", err)
+            })
+                    
 
-                        }).catch((e)=>{console.log(e)})
+                        
                 
         } // End of for Loop   
             

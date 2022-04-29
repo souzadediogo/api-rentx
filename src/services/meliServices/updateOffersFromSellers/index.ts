@@ -83,9 +83,9 @@ async function getOffersNow(){
 }
 
 
-async function runMeliServices (){
+async function run (){
     await getOffersNow();
     console.log(`End of script`)
 }
 
-runMeliServices();
+run();

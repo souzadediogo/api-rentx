@@ -10,6 +10,9 @@ interface IDatapointDTO {
     availableQty: number;
     soldQty: number;
 }
+interface IDatapointsBatch {
+    items: Array<IDatapointDTO>
+}
 
 interface IDatapointsRepository {
     create({
@@ -24,7 +27,7 @@ interface IDatapointsRepository {
     listByOfferIdAndDateRange(offerid: string, beginDate: Timestamp, endDate: Timestamp): Promise<Datapoint[]>; //, dateRange: Date[]
 };
 
-export { IDatapointsRepository,  IDatapointDTO }
+export { IDatapointsRepository,  IDatapointDTO, IDatapointsBatch }
 
 // id?,
 // offerID,

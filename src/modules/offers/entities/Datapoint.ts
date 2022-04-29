@@ -13,17 +13,17 @@ class Datapoint {
     @ManyToOne(() => Offer, offer => offer.datapoints, {
         eager: true,
     })
-    @JoinColumn({name: "offer"})    
-    offer?: Offer;       
+    @JoinColumn({name: "offerUUID"})    
+    offer: Offer;       
 
     @Column({type: 'float'})
     price: number; 
 
-    @Column({type: 'float'})
-    basePrice: number;
+    @Column({type: 'float', nullable: true})
+    basePrice?: number;
 
-    @Column({type: 'float'})
-    originalPrice: number;
+    @Column({type: 'float', nullable: true})
+    originalPrice?: number;
 
     @Column()
     availableQty: number;

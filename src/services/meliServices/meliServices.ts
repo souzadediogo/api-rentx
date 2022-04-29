@@ -7,6 +7,7 @@ import { SimpleConsoleLogger } from 'typeorm';
 import { ICreateOffersDTO } from '@modules/offers/repositories/IOffersRepository';
 import { OfferServices } from '@services/offerServices/offerServices';
 import { IDatapointDTO } from '@modules/offers/repositories/IDatapointsRepository';
+import { IntelligenceSuiteRequests } from '@requests/axios/intelligenceSuiteAPI';
 
 interface IMeliOffer {
   id: string;                                //offerID
@@ -15,12 +16,18 @@ interface IMeliOffer {
   buying_mode: string;                       //status
   category_id: string;                       //categoryID
   catalogue_listing: boolean;
+  price?: number;
+  base_price?: number;
+  original_price?: number;
+  available_quantity?: number;
+  sold_quantity?: number;
   seller_id: string;
   catalog_product_id: string;
   listing_type_id: string;
   condition: string;
   shipping: {free_shipping: boolean}
 }
+
 
 interface IPaging {
   total: number;
@@ -125,8 +132,8 @@ class MeliServices {
       return sellerOffers;
     }
 
-    async mapMeliOfferArrayToInterface(offerArray:Array<IMeliOffer>):Promise<ICreateOffersDTO[]>{
-
+    async mapMeliOfferArrayToInterface(channelSellerID, sellerUUID, offerArray:Array<IMeliOffer>):Promise<ICreateOffersDTO[]>{
+    
       return offerArray.map((meliOffer)=>{
           return {
             seller: {id: `${sellerUUID}`},
@@ -147,8 +154,10 @@ class MeliServices {
         })
     };
 
-    async mapMeliOfferArrayToDailyDataInterface(channelSellerID, sellerUUID, offerArray:Array<IMeliOffer>):Promise<IDatapointDTO[]>{
-    //   interface IDatapointDTO {
+    async mapMeliOfferArrayToDailyDataInterface(channelSellerID, offerArray:Array<IMeliOffer>):Promise<IDatapointDTO[]>{
+      const offerServices = new OfferServices();
+
+      //   interface IDatapointDTO {
     //     id?: string;
     //     offerid: string;
     //     price: number; 
@@ -157,18 +166,53 @@ class MeliServices {
     //     availableQty: number;
     //     soldQty: number;
     // }
-
-
-      return offerArray.map((meliOffer)=>{
-          return {
-            offerID: meliOffer.id,
-            price: meliOffer.price,
-            basePrice: meliOffer?.base_price,
-            originalPrice: meliOffer?.original_price,
-            availableQty: meliOffer?.available_quantity,
-            soldQty: meliOffer?.sold_quantity,
-          }
-        })
+      //buscar offer UUID da ofertas
+      let items = []
+      // console.log(`offerUUID: ${offerUUID}`)
+      
+      for(const meliOffer of offerArray){
+        let offer = await offerServices.getOfferByOfferID(meliOffer.id); //offerArray[0].id
+        let offerUUID = await offer[0].id;
+        // console.log(`offer`, offer[0]);
+        // console.log(`id`, offerUUID);
+        //console.log(`index: ${index}, MeliOffer: ${meliOffer}`);
+        let currentOffer = {
+          id: await offerUUID,
+          offerid: meliOffer.id,
+          price: meliOffer.price,
+          basePrice: meliOffer?.base_price,
+          originalPrice: meliOffer?.original_price,
+          availableQty: meliOffer?.available_quantity,
+          soldQty: meliOffer?.sold_quantity,
+        }
+        items.push(currentOffer);
+      }
+      // offerArray.forEach( async (meliOffer, index)=>{
+        // console.log(`1`);
+        // let offer = await offerServices.getOfferByOfferID(meliOffer.id); //offerArray[0].id
+        // let offerUUID = await offer[0].id;
+        // console.log(`2`);
+        // // console.log(`offer`, offer[0]);
+        // // console.log(`id`, offerUUID);
+        // //console.log(`index: ${index}, MeliOffer: ${meliOffer}`);
+        // let currentOffer = {
+        //   id: await offerUUID,
+        //   offerid: meliOffer.id,
+        //   price: meliOffer.price,
+        //   basePrice: meliOffer?.base_price,
+        //   originalPrice: meliOffer?.original_price,
+        //   availableQty: meliOffer?.available_quantity,
+        //   soldQty: meliOffer?.sold_quantity,
+        // }
+        // console.log(`3`);
+        // items.push(currentOffer);
+        // console.log(`Current offer`, currentOffer)
+        
+      // })
+      console.log(`4`);
+      console.log(`items length: ${items.length}`);
+      console.log(`items`, items)
+      return items;
     };
 
     async multiGetBatchOfOffers(arrayOfMLBs: Array<string>):Promise<IMeliOffer[]>{
@@ -182,16 +226,18 @@ class MeliServices {
       var myOffers = [];
       let add = 20
         for(let currentStartPosition =0; currentStartPosition<arrayOfMLBs.length; currentStartPosition+add){
-            let currentStopPosition = currentStartPosition+add;
+          console.log(`Starting ${currentStartPosition}/${arrayOfMLBs.length}`)  
+          let currentStopPosition = currentStartPosition+add;
 
-            console.log(`currentStartPosition: ${currentStartPosition}`);
-            console.log(`currentStopPosition: ${currentStopPosition}`);
+
             if(arrayOfMLBs.length<add){
+              // console.log(`Huyaa`)
                 let lastPositionInArray = arrayOfMLBs.length-1;
                 let arrayToGet = arrayOfMLBs.slice(0,lastPositionInArray);
                 let stringifiedArrayToGet = arrayToGet.toString();
                 // console.log(`Array to get: ${arrayToGet}`)
-
+                // console.log(`currentStartPosition: ${currentStartPosition}`);
+                // console.log(`currentStopPosition: ${currentStopPosition}`);
                 // mercadoLivreRequests.saveNewOffers(adjustedArray)
                 //     .catch((e)=>{console.log(e)})
                 try {
@@ -205,7 +251,7 @@ class MeliServices {
                       }
                   })
                   // console.log(`Current offset: ${offset} | Response has ${result.data.results.length} offers`);
-                  console.log(`Just got ${response.data.length} offers in ML`)
+                  // console.log(`Just got ${response.data.length} offers in ML`)
                   // return response.data;
                   for(let meliOffer in response.data){
                     myOffers.push(response.data[meliOffer].body); 
@@ -214,10 +260,12 @@ class MeliServices {
                   return e
               }          
             } else {
+                // let currentStopPosition = currentStartPosition+add;
                 let arrayToGet = arrayOfMLBs.slice(currentStartPosition,currentStopPosition);
                 let stringifiedArrayToGet = arrayToGet.toString();
                 // console.log(`Array to get: ${arrayToGet}`)
-    
+                // console.log(`currentStartPosition: ${currentStartPosition}`);
+                // console.log(`currentStopPosition: ${currentStopPosition}`);    
                 try {
                   let response = await axios.get(`https://api.mercadolibre.com/items`,{
                       headers: {
@@ -229,7 +277,7 @@ class MeliServices {
                       }
                   })
                   // console.log(`Current offset: ${offset} | Response has ${result.data.results.length} offers`);
-                  console.log(`Just got ${response.data.length} offers in ML`)                  // return response.data;
+                  // console.log(`Just got ${response.data.length} offers in ML`)                  // return response.data;
                   // console.log(response.data);
                   for(let meliOffer in response.data){
                     myOffers.push(response.data[meliOffer].body); 
@@ -245,6 +293,16 @@ class MeliServices {
         }
       /////////
       return myOffers;
+    }
+
+    async saveBatchDailyData(batchOfDailyData: Array<IDatapointDTO>){
+      const intelligenceSuiteRequests = new IntelligenceSuiteRequests();
+      try {
+        return intelligenceSuiteRequests.saveBatchDailyDataRequest(batchOfDailyData);
+      }catch(e){
+        console.log(e)
+      }
+      return
     }
 
 

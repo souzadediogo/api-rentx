@@ -4,6 +4,8 @@ import { IRequestOffer } from '@modules/offers/useCases/createOffer/CreateOfferU
 import { ICreateOffersDTO } from '@modules/offers/repositories/IOffersRepository';
 import { AppError } from '@errors/AppError';
 import { MercadoLivreRequests } from '@requests/axios/mercadoLivre'
+import { IntelligenceSuiteRequests } from '@requests/axios/intelligenceSuiteAPI'
+
 
 class OfferServices {
     contructor(){}
@@ -15,6 +17,18 @@ class OfferServices {
     async getAllOffersBySellerUUID(sellerUUID){
         return axios.get(`${myUrls.appBaseUrl}/offers?sellerUUID=${sellerUUID}`)
     }
+
+    async getOfferByOfferID(offerID: string){
+        const intelligenceSuiteRequests = new IntelligenceSuiteRequests();
+        try {
+            const offer = await intelligenceSuiteRequests.getOfferByOfferID(offerID);        
+            return offer.data
+        }catch(e){
+            console.log(e)
+        }
+        
+    }
+
     async getAllOffersBySalesChannelID(salesChannelID){
         return axios.get(`${myUrls.appBaseUrl}/sellers/sales-channels/offers?salesChannelID=${salesChannelID}`)
     }
@@ -266,6 +280,10 @@ class OfferServices {
 
           };
     }  
+
+    async retrieveUUIDsFromOfferIDs(offerIDs: Array<>){
+
+    }
 
     
 
