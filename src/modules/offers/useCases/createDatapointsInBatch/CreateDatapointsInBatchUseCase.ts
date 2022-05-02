@@ -13,6 +13,7 @@ class CreateDatapointsInBatchUseCase {
         console.log(`here it goes:`, items[0])
         for(let offer of items){
             await this.datapointsRepository.create({
+                offer: offer.offer,
                 offerid: offer.offerid,
                 price: offer.price, 
                 basePrice: offer.basePrice,

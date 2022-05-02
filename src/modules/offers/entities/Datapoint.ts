@@ -13,7 +13,8 @@ class Datapoint {
     @ManyToOne(() => Offer, offer => offer.datapoints, {
         eager: true,
     })
-    @JoinColumn({name: "offerUUID"})    
+    // @JoinTable("offers")  
+    @JoinColumn({name: "offerUUID"})      
     offer: Offer;       
 
     @Column({type: 'float'})

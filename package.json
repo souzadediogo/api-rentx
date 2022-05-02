@@ -7,6 +7,7 @@
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "updateoffers": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/services/meliServices/updateOffersFromSellers/index.ts", 
     "gdd": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/services/meliServices/getDailyData/index.ts", 
+    "refreshtoken": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/services/meliServices/refreshToken/index.ts", 
     "testpop": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/services/meliServices/testpop.ts", 
     "testrequest": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/services/meliServices/teste.ts", 
     "testoffer": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/services/meliServices/testeCreateOffer.ts", 
@@ -15,7 +16,7 @@
     "test": "jest",
     "migrate": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli migration:run",
     "createmigration": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli migration:create -n CreateUrlInOffer",
-    "migration:generate": "npm run typeorm migration:generate -- -n ChangeDatapointsToAllowNullableFields"
+    "migration:generate": "npm run typeorm migration:generate -- -n CreateFromScratch"
   },
   "keywords": [],
   "author": "",

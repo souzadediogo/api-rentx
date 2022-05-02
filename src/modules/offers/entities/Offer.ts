@@ -53,6 +53,8 @@ class Offer {
     @OneToMany(()=> Datapoint, datapoints => datapoints.offer)
     @JoinColumn({name: "datapoints"})
     datapoints: Datapoint[];
+    // @OneToMany(()=> Offer, offer => offer.seller)
+    // @JoinColumn({name: "offers"})
 
     @Column({nullable: true})
     catalog_product_id: string;    

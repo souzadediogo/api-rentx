@@ -13,6 +13,7 @@ class DatapointsRepository implements IDatapointsRepository {
         this.repository = getRepository(Datapoint);
     }
     async create({
+        offer,
         offerid,
         price, 
         basePrice,
@@ -21,6 +22,7 @@ class DatapointsRepository implements IDatapointsRepository {
         soldQty
     }: IDatapointDTO): Promise<void> {
         const datapoint = this.repository.create({
+            offer,
             offerid,
             price, 
             basePrice,

@@ -17,6 +17,26 @@ class MercadoLivreRequests {
       return meliAccessToken
     }      
 
+    async postMeliAccessTokenRequest(accessToken: string){
+        try {
+            const result = await axios.post(`${myUrls.appBaseUrl}/meliAuthentication/create-token`, {
+            body: {
+                "meliToken": `${accessToken}`
+                }
+            })
+            return result
+        }catch(e){
+            console.log({
+                message: "erro em postMeliToken",
+                erro: e
+            })            
+            return {
+                message: "erro em postMeliToken",
+                erro: e                                
+            }
+        }
+    }
+
     async searchSellerResultsByChannelSellerID(meliToken, channelSellerID){
         try {
             const results = await axios.get(`${myUrls.meliBaseUrl}/MLB/search?seller_id=${channelSellerID}`, {

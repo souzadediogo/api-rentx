@@ -41,10 +41,7 @@ class MeliServices {
   }
 
     async retrieveRefreshToken(){
-      console.log(`0`)
 
-      
-      console.log(`0.1`)
   
         const res = await axios({
           url: `${myUrls.meliOAuthUrl}`,
@@ -57,7 +54,8 @@ class MeliServices {
             refresh_token: 'TG-625c33b542bac7001b6865b5-473621462', //TG-625c328bed9fa8001ba19dd3-473621462
           }        
         }).catch((e)=>{console.log(e)});
-        return res.data.meliToken;
+        // console.log(res.data.access_token);
+        return res.data.access_token;
 
         // var options = {
         //   method: 'GET',
@@ -111,7 +109,7 @@ class MeliServices {
       var sellerOffers = [];
       // console.log(paging.total)
       // if(paging.total>0){
-        while(currentOffset<paging.total){    //!! paging.total
+        while(currentOffset<60){    //!! paging.total
           // console.log(`Current offset = ${currentOffset}/${paging.total}`);
           
 
@@ -178,7 +176,7 @@ class MeliServices {
         // console.log(`id`, offerUUID);
         //console.log(`index: ${index}, MeliOffer: ${meliOffer}`);
         let currentOffer = {
-          id: await offerUUID,
+          offer: {"id": `${await offerUUID}`},
           offerid: meliOffer.id,
           price: meliOffer.price,
           basePrice: meliOffer?.base_price,
@@ -186,6 +184,7 @@ class MeliServices {
           availableQty: meliOffer?.available_quantity,
           soldQty: meliOffer?.sold_quantity,
         }
+        console.log(currentOffer)
         items.push(currentOffer);
         count++
       }

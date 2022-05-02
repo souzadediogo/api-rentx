@@ -1,6 +1,7 @@
 import { OfferServices } from '@services/offerServices/offerServices';
 import { MeliServices } from '@services/meliServices/meliServices'
-async function getOffersNow(){
+
+async function updateOffersFromSellers(){
     // const token = await getNewRefreshToken();
     // if(token){console.log(`ok, token: ${token}`)}else{console.log(`not ok, token ${token}`)}
     // getOffersInMeli('93768777').then(response =>{console.log(response)})
@@ -84,8 +85,10 @@ async function getOffersNow(){
 
 
 async function run (){
-    await getOffersNow();
+    await updateOffersFromSellers();
     console.log(`End of script`)
 }
 
 run();
+
+export { updateOffersFromSellers }

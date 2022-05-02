@@ -52,7 +52,21 @@ class IntelligenceSuiteRequests {
             }
         }
       }      
-      
+
+      async getOfferUUIDsTpuplesFromOfferIDs(offerIDs: Array<string>){  //Pelo MLB
+        try{
+            return axios.get(`${myUrls.appBaseUrl}/offers?offerID=${offerID}`)
+        }catch(e){
+            console.log({
+                message: "erro em getOfferByOfferID",
+                erro: e
+            })
+            return {
+                message: "erro em getOfferByOfferID",
+                erro: e
+            }
+        }
+      }
 
 }
 
