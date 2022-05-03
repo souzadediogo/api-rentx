@@ -1,4 +1,4 @@
-import { Offer } from "../entities/Offer";
+import { Offer } from '@modules/offers/infra/typeorm/entities/Offer';
 import { IItems } from "@modules/offers/useCases/createOffer/CreateOfferUseCase"
 
 interface ICreateOffersDTO {
@@ -22,6 +22,8 @@ interface ICreateOffersDTO {
     offer_last_updated_date?: Date,
     created_at?: Date;
     updated_at?: Date;
+    brandInChannel: string;
+    modelInChannel: string;
 }
 
 interface IOfferIDsArray {
@@ -47,7 +49,6 @@ interface IOffersRepository {
         offerTitle, 
         offerSubTitle, 
         offerUrl, 
-        status, 
         categoryID, 
         offerID, 
         sellerID, 
@@ -57,7 +58,9 @@ interface IOffersRepository {
         free_shipping, 
         catalog_listing, 
         catalog_product_id,
-        listing_type_id
+        listing_type_id,
+        brandInChannel,
+        modelInChannel
     }: ICreateOffersDTO): Promise<void>; //ICreateOffersDTO
     createBatch(items: IItems): Promise<void>; 
     updateByOfferId({      
@@ -65,7 +68,6 @@ interface IOffersRepository {
         offerTitle, 
         offerSubTitle, 
         offerUrl, 
-        status, 
         categoryID, 
         offerID, 
         sellerID, 

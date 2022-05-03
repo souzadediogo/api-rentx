@@ -1,5 +1,3 @@
-import { Timestamp } from "typeorm";
-
 interface ICreateUserDTO {
     name: string;
     username: string; 

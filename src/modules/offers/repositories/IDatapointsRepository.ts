@@ -1,10 +1,11 @@
 import { Timestamp } from "typeorm";
-import { Datapoint } from "../entities/Datapoint";
+import { Datapoint } from '@modules/offers/infra/typeorm/entities/Datapoint';
 
 interface IDatapointDTO {
     id?: string;
     offerid: string;
     price: number; 
+    offerStatus?: string;
     basePrice: number;
     originalPrice: number;
     availableQty: number;
@@ -17,7 +18,8 @@ interface IDatapointsBatch {
 interface IDatapointsRepository {
     create({
         offerid,
-        price, 
+        price,
+        offerStatus, 
         basePrice,
         originalPrice,
         availableQty,

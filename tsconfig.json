@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es2016",              
+    "target": "es2016",              //"es2016" // es5
     "experimentalDecorators": true,  
-    "emitDecoratorMetadata": true,   
+    "emitDecoratorMetadata": true,  
+    "noImplicitUseStrict": true, 
     "module": "commonjs",            
     "baseUrl": "./src",              
     "paths": {
@@ -11,7 +12,9 @@
       "@requests/*": ["requests/*"],
       "@config/*": ["config/*"],
       "@shared/*": ["shared/*"],
-      "@errors/*": ["errors/*"]
+      "@errors/*": ["shared/errors/*"],
+      "@database": ["database/*"],
+      "@src": ["."]
     },                                      
     "resolveJsonModule": true,       
     "outDir": "./dist",   

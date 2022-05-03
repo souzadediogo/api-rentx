@@ -1,22 +1,29 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const routes_1 = __importDefault(require("./routes"));
-//import v4 as uuid from "uuid";
-const app = (0, express_1.default)();
-app.use(express_1.default.json());
-const offers = [];
-//Rotas
-app.get("/offers", routes_1.default);
-app.get("/offers/:offerID", (req, res) => {
+
+exports.__esModule = true;
+var express_1 = require("express");
+require("express-async-errors");
+var swagger_ui_express_1 = require("swagger-ui-express");
+require("./database/index");
+require("./shared/container");
+var index_1 = require("../src/routes/index");
+var swagger_json_1 = require("./swagger.json");
+var AppError_1 = require("./errors/AppError");
+var app = (0, express_1["default"])();
+app.use(express_1["default"].json());
+app.use("/api-docs", swagger_ui_express_1["default"].serve, swagger_ui_express_1["default"].setup(swagger_json_1["default"]));
+app.use(index_1.router);
+app.use(function (err, req, res, next) {
+    if (err instanceof AppError_1.AppError) {
+        return res.status(err.statusCode).json({
+            message: err.message
+        });
+    }
+    return res.status(500).json({
+        status: "error",
+        message: "Internal server error - ".concat(err.message)
+    });
 });
-app.post("/offers", (req, res) => {
+app.listen(3333, function () {
+    console.log("Server is running...");
 });
-app.put("/offers/:id", (req, res) => {
-});
-app.delete("/offers", (req, res) => {
-});
-app.listen(3333, () => { });

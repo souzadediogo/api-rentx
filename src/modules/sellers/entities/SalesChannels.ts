@@ -1,6 +1,7 @@
 import { v4 as uuid} from 'uuid';
 import { JoinTable, Column, CreateDateColumn, UpdateDateColumn, Entity, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { Seller } from './Seller';
+import { Seller } from '@modules/sellers/entities/Seller';
+
 
 @Entity("salesChannels")
 class SalesChannel {
