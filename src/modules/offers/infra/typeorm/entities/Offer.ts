@@ -1,6 +1,6 @@
 import { v4 as uuid} from 'uuid';
 import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
-import { Seller } from '@modules/sellers/entities/Seller'
+import { Seller } from '@modules/sellers/entities/Seller';
 import { Datapoint } from '@modules/offers/infra/typeorm/entities/Datapoint';
 
 @Entity("offers")

@@ -127,9 +127,11 @@ class MercadoLivreRequests {
             throw new AppError(`Error fetching offers from ChannelSellerID ${channelSellerID} and offset ${offset} in Mercado Livre`, 500)
         }    
     }
+    
     async fetchAdditionalOfferInfo(arrayOfMLBs: Array<string>):Promise<IMeliOffer[]>{
         let meliAccessToken = await this.listMeliAccessToken();
 
+        
         try {
             let response = await axios.get(`https://api.mercadolibre.com/items`,{
                 headers: {

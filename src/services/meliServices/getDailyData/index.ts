@@ -37,7 +37,6 @@ async function getDailyData(){
                         }, err =>{
                             console.log(err)
                         })
-                        console.log(`did que get here?`);
                     }, err =>{
                         console.log(`erro em mapMeliOfferArrayToDailyDataInterface`, err)
                         })
@@ -57,15 +56,6 @@ async function getDailyData(){
     //   for(let channel in channelIds)
     // const offersFromMeli = await offerServices.getAllOffersBySalesChannelID
 }
-// Fatia e de 20 em 20 busca dados
-
-// Transforma os dados no formato do endpoint datapoints
-
-// Manda salvar no banco
-
-//DEPOIS:
-// - Criar restrição para não pode ter no mesmo dia dois offerIDs iguais salvos;
-// - 
 
 
 

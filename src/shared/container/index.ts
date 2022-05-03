@@ -22,7 +22,6 @@ container.registerSingleton<IOffersRepository>(
     OffersRepository  //Clase que ele chama
 )
 
-
 container.registerSingleton<IDatapointsRepository>(
     "DatapointsRepository", //Nome do container
     DatapointsRepository  //Classe que ele chama

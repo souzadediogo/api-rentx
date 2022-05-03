@@ -1,6 +1,15 @@
 import { v4 as uuid} from "uuid";
 import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
+interface ICreateUserDTO {
+    name: string;
+    username: string; 
+    password: string;
+    email: string;
+    created_at: Date;
+}
+
+
 @Entity("users")
 class User {
     @PrimaryColumn('uuid')
@@ -31,4 +40,4 @@ class User {
     }
 }
 
-export { User }
+export { User, ICreateUserDTO }
