@@ -1,4 +1,3 @@
-import { MeliToken } from '../../entities/MeliToken';
 import { IMeliTokenDTO, IMeliTokenRepository, IMeliTokensDTO } from '../IMeliTokenRepository';
 import { getRepository, Repository } from 'typeorm';
 import { MeliToken } from '@modules/meliAuth/entities/MeliToken';

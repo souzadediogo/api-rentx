@@ -75,4 +75,4 @@ class UpdateOfferUseCase {
     }
 }
 
-export { UpdateOfferUseCase, IRequest }
+export { UpdateOfferUseCase, IRequestOffer }

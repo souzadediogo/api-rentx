@@ -1,39 +1,55 @@
 "use strict";
 
-exports.__esModule = true;
-var tsyringe_1 = require("tsyringe");
-var OffersRepository_1 = require("../../modules/offers/repositories/implementations/OffersRepository");
-var UsersRepository_1 = require("../../modules/accounts/repositories/implementations/UsersRepository");
-var SellersRepository_1 = require("@modules/sellers/repositories/implementations/SellersRepository");
-var SkusRepository_1 = require("@modules/skus/repositories/implementations/SkusRepository");
-var SalesChannelsRepository_1 = require("@modules/sellers/repositories/implementations/SalesChannelsRepository");
-var DatapointsRepository_1 = require("@modules/offers/repositories/implementations/DatapointsRepository");
-var MeliAuthCodeRepository_1 = require("@modules/meliAuth/repositories/implementations/MeliAuthCodeRepository");
-var MeliTokenRepository_1 = require("@modules/meliAuth/repositories/implementations/MeliTokenRepository");
-tsyringe_1.container.registerSingleton("OffersRepository", //Nome do container
-OffersRepository_1.OffersRepository //Clase que ele chama
+var _tsyringe = require("tsyringe");
+
+var _OffersRepository = require("../../modules/offers/infra/typeorm/repositories/OffersRepository");
+
+var _UsersRepository = require("../../modules/accounts/repositories/implementations/UsersRepository");
+
+var _SellersRepository = require("../../modules/sellers/repositories/implementations/SellersRepository");
+
+var _SkusRepository = require("../../modules/skus/repositories/implementations/SkusRepository");
+
+var _SalesChannelsRepository = require("../../modules/sellers/repositories/implementations/SalesChannelsRepository");
+
+var _DatapointsRepository = require("../../modules/offers/infra/typeorm/repositories/DatapointsRepository");
+
+var _MeliAuthCodeRepository = require("../../modules/meliAuth/repositories/implementations/MeliAuthCodeRepository");
+
+var _MeliTokenRepository = require("../../modules/meliAuth/repositories/implementations/MeliTokenRepository");
+
+_tsyringe.container.registerSingleton("OffersRepository", //Nome do container
+_OffersRepository.OffersRepository //Clase que ele chama
 );
-tsyringe_1.container.registerSingleton("DatapointsRepository", //Nome do container
-DatapointsRepository_1.DatapointsRepository //Classe que ele chama
+
+_tsyringe.container.registerSingleton("DatapointsRepository", //Nome do container
+_DatapointsRepository.DatapointsRepository //Classe que ele chama
 );
-tsyringe_1.container.registerSingleton("UsersRepository", //Nome do container
-UsersRepository_1.UsersRepository //Clase que ele chama
+
+_tsyringe.container.registerSingleton("UsersRepository", //Nome do container
+_UsersRepository.UsersRepository //Clase que ele chama
 );
-tsyringe_1.container.registerSingleton("SellersRepository", //Nome do container
-SellersRepository_1.SellersRepository //Classe que ele chama
+
+_tsyringe.container.registerSingleton("SellersRepository", //Nome do container
+_SellersRepository.SellersRepository //Classe que ele chama
 );
-tsyringe_1.container.registerSingleton("SalesChannelsRepository", //Nome do container
-SalesChannelsRepository_1.SalesChannelsRepository //Classe que ele chama
+
+_tsyringe.container.registerSingleton("SalesChannelsRepository", //Nome do container
+_SalesChannelsRepository.SalesChannelsRepository //Classe que ele chama
 );
-tsyringe_1.container.registerSingleton("SkusRepository", //Nome do container
-SkusRepository_1.SkusRepository //Classe que ele chama
+
+_tsyringe.container.registerSingleton("SkusRepository", //Nome do container
+_SkusRepository.SkusRepository //Classe que ele chama
 );
-tsyringe_1.container.registerSingleton("SkusRepository", //Nome do container
-SkusRepository_1.SkusRepository //Classe que ele chama
+
+_tsyringe.container.registerSingleton("SkusRepository", //Nome do container
+_SkusRepository.SkusRepository //Classe que ele chama
 );
-tsyringe_1.container.registerSingleton("MeliAuthCodeRepository", //Nome do container
-MeliAuthCodeRepository_1.MeliAuthCodeRepository //Classe que ele chama
+
+_tsyringe.container.registerSingleton("MeliAuthCodeRepository", //Nome do container
+_MeliAuthCodeRepository.MeliAuthCodeRepository //Classe que ele chama
 );
-tsyringe_1.container.registerSingleton("MeliTokenRepository", //Nome do container
-MeliTokenRepository_1.MeliTokenRepository //Classe que ele chama
+
+_tsyringe.container.registerSingleton("MeliTokenRepository", //Nome do container
+_MeliTokenRepository.MeliTokenRepository //Classe que ele chama
 );

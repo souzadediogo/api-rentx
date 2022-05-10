@@ -9,7 +9,6 @@ interface ICreateUserDTO {
     created_at: Date;
 }
 
-
 @Entity("users")
 class User {
     @PrimaryColumn('uuid')

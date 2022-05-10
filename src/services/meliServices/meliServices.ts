@@ -1,13 +1,14 @@
 import axios from 'axios';
-import { myUrls } from '@shared/urls.ts';
 import { IRequestOffer } from '@modules/offers/useCases/createOffer/CreateOfferUseCase'
-import { MercadoLivreRequests } from '@requests/axios/mercadoLivre'
 import { AppError } from '@errors/AppError';
 import { SimpleConsoleLogger } from 'typeorm';
 import { ICreateOffersDTO } from '@modules/offers/repositories/IOffersRepository';
-import { OfferServices } from '@services/offerServices/offerServices';
 import { IDatapointDTO } from '@modules/offers/repositories/IDatapointsRepository';
+import { MercadoLivreRequests } from '@requests/axios/mercadoLivre';
+import { OfferServices } from '@services/offerServices/offerServices';
 import { IntelligenceSuiteRequests } from '@requests/axios/intelligenceSuiteAPI';
+import { myUrls } from '@shared/urls';
+
 
 interface IMeliOffer {
   id: string;                                //offerID
@@ -53,9 +54,9 @@ class MeliServices {
             client_secret: 'nrVrt6dzYjTGFibMhJA5CqrFbrEpyoRH',
             refresh_token: 'TG-625c33b542bac7001b6865b5-473621462', //TG-625c328bed9fa8001ba19dd3-473621462
           }        
-        }).catch((e)=>{console.log(e)});
+        })
+        //.catch((e)=>{console.log(e)});
         return res.data.access_token;
-          
     }
 
     //Return all existing offers from meli in given channel
@@ -117,7 +118,7 @@ class MeliServices {
                       }
                   })
                   for(let meliOffer in response.data){
-                    myOffers.push(response.data[meliOffer].body); 
+                    myOffersAdditionalInfo.push(response.data[meliOffer].body); 
                   }
               }catch(e){
                 console.log(e);  
@@ -228,7 +229,7 @@ class MeliServices {
           offer: {"id": `${await offerUUID}`},
           offerid: meliOffer.id,
           price: meliOffer.price,
-          offerStatus: meliOffer.status,
+          offerStatus: "no status available",
           basePrice: meliOffer?.base_price,
           originalPrice: meliOffer?.original_price,
           availableQty: meliOffer?.available_quantity,

@@ -23,7 +23,6 @@ var jobRefreshMeliAcessToken = new CronJob('* * * * *', function() {            
   }, null, true, 'America/Los_Angeles');
 
 
-
-// jobGetDailyData.start();
-// jobMeliServicesUpdateOffersFromSellers.start();
-// jobRefreshMeliAcessToken.start();
+jobGetDailyData.start();
+jobMeliServicesUpdateOffersFromSellers.start();
+jobRefreshMeliAcessToken.start();

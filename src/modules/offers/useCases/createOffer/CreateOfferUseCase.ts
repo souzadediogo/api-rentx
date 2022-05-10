@@ -67,4 +67,4 @@ class CreateOfferUseCase {
     }
 }
 
-export { CreateOfferUseCase, IRequestOffer, IItems }
+export { CreateOfferUseCase, IRequestOffer }
