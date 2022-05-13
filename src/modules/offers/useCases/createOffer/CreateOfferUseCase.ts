@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
+import { IOffersRepository } from '@modules/offers/interfaces/IOffersRepository';
 import { AppError } from "@errors/AppError";
-import { IOffersRepository } from '@modules/offers/repositories/IOffersRepository';
-import { ICreateOffersDTO } from '@modules/offers/repositories/IOffersRepository'
+import { ICreateOffersDTO } from '@modules/offers/interfaces/IOffersRepository'
 
 interface IRequestOffer {
     id?: string;

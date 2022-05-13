@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { myUrls } from '@shared/urls';
 import { IRequestOffer } from '@modules/offers/useCases/createOffer/CreateOfferUseCase'
-import { ICreateOffersDTO } from '@modules/offers/repositories/IOffersRepository';
+import { ICreateOffersDTO } from '@modules/offers/interfaces/IOffersRepository';
 import { AppError } from '@errors/AppError';
 import { MercadoLivreRequests } from '@requests/axios/mercadoLivre'
 import { IntelligenceSuiteRequests } from '@requests/axios/intelligenceSuiteAPI'

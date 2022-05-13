@@ -1,5 +1,5 @@
 import { AppError } from '@errors/AppError';
-import { ICreateOffersDTO } from '@modules/offers/repositories/IOffersRepository';
+import { ICreateOffersDTO } from '@modules/offers/interfaces/IOffersRepository';
 import { myUrls } from '@shared/urls';
 import { IMeliOffer } from '@services/meliServices/meliServices'
 import { IntelligenceSuiteRequests } from '@requests/axios/intelligenceSuiteAPI'

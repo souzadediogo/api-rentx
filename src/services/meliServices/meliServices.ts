@@ -2,8 +2,8 @@ import axios from 'axios';
 import { IRequestOffer } from '@modules/offers/useCases/createOffer/CreateOfferUseCase'
 import { AppError } from '@errors/AppError';
 import { SimpleConsoleLogger } from 'typeorm';
-import { ICreateOffersDTO } from '@modules/offers/repositories/IOffersRepository';
-import { IDatapointDTO } from '@modules/offers/repositories/IDatapointsRepository';
+import { ICreateOffersDTO } from '@modules/offers/interfaces/IOffersRepository';
+import { IDatapointDTO } from '@modules/offers/interfaces/IDatapointsRepository';
 import { MercadoLivreRequests } from '@requests/axios/mercadoLivre';
 import { OfferServices } from '@services/offerServices/offerServices';
 import { IntelligenceSuiteRequests } from '@requests/axios/intelligenceSuiteAPI';
@@ -67,7 +67,7 @@ class MeliServices {
       const paging: IPaging = results.data.paging;
       let currentOffset = 0;
       var sellerOffers = [];
-        while(currentOffset<200){    //!! paging.total          
+        while(currentOffset<105 ){    //!! paging.total          
 
           var offers = await mercadoLivreRequests.searchSellerOffers(channelSellerID, currentOffset);
           for(let offer in offers){
@@ -218,13 +218,15 @@ class MeliServices {
       let apiBaseUrl = axios.create({
         baseURL: myUrls.appBaseUrl
       });
-      const MAX_CONCURRENT_REQUESTS = 50;
+      const MAX_CONCURRENT_REQUESTS = 10;
       const manager = ConcurrencyManager(apiBaseUrl, MAX_CONCURRENT_REQUESTS);
       let offerArrayWithID = [];    
       
-      let mappedItems = Promise.all(offerArray.map(meliOffer => 
-        apiBaseUrl.get(`/offers?offerID=${meliOffer.id}`, { timeout: 20000})
+      let mappedItems = await Promise.all(offerArray.map(meliOffer => 
+        apiBaseUrl.get(`/offers?offerID=${meliOffer.id}`)
       )).then(responses =>{
+        //Na refatoração terá um array de offerIDs no response
+        //ai preciso de um for of antes mapeando o uuid para cada meliOffer antes de dar um push nelas
         let items = []
         responses.forEach((response)=>{
           offerArrayWithID.push({offerUUID: response.data[0].id, offerID: response.data[0].offerID})
@@ -253,6 +255,7 @@ class MeliServices {
         // console.log(`items`, items)
         return items
         })
+        console.log(`mappedItems length:`, mappedItems.length)
       return mappedItems;
       manager.detach()
       
@@ -326,7 +329,7 @@ class MeliServices {
     async saveBatchDailyData(batchOfDailyData: Array<IDatapointDTO>){
       const intelligenceSuiteRequests = new IntelligenceSuiteRequests();
         let add = 100
-        // console.log(`Batch size: ${batchOfDailyData.length}`)
+        console.log(`Batch size: ${batchOfDailyData.length}`)
         for(let currentStartPosition =0; 
           currentStartPosition<batchOfDailyData.length; 
           currentStartPosition+add){

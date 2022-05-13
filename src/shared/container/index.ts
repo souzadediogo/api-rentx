@@ -1,5 +1,5 @@
 import { container } from "tsyringe";
-import { IOffersRepository } from "@modules/offers/repositories/IOffersRepository";
+import { IOffersRepository } from "@modules/offers/interfaces/IOffersRepository";
 import { OffersRepository } from "@modules/offers/infra/typeorm/repositories/OffersRepository";
 import { UsersRepository } from "@modules/accounts/repositories/implementations/UsersRepository";
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
@@ -9,7 +9,7 @@ import { SkusRepository } from "@modules/skus/repositories/implementations/SkusR
 import { ISkusRepository } from "@modules/skus/repositories/ISkusRepository";
 import { ISalesChannelsRepository } from "@modules/sellers/repositories/ISalesChannelsRepository";
 import { SalesChannelsRepository } from "@modules/sellers/repositories/implementations/SalesChannelsRepository";
-import { IDatapointsRepository } from "@modules/offers/repositories/IDatapointsRepository";
+import { IDatapointsRepository } from "@modules/offers/interfaces/IDatapointsRepository";
 import { DatapointsRepository } from "@modules/offers/infra/typeorm/repositories/DatapointsRepository";
 import { IMeliAuthCodeRepository } from '@modules/meliAuth/repositories/IMeliAuthCodeRepository';
 import { MeliAuthCodeRepository } from '@modules/meliAuth/repositories/implementations/MeliAuthCodeRepository';

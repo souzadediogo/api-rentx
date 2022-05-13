@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { AppError } from "@errors/AppError";
-import { IDatapointsRepository } from '@modules/offers/repositories/IDatapointsRepository';
-import { Datapoint } from "@modules/offers/entities/Datapoint";
+import { IDatapointsRepository } from '@modules/offers/interfaces/IDatapointsRepository';
+import { Datapoint } from "@modules/offers/infra/typeorm/entities/Datapoint";
 
 interface IRequest {
     offerid: string; 

@@ -1,5 +1,5 @@
 import { Seller } from "../../entities/Seller";
-import { IOffersRepository } from "@modules/offers/repositories/IOffersRepository";
+import { IOffersRepository } from "@modules/offers/interfaces/IOffersRepository";
 import { inject, injectable } from "tsyringe";
 
 interface IRequest {

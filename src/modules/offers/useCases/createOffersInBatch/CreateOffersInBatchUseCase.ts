@@ -1,13 +1,11 @@
 import { inject, injectable } from "tsyringe";
 import { AppError } from "@errors/AppError";
-import { IOffersRepository } from '@modules/offers/repositories/IOffersRepository';
-import { ICreateOffersDTO } from '@modules/offers/repositories/IOffersRepository'
+import { IOffersRepository } from '@modules/offers/interfaces/IOffersRepository';
+import { ICreateOffersDTO } from '@modules/offers/interfaces/IOffersRepository'
 
 
 
-interface IItems {
-    items: Array<ICreateOffersDTO>
-}
+
 
 @injectable()
 class CreateOffersInBatchUseCase {
@@ -29,4 +27,4 @@ class CreateOffersInBatchUseCase {
     }
 }
 
-export { CreateOffersInBatchUseCase, IItems }
+export { CreateOffersInBatchUseCase }

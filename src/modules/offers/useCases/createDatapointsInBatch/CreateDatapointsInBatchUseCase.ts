@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { AppError } from "@errors/AppError";
-import { IDatapointsBatch, IDatapointsRepository } from "@modules/offers/repositories/IDatapointsRepository";
-import { IDatapointDTO } from "../../repositories/IDatapointsRepository";
+import { IDatapointsBatch, IDatapointsRepository } from "@modules/offers/interfaces/IDatapointsRepository";
+import { IDatapointDTO } from "@modules/offers/interfaces/IDatapointsRepository";
 
 @injectable()
 class CreateDatapointsInBatchUseCase {

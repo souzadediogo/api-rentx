@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { CreateOfferUseCase, IRequestOffer, IItems } from '@modules/offers/useCases/createOffer/CreateOfferUseCase';
-import { ICreateOffersDTO } from '@modules/offers/repositories/IOffersRepository'
+import { CreateOfferUseCase, IRequestOffer } from '@modules/offers/useCases/createOffer/CreateOfferUseCase';
+import { ICreateOffersDTO } from '@modules/offers/interfaces/IOffersRepository'
 import { container } from "tsyringe";
-
+import { IItems } from '@modules/offers/interfaces/IOffersRepository';
 
 
 

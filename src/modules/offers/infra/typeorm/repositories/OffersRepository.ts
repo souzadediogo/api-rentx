@@ -1,8 +1,8 @@
 import { Offer } from '@modules/offers/infra/typeorm/entities/Offer';
-import { IOffersRepository, ICreateOffersDTO } from '../IOffersRepository';
+import { IOffersRepository, ICreateOffersDTO, IItems } from '@modules/offers/interfaces/IOffersRepository';
 import { getRepository, Repository } from 'typeorm';
-import { IItems } from '@modules/offers/useCases/createOffer/CreateOfferUseCase'
-import { IOfferIDsTupleArray } from '@modules/offers/repositories/IOffersRepository';
+import { IOfferIDsTupleArray } from '@modules/offers/interfaces/IOffersRepository';
+
 //DTO -> Data 
 
 
@@ -141,13 +141,11 @@ class OffersRepository implements IOffersRepository {
         
         let items = offerIDsArray.map(async (offer)=>{
             return {
-                offer: {
                     offerID: offer,
                     uuid: await this.listOfferByOfferID(offer)
-                }
             }
         })
-        return 
+        return await items
     }
 };
 

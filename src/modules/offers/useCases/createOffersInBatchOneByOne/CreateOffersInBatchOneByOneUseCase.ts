@@ -1,13 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { AppError } from "@errors/AppError";
-import { IOffersRepository } from '@modules/offers/repositories/IOffersRepository';
-import { ICreateOffersDTO } from '@modules/offers/repositories/IOffersRepository'
+import { IOffersRepository, IItems } from '@modules/offers/interfaces/IOffersRepository';
 
-
-
-interface IItems {
-    items: Array<ICreateOffersDTO>
-}
 
 interface ICreateOfferResponse{
     status: number;
