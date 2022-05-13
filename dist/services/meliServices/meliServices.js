@@ -80,9 +80,9 @@ class MeliServices {
     let add = 20;
 
     for (let currentStartPosition = 0; currentStartPosition < arrayOfMLBs.length; currentStartPosition + add) {
-      console.log(`Starting ${currentStartPosition}/${arrayOfMLBs.length}`);
+      // console.log(`Starting ${currentStartPosition}/${arrayOfMLBs.length}`);
       let currentStopPosition = currentStartPosition + add;
-      console.log(`In 3 mapMeliOfferArrayToInterface`);
+      // console.log(`In 3 mapMeliOfferArrayToInterface`);
 
       if (arrayOfMLBs.length < add) {
         let lastPositionInArray = arrayOfMLBs.length - 1;
@@ -256,7 +256,7 @@ class MeliServices {
     let add = 20;
 
     for (let currentStartPosition = 0; currentStartPosition < arrayOfMLBs.length; currentStartPosition + add) {
-      console.log(`Starting ${currentStartPosition}/${arrayOfMLBs.length}`);
+      // console.log(`Starting ${currentStartPosition}/${arrayOfMLBs.length}`);
       let currentStopPosition = currentStartPosition + add;
 
       if (arrayOfMLBs.length < add) {
@@ -322,7 +322,7 @@ class MeliServices {
 
     for (let currentStartPosition = 0; currentStartPosition < batchOfDailyData.length; currentStartPosition + add) {
       let currentStopPosition = currentStartPosition + add;
-      console.log(`Starting ${currentStartPosition}/${batchOfDailyData.length}`);
+      // console.log(`Starting ${currentStartPosition}/${batchOfDailyData.length}`);
 
       if (batchOfDailyData.length < add) {
         let lastPositionInArray = batchOfDailyData.length - 1;
@@ -341,7 +341,7 @@ class MeliServices {
           });
         }
       } else {
-        console.log(`Starting ${currentStartPosition}/${batchOfDailyData.length}`);
+        // console.log(`Starting ${currentStartPosition}/${batchOfDailyData.length}`);
         let arrayToPost = batchOfDailyData.slice(currentStartPosition, currentStopPosition);
 
         try {

@@ -55,7 +55,7 @@ async function updateOffersFromSellers(){
                                 let mappedArrayOfNewOffers = mappedArray.filter(offer => {
                                     return newOfferIDs.indexOf(offer.offerID) !== -1;
                                 });
-                                console.log(`New Offers to Create: ${mappedArrayOfNewOffers.length} `);
+                                console.log(`to Create: ${mappedArrayOfNewOffers.length} `);
                                 offerServices.saveNewMeliOffersInBatch(mappedArrayOfNewOffers)
                                 console.log(`Offers to update: ${mappedArrayOfExistingOffers.length} `);
                         })

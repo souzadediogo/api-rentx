@@ -127,8 +127,8 @@ class OfferServices {
 
     for (let currentStartPosition = 0; currentStartPosition < newOffersArray.length; currentStartPosition + add) {
       let currentStopPosition = currentStartPosition + add;
-      console.log(`currentStartPosition: ${currentStartPosition}`);
-      console.log(`currentStopPosition: ${currentStopPosition}`);
+      // console.log(`currentStartPosition: ${currentStartPosition}`);
+      // console.log(`currentStopPosition: ${currentStopPosition}`);
 
       if (newOffersArray.length < add) {
         let lastPositionInArray = newOffersArray.length - 1;

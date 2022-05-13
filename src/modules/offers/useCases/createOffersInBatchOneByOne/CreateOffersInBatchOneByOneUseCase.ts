@@ -26,7 +26,7 @@ class CreateOffersInBatchOneByOneUseCase {
         for(let offer in items.items){
             let offerAlreadyExists = await this.offersRepository.listOfferByOfferID(items.items[offer].offerID);
             if(!offerAlreadyExists){
-                console.log(items.items[offer])
+                // console.log(items.items[offer])
                 await this.offersRepository.create(
                     items.items[offer]
                 );    

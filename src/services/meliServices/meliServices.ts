@@ -8,7 +8,7 @@ import { MercadoLivreRequests } from '@requests/axios/mercadoLivre';
 import { OfferServices } from '@services/offerServices/offerServices';
 import { IntelligenceSuiteRequests } from '@requests/axios/intelligenceSuiteAPI';
 import { myUrls } from '@shared/urls';
-
+import { ConcurrencyManager } from 'axios-concurrency';
 
 interface IMeliOffer {
   id: string;                                //offerID
@@ -67,7 +67,7 @@ class MeliServices {
       const paging: IPaging = results.data.paging;
       let currentOffset = 0;
       var sellerOffers = [];
-        while(currentOffset<60){    //!! paging.total          
+        while(currentOffset<200){    //!! paging.total          
 
           var offers = await mercadoLivreRequests.searchSellerOffers(channelSellerID, currentOffset);
           for(let offer in offers){
@@ -86,7 +86,7 @@ class MeliServices {
     }
 
     async mapMeliOfferArrayToInterface(channelSellerID, sellerUUID, offerArray:Array<IMeliOffer>):Promise<ICreateOffersDTO[]>{
-      console.log(`In mapMeliOfferArrayToInterface`);
+      // console.log(`In mapMeliOfferArrayToInterface`);
       const mercadoLivreRequests = new MercadoLivreRequests();
       let meliAccessToken = await  mercadoLivreRequests.listMeliAccessToken();
       const offerServices = new OfferServices();
@@ -94,14 +94,11 @@ class MeliServices {
         return offer.id;
       });
 
-
       ////////////////////////////////////////////////////
       var myOffersAdditionalInfo = [];
       let add = 20
         for(let currentStartPosition =0; currentStartPosition<arrayOfMLBs.length; currentStartPosition+add){
-          console.log(`Starting ${currentStartPosition}/${arrayOfMLBs.length}`)  
           let currentStopPosition = currentStartPosition+add;
-          console.log(`In 3 mapMeliOfferArrayToInterface`);
             if(arrayOfMLBs.length<add){
                 let lastPositionInArray = arrayOfMLBs.length-1;
                 let arrayToGet = arrayOfMLBs.slice(0,lastPositionInArray);
@@ -143,8 +140,7 @@ class MeliServices {
                   }
                   
               }catch(e){
-                console.log(e);
-                
+                console.log(e);         
               }  
             }
             currentStartPosition+=add;
@@ -152,23 +148,26 @@ class MeliServices {
         }
       let organizedNewInfo = [];
       for(let addInfo of myOffersAdditionalInfo){
-        // console.log(`addinfo:`, addInfo)
-        let id = addInfo.id;
+        let id = addInfo?.id || null;
         let brand;
         let model;
         let gtin;
         let color;
         // Search attributes for desired offer
-        for(let item of addInfo.attributes){
-          if(item.id =='BRAND'){
-            brand = item.value_name;
-          } else if(item.id =='MODEL'){
-            model = item.value_name;
-          }else if(item.id =='GTIN'){
-            gtin = item.value_name;
-          } else if(item.id =='COLOR'){
-            color = item.value_name;
-          }
+
+        // console.log(`addInfo.attributes`, addInfo.attributes)
+        if(addInfo?.attributes){
+          for(let item of addInfo.attributes){
+            if(item.id =='BRAND'){
+              brand = item.value_name;
+            } else if(item.id =='MODEL'){
+              model = item.value_name;
+            }else if(item.id =='GTIN'){
+              gtin = item.value_name;
+            } else if(item.id =='COLOR'){
+              color = item.value_name;
+            }
+          }          
         }
         organizedNewInfo.push({id,brand,model,gtin,color})
       }
@@ -185,10 +184,6 @@ class MeliServices {
             break;
           } 
         }
-        // console.log(`currentAddInfo`, currentAddInfo);
-
-        // let offerUUID = await offer[0].id;
-        console.log(`Retrieving UUID ${count}/${offerArray.length}`)
         let currentOffer = {
           seller: {id: `${sellerUUID}`},
           offerTitle: meliOffer.title,
@@ -204,55 +199,76 @@ class MeliServices {
           catalog_listing: meliOffer?.catalogue_listing,
           catalog_product_id: meliOffer?.catalog_product_id,
           listing_type_id: meliOffer?.listing_type_id,
-          brandInChannel: currentAddInfo.brand,
-          modelInChannel: currentAddInfo.model
+          brandInChannel: currentAddInfo?.brand,
+          modelInChannel: currentAddInfo?.model
         }
         items.push(currentOffer);
         count++
       }
       console.log(`items length: ${items.length}`);
-      console.log(`items`, items)
+      // console.log(`items`, items)
       return items;
     };
 
     async mapMeliOfferArrayToDailyDataInterface(channelSellerID, offerArray:Array<IMeliOffer>):Promise<IDatapointDTO[]>{
       const offerServices = new OfferServices();
-
       //buscar offer UUID da ofertas
-      let items = []
       let count = 1;
-      for(const meliOffer of offerArray){
-        let offer = await offerServices.getOfferByOfferID(meliOffer.id); //offerArray[0].id
-        let offerUUID = await offer[0].id;
-        console.log(`Retrieving UUID ${count}/${offerArray.length}`)
-        let currentOffer = {
-          offer: {"id": `${await offerUUID}`},
-          offerid: meliOffer.id,
-          price: meliOffer.price,
-          offerStatus: "no status available",
-          basePrice: meliOffer?.base_price,
-          originalPrice: meliOffer?.original_price,
-          availableQty: meliOffer?.available_quantity,
-          soldQty: meliOffer?.sold_quantity,
-        }
+     
+      let apiBaseUrl = axios.create({
+        baseURL: myUrls.appBaseUrl
+      });
+      const MAX_CONCURRENT_REQUESTS = 50;
+      const manager = ConcurrencyManager(apiBaseUrl, MAX_CONCURRENT_REQUESTS);
+      let offerArrayWithID = [];    
+      
+      let mappedItems = Promise.all(offerArray.map(meliOffer => 
+        apiBaseUrl.get(`/offers?offerID=${meliOffer.id}`, { timeout: 20000})
+      )).then(responses =>{
+        let items = []
+        responses.forEach((response)=>{
+          offerArrayWithID.push({offerUUID: response.data[0].id, offerID: response.data[0].offerID})
+        })
+        for(const meliOffer of offerArray){
+          let offerUUID;
+          for(const offer of offerArrayWithID){
+            if(offer.offerID == meliOffer.id){
+              offerUUID = offer.offerUUID;
+              break;
+            }
+          }
+          let currentOffer = {
+            offer: {"id": `${offerUUID}`},
+            offerid: meliOffer.id,
+            price: meliOffer.price,
+            offerStatus: "no status available",
+            basePrice: meliOffer?.base_price,
+            originalPrice: meliOffer?.original_price,
+            availableQty: meliOffer?.available_quantity,
+            soldQty: meliOffer?.sold_quantity,
+          }
         items.push(currentOffer);
-        count++
-      }
-
-      console.log(`items length: ${items.length}`);
-      return items;
+        // console.log(`currentOffer`, currentOffer);
+        }
+        // console.log(`items`, items)
+        return items
+        })
+      return mappedItems;
+      manager.detach()
+      
+      // return items; 
     };
 
     async multiGetBatchOfOffers(arrayOfMLBs: Array<string>):Promise<IMeliOffer[]>{
       const mercadoLivreRequests = new MercadoLivreRequests();
       let meliAccessToken = await  mercadoLivreRequests.listMeliAccessToken();
-      console.log(`MeliToken: ${meliAccessToken}`);
-      console.log(`Array has ${arrayOfMLBs.length} MLBs`)
+      // console.log(`MeliToken: ${meliAccessToken}`);
+      // console.log(`Array has ${arrayOfMLBs.length} MLBs`)
       //Slice array and calls request passing 20 MLBs per cicle
       var myOffers = [];
       let add = 20
         for(let currentStartPosition =0; currentStartPosition<arrayOfMLBs.length; currentStartPosition+add){
-          console.log(`Starting ${currentStartPosition}/${arrayOfMLBs.length}`)  
+          // console.log(`Starting ${currentStartPosition}/${arrayOfMLBs.length}`)  
           let currentStopPosition = currentStartPosition+add;
 
 
@@ -310,13 +326,13 @@ class MeliServices {
     async saveBatchDailyData(batchOfDailyData: Array<IDatapointDTO>){
       const intelligenceSuiteRequests = new IntelligenceSuiteRequests();
         let add = 100
-        console.log(`Batch size: ${batchOfDailyData.length}`)
+        // console.log(`Batch size: ${batchOfDailyData.length}`)
         for(let currentStartPosition =0; 
           currentStartPosition<batchOfDailyData.length; 
           currentStartPosition+add){
             
             let currentStopPosition = currentStartPosition+add;
-            console.log(`Starting ${currentStartPosition}/${batchOfDailyData.length}`)  
+            // console.log(`Starting ${currentStartPosition}/${batchOfDailyData.length}`)  
             
             if(batchOfDailyData.length<add){
                 let lastPositionInArray = batchOfDailyData.length-1;
@@ -336,7 +352,7 @@ class MeliServices {
               }
 
             } else {
-                console.log(`Starting ${currentStartPosition}/${batchOfDailyData.length}`)  
+                // console.log(`Starting ${currentStartPosition}/${batchOfDailyData.length}`)  
                 let arrayToPost = batchOfDailyData.slice(currentStartPosition,currentStopPosition)
                 try{
                   axios.post(`${myUrls.appBaseUrl}/offers/datapoints`,{
@@ -362,3 +378,13 @@ class MeliServices {
 }
 
 export { MeliServices, IMeliOffer }
+
+
+
+
+// const LoadDataWithPromiseAll = async () => {
+//   const promisses = arr.map((i)=>
+//     fetch(`http://asdsada/${i}`)
+//   );
+//   const results = await Promise.all(promisses);
+// }

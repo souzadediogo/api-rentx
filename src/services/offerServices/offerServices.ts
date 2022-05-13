@@ -5,6 +5,7 @@ import { ICreateOffersDTO } from '@modules/offers/repositories/IOffersRepository
 import { AppError } from '@errors/AppError';
 import { MercadoLivreRequests } from '@requests/axios/mercadoLivre'
 import { IntelligenceSuiteRequests } from '@requests/axios/intelligenceSuiteAPI'
+import { ConcurrencyManager } from 'axios-concurrency';
 
 
 class OfferServices {
@@ -20,7 +21,9 @@ class OfferServices {
 
     async getOfferByOfferID(offerID: string){
         const intelligenceSuiteRequests = new IntelligenceSuiteRequests();
+  
         try {
+            // apiBaseUrl.get(`/offers?offerID=${meliOffer.id}`)
             const offer = await intelligenceSuiteRequests.getOfferByOfferID(offerID);        
             return offer.data
         }catch(e){
@@ -66,11 +69,11 @@ class OfferServices {
     }
     //Cria novas ofertas que ainda não existem na base do canal
     async saveNewMeliOffers(newOffersArray: Array<IRequestOffer>){
-        console.log(`newOffersArray has ${newOffersArray.length} offers to save`)
+        // console.log(`newOffersArray has ${newOffersArray.length} offers to save`)
         
         for(let offer in newOffersArray){
             let offerInfo = newOffersArray[offer];
-            console.log(`Saving: ${newOffersArray[offer].offerID}`)
+            // console.log(`Saving: ${newOffersArray[offer].offerID}`)
 
             var options = {
                 method: 'POST',
@@ -97,7 +100,7 @@ class OfferServices {
             };
     
             axios.request(options).then(function (response) {
-                console.log(response.data);
+                // console.log(response.data);
             }).catch(function (error) {
                 console.error(error);
             });
@@ -113,8 +116,8 @@ class OfferServices {
             
             let currentStopPosition = currentStartPosition+add;
 
-            console.log(`currentStartPosition: ${currentStartPosition}`);
-            console.log(`currentStopPosition: ${currentStopPosition}`);
+            // console.log(`currentStartPosition: ${currentStartPosition}`);
+            // console.log(`currentStopPosition: ${currentStopPosition}`);
             if(newOffersArray.length<add){
                 let lastPositionInArray = newOffersArray.length-1;
                 let arrayToPost = newOffersArray.slice(0,lastPositionInArray)
@@ -153,7 +156,7 @@ class OfferServices {
                 };
                 
                 axios.request(options).then(function (response) {
-                    console.log(response.data);
+                    // console.log(response.data);
                 }).catch(function (error) {
                     console.error(error);
                 });        
@@ -190,7 +193,7 @@ class OfferServices {
                 };
                 
                 axios.request(options).then(function (response) {
-                    console.log(response.data);
+                    // console.log(response.data);
                 }).catch(function (error) {
                     console.error(error);
                 });
@@ -229,7 +232,7 @@ class OfferServices {
                 }
             };
             axios.request(options).then(function (response) {
-                console.log(response.data);
+                // console.log(response.data);
             }).catch(function (error) {
                 console.error(error);
             });

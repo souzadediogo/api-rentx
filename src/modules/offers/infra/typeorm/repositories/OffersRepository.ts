@@ -62,7 +62,7 @@ class OffersRepository implements IOffersRepository {
                 }
 
             )
-            console.log("offer", offer)
+            // console.log("offer", offer)
             await this.repository.save(offer);
     }
 

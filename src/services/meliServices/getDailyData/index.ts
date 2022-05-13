@@ -6,9 +6,10 @@ const meliServices = new MeliServices();
 const offerServices = new OfferServices();
 
 async function getDailyData(){
-    
+        console.log(`1`)
     //Search all salesChannels and saves to array channelIds
         const res = await offerServices.getSalesChannels('na', 'meli');
+        console.log(`2`)
         const mySalesChannels = res.data;
         const channelIds = [];
         for(let channel in mySalesChannels){
@@ -26,12 +27,15 @@ async function getDailyData(){
                 }
                 console.log(`Starting to fetch offers in Meli from channel ${currentChannel}`)
                 meliServices.multiGetBatchOfOffers(myMLBs).then( (res2) => {
-                    console.log('res2', `${res2.length}`)
+                    // console.log('res2', `${res2.length}`)
                     console.log(`Finished fetching offers in Meli from channel ${currentChannel}`);
-                    console.log(currentChannel)
+                    console.log(`Current Channel:`, currentChannel)
                     //Mapear Array<MeliOffer[]> para array de createdailydata
+                    // console.log(`array in res2:`, res2)
                     meliServices.mapMeliOfferArrayToDailyDataInterface(currentChannel, res2).then((res3)=>{
+                        // console.log("res3", res3)
                         console.log(`res3 in savebatch has ${res3.length} offers`)
+                        
                         meliServices.saveBatchDailyData(res3).then((res4)=>{
                             console.log(`Done saving`)
                         }, err =>{

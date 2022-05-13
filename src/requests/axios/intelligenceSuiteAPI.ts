@@ -1,7 +1,11 @@
 import { AppError } from '@errors/AppError';
-import { myUrls } from '@shared/urls';
+import { myUrls, apiBaseUrl } from '@shared/urls';
 import axios from 'axios';
 import { IDatapointDTO } from "@modules/offers/repositories/IDatapointsRepository"
+import { ConcurrencyManager } from "axios-concurrency";
+
+
+
 
 class IntelligenceSuiteRequests {
     async listMeliCodeAndToken(){
@@ -20,8 +24,16 @@ class IntelligenceSuiteRequests {
     }
 
     async getOfferByOfferID(offerID){  //Pelo MLB
+////////////
+        let apiBaseUrl = axios.create({
+            baseURL: "http://localhost:3333"
+          });
+    
+          const MAX_CONCURRENT_REQUESTS = 50;
+          const manager = ConcurrencyManager(apiBaseUrl, MAX_CONCURRENT_REQUESTS);
+////////////  
         try{
-            return axios.get(`${myUrls.appBaseUrl}/offers?offerID=${offerID}`)
+            return apiBaseUrl.get(`/offers?offerID=${offerID}`)
         }catch(e){
             console.log({
                 message: "erro em getOfferByOfferID",
@@ -33,7 +45,7 @@ class IntelligenceSuiteRequests {
             }
         }
       }
-
+      
       async saveBatchDailyDataRequest(batchOfDailyData: Array<IDatapointDTO>){  //Pelo MLB
         try{
             return axios.post(`${myUrls.appBaseUrl}/offers/datapoints`,{

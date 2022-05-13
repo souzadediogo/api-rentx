@@ -77,9 +77,9 @@ class MeliServices {
             var myOffersAdditionalInfo = [];
             let add = 20;
             for (let currentStartPosition = 0; currentStartPosition < arrayOfMLBs.length; currentStartPosition + add) {
-                console.log(`Starting ${currentStartPosition}/${arrayOfMLBs.length}`);
+                // console.log(`Starting ${currentStartPosition}/${arrayOfMLBs.length}`);
                 let currentStopPosition = currentStartPosition + add;
-                console.log(`In 3 mapMeliOfferArrayToInterface`);
+                // console.log(`In 3 mapMeliOfferArrayToInterface`);
                 if (arrayOfMLBs.length < add) {
                     let lastPositionInArray = arrayOfMLBs.length - 1;
                     let arrayToGet = arrayOfMLBs.slice(0, lastPositionInArray);
@@ -235,7 +235,7 @@ class MeliServices {
             var myOffers = [];
             let add = 20;
             for (let currentStartPosition = 0; currentStartPosition < arrayOfMLBs.length; currentStartPosition + add) {
-                console.log(`Starting ${currentStartPosition}/${arrayOfMLBs.length}`);
+                // console.log(`Starting ${currentStartPosition}/${arrayOfMLBs.length}`);
                 let currentStopPosition = currentStartPosition + add;
                 if (arrayOfMLBs.length < add) {
                     let lastPositionInArray = arrayOfMLBs.length - 1;
@@ -294,10 +294,10 @@ class MeliServices {
         return __awaiter(this, void 0, void 0, function* () {
             const intelligenceSuiteRequests = new intelligenceSuiteAPI_1.IntelligenceSuiteRequests();
             let add = 100;
-            console.log(`Batch size: ${batchOfDailyData.length}`);
+            // console.log(`Batch size: ${batchOfDailyData.length}`);
             for (let currentStartPosition = 0; currentStartPosition < batchOfDailyData.length; currentStartPosition + add) {
                 let currentStopPosition = currentStartPosition + add;
-                console.log(`Starting ${currentStartPosition}/${batchOfDailyData.length}`);
+                // console.log(`Starting ${currentStartPosition}/${batchOfDailyData.length}`);
                 if (batchOfDailyData.length < add) {
                     let lastPositionInArray = batchOfDailyData.length - 1;
                     let arrayToPost = batchOfDailyData.slice(0, lastPositionInArray);
@@ -316,7 +316,7 @@ class MeliServices {
                     }
                 }
                 else {
-                    console.log(`Starting ${currentStartPosition}/${batchOfDailyData.length}`);
+                    // console.log(`Starting ${currentStartPosition}/${batchOfDailyData.length}`);
                     let arrayToPost = batchOfDailyData.slice(currentStartPosition, currentStopPosition);
                     try {
                         axios_1.default.post(`${urls_ts_1.myUrls.appBaseUrl}/offers/datapoints`, {

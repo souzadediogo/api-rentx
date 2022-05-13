@@ -113,7 +113,7 @@ class OfferServices {
             
             let currentStopPosition = currentStartPosition+add;
 
-            console.log(`currentStartPosition: ${currentStartPosition}`);
+            artPosition: ${currentStartPosition}`);
             console.log(`currentStopPosition: ${currentStopPosition}`);
             if(newOffersArray.length<add){
                 let lastPositionInArray = newOffersArray.length-1;

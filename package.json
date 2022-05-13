@@ -23,6 +23,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios-concurrency": "^1.0.4",
     "bcryptjs": "^2.4.3",
     "cron": "^1.8.2",
     "docker": "^1.0.0",
@@ -35,6 +36,7 @@
     "node-schedule": "^2.1.0",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
+    "save": "^2.5.0",
     "swagger-ui-express": "^4.3.0",
     "ts-node-dev": "^1.1.8",
     "tsc-init": "^2.1.0",
@@ -42,7 +44,6 @@
     "typeorm": "^0.2.43",
     "uuid": "^8.3.2"
   },
-
   "devDependencies": {
     "@babel/cli": "^7.13.14",
     "@babel/core": "^7.13.15",
