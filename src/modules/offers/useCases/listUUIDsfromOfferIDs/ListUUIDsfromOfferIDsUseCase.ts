@@ -1,5 +1,5 @@
 import { Offer } from '@modules/offers/infra/typeorm/entities/Offer';
-import { IOfferIDandUUIDTuple, IOffersRepository } from "../../repositories/IOffersRepository";
+import { IOfferIDandUUIDTuple, IOffersRepository } from "../../interfaces/IOffersRepository";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

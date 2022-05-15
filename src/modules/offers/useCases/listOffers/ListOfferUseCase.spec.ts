@@ -1,5 +1,5 @@
 import { ListOfferUseCase } from "./ListOffersUseCase";
-import { OffersRepositoryInMemory } from "../../repositories/in-memory/OffersRepositoryInMemory";
+import { OffersRepositoryInMemory } from "../../interfaces/in-memory/OffersRepositoryInMemory";
 import { AppError } from "../../../../errors/AppError";
 
 let createOfferUseCase: CreateOfferUseCase;

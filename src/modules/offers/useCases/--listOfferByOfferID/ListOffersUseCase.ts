@@ -1,5 +1,5 @@
-import { Offer } from "../../entities/Offer";
-import { IOffersRepository } from "../../repositories/IOffersRepository";
+import { Offer } from '@modules/offers/infra/typeorm/entities/Offer';
+import { IOffersRepository } from "../../interfaces/IOffersRepository";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

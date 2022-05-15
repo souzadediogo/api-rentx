@@ -8,7 +8,7 @@ class ListOffersUseCase {
         @inject("OffersRepository")
         private offersRepository: IOffersRepository) {}
     
-    async execute(sellerUUID, offerID): Promise<Offer[]> {
+    async execute(sellerUUID, offerID: Array<string>): Promise<Offer[]> {
     //   console.log(`USECASE: SellerUUID: ${sellerUUID}`);
     //   console.log(`USECASE: offerID: ${offerID}`);
 
@@ -18,8 +18,16 @@ class ListOffersUseCase {
         
         } else if (offerID) {
             // console.log(`Case OfferID`);
-             let offer = await this.offersRepository.listOfferByOfferID(offerID);
-             return [offer];
+            let offers = []
+            // console.log(`array`, offerID)
+            for(let id of offerID){
+                let thisOffer = await this.offersRepository.listOfferByOfferID(id);
+                // console.log('thisOffer', thisOffer);
+                // console.log('id', id)
+                offers.push(thisOffer);
+            }
+            // console.log('offers', offers)
+             return offers;
         }else {
             // console.log(`Case all`);
             return await this.offersRepository.list();

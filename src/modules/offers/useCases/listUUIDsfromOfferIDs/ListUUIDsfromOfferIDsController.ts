@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { ListUUIDsfromOfferIDsUseCaseUseCase } from './ListUUIDsfromOfferIDsUseCase';
 import { container } from "tsyringe";
-import { IOfferIDsArray } from '../../repositories/IOffersRepository';
+import { IOfferIDsArray } from '../../interfaces/IOffersRepository';
 
 
 class ListOffersController {    

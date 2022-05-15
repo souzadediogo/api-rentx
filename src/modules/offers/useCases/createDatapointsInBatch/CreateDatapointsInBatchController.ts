@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { CreateDatapointUseCase } from '@modules/offers/useCases/createDatapoint/CreateDatapointUseCase';
 import { container } from "tsyringe";
-import { IDatapointDTO, IDatapointsBatch } from '@modules/offers/repositories/IDatapointsRepository';
+import { IDatapointDTO, IDatapointsBatch } from '@modules/offers/interfaces/IDatapointsRepository';
 import { CreateDatapointsInBatchUseCase } from './CreateDatapointsInBatchUseCase';
 
 class CreateDatapointsInBatchController {
