@@ -212,12 +212,13 @@ class MeliServices {
 
     async mapMeliOfferArrayToDailyDataInterface(channelSellerID, offerArray:Array<IMeliOffer>):Promise<IDatapointDTO[]>{
       const offerServices = new OfferServices();
+      console.log(`Started mapping from channel ${channelSellerID}`)
       //buscar offer UUID da ofertas
       let count = 1;
       let offerArrayWithID = [];    
       let batchedArray = []; //This array will contain subarrays of N amount of offers to help retrieve them in batch below
 //////////////////
-      let add = 40
+      let add = 100
       //Separates offer into subArrays to retrieve UUIDs in batch
       for(let currentStartPosition =0; currentStartPosition<offerArray.length; currentStartPosition+add){
         let currentStopPosition = currentStartPosition+add;
@@ -254,7 +255,7 @@ class MeliServices {
       let apiBaseUrl = axios.create({
         baseURL: myUrls.appBaseUrl
       });
-      const MAX_CONCURRENT_REQUESTS = 10;
+      const MAX_CONCURRENT_REQUESTS = 20;
       const manager = ConcurrencyManager(apiBaseUrl, MAX_CONCURRENT_REQUESTS);
       
       let mappedItems = await Promise.all(
@@ -297,6 +298,8 @@ class MeliServices {
           }
           return items
         })
+      console.log(`Finished mapping from channel ${channelSellerID}`)
+ 
       return mappedItems;
       manager.detach()      
     };
