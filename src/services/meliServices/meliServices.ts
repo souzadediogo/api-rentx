@@ -67,7 +67,7 @@ class MeliServices {
       const paging: IPaging = results.data.paging;
       let currentOffset = 0;
       var sellerOffers = [];
-        while(currentOffset<105 ){    //!! paging.total          
+        while(currentOffset<2000 ){    //!! paging.total          
 
           var offers = await mercadoLivreRequests.searchSellerOffers(channelSellerID, currentOffset);
           for(let offer in offers){
@@ -214,52 +214,91 @@ class MeliServices {
       const offerServices = new OfferServices();
       //buscar offer UUID da ofertas
       let count = 1;
-     
+      let offerArrayWithID = [];    
+      let batchedArray = []; //This array will contain subarrays of N amount of offers to help retrieve them in batch below
+//////////////////
+      let add = 40
+      //Separates offer into subArrays to retrieve UUIDs in batch
+      for(let currentStartPosition =0; currentStartPosition<offerArray.length; currentStartPosition+add){
+        let currentStopPosition = currentStartPosition+add;
+          if(offerArray.length<add){
+              let lastPositionInArray = offerArray.length-1;
+              let arrayToGet = offerArray.slice(0,lastPositionInArray);
+              let ids = arrayToGet.map((offer)=>{
+                if(offer.id){
+                  return offer.id
+                }
+              })
+              // console.log(`Current Batch:`, arrayToGet);
+              // console.log(`Current IDS:`, ids);
+              batchedArray.push(ids);
+          } else {
+              let arrayToGet = offerArray.slice(currentStartPosition,currentStopPosition);
+              let ids = arrayToGet.map((offer)=>{
+                if(offer.id){
+                  return offer.id
+                }      
+              })
+              // console.log(`Current Batch:`, arrayToGet);
+              // console.log(`Current IDS:`, ids);
+              batchedArray.push(ids);
+          }
+          currentStartPosition+=add;
+          currentStopPosition+=add;
+      }
+      // console.log('BatchedArray', batchedArray);
+      // console.log('BatchedArray[0]', batchedArray[0]);
+      // console.log('BatchedArray[0].destructured', `${[...batchedArray[0]]}`);
+      // console.log(`Destructured:`, [...])
+      
       let apiBaseUrl = axios.create({
         baseURL: myUrls.appBaseUrl
       });
       const MAX_CONCURRENT_REQUESTS = 10;
       const manager = ConcurrencyManager(apiBaseUrl, MAX_CONCURRENT_REQUESTS);
-      let offerArrayWithID = [];    
       
-      let mappedItems = await Promise.all(offerArray.map(meliOffer => 
-        apiBaseUrl.get(`/offers?offerID=${meliOffer.id}`)
-      )).then(responses =>{
-        //Na refatoração terá um array de offerIDs no response
-        //ai preciso de um for of antes mapeando o uuid para cada meliOffer antes de dar um push nelas
-        let items = []
-        responses.forEach((response)=>{
-          offerArrayWithID.push({offerUUID: response.data[0].id, offerID: response.data[0].offerID})
-        })
-        for(const meliOffer of offerArray){
-          let offerUUID;
-          for(const offer of offerArrayWithID){
-            if(offer.offerID == meliOffer.id){
-              offerUUID = offer.offerUUID;
-              break;
+      let mappedItems = await Promise.all(
+        batchedArray.map(subArray => apiBaseUrl.get(`/offers?offerID=${[...subArray]}`))
+      )
+        .then(responses =>{
+          //Unifica os subarrays retornados acima
+          let allOffersFromResponse = [];
+          responses.forEach((subArray)=>{
+            subArray.data.forEach((offer)=>{
+              allOffersFromResponse.push(offer)
+            });
+          })
+          //Created pairs of offerUUIDs and offerIDs
+          let items = []
+          allOffersFromResponse.forEach((offer)=>{
+            offerArrayWithID.push({offerUUID: offer.id, offerID: offer.offerID})
+          })
+          //Generates offers to save
+          for(const meliOffer of offerArray){
+            let offerUUID;
+            //Finds UUID for each offer 
+            for(const offer of offerArrayWithID){
+              if(offer.offerID == meliOffer.id){
+                offerUUID = offer.offerUUID;
+                break;
+              }
             }
+            let currentOffer = {
+              offer: {"id": `${offerUUID}`},
+              offerid: meliOffer.id,
+              price: meliOffer.price,
+              offerStatus: "no status available",
+              basePrice: meliOffer?.base_price,
+              originalPrice: meliOffer?.original_price,
+              availableQty: meliOffer?.available_quantity,
+              soldQty: meliOffer?.sold_quantity,
+            }
+          items.push(currentOffer);
           }
-          let currentOffer = {
-            offer: {"id": `${offerUUID}`},
-            offerid: meliOffer.id,
-            price: meliOffer.price,
-            offerStatus: "no status available",
-            basePrice: meliOffer?.base_price,
-            originalPrice: meliOffer?.original_price,
-            availableQty: meliOffer?.available_quantity,
-            soldQty: meliOffer?.sold_quantity,
-          }
-        items.push(currentOffer);
-        // console.log(`currentOffer`, currentOffer);
-        }
-        // console.log(`items`, items)
-        return items
+          return items
         })
-        console.log(`mappedItems length:`, mappedItems.length)
       return mappedItems;
-      manager.detach()
-      
-      // return items; 
+      manager.detach()      
     };
 
     async multiGetBatchOfOffers(arrayOfMLBs: Array<string>):Promise<IMeliOffer[]>{
