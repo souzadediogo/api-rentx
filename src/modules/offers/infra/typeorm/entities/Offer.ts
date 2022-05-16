@@ -40,8 +40,14 @@ class Offer {
         eager: true,
         nullable: true
     })
-    @JoinColumn({name: "skus"})      
+    @JoinColumn({name: "skuUUID"})      
     skuID: Sku;      
+
+//    @ManyToOne(() => Offer, offer => offer.datapoints, {
+//        eager: true,
+//    })
+//    @JoinColumn({name: "offerUUID"})      
+//    offer: Offer; 
 
     @Column()
     categoryID: string;

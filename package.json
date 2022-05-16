@@ -15,8 +15,8 @@
     "crons": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/services/crons.ts",
     "test": "jest",
     "migrate": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli migration:run",
-    "createmigration": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli migration:create -n CreateUrlInOffer",
-    "migration:generate": "npm run typeorm migration:generate -- -n AdjustRelationInBrandsAndSkus",
+    "createmigration": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli migration:create -n CorrectRelationsInSKU",
+    "migration:generate": "npm run typeorm migration:generate -- -n CreateFromScratch",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files"
   },
   "keywords": [],

@@ -40,6 +40,9 @@ interface IOfferIDandUUIDTuple {
 interface IOfferIDsTupleArray {
     items: Array<IOfferIDandUUIDTuple>
 }
+interface IItems {
+    items: Array<ICreateOffersDTO>
+}
 
 interface IOffersRepository {
     findByOfferID(offerID: string): Promise<Offer>;
@@ -83,9 +86,7 @@ interface IOffersRepository {
     listUUIDsfromOfferIDs(offerIDsArray): Promise<IOfferIDsTupleArray>;
 };
 
-interface IItems {
-    items: Array<ICreateOffersDTO>
-}
+
 
 export { IOffersRepository,  ICreateOffersDTO, IOfferIDsArray, IOfferIDandUUIDTuple, IOfferIDsTupleArray, IItems }
 

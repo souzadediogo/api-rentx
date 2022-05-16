@@ -14,8 +14,10 @@ class Sku {
     @Column()
     skuID?: string;
 
-    @OneToMany(()=> Offer, offers => offers.skuID)
-    @JoinColumn({name: "offers"})
+    @OneToMany(()=> Offer, offers => offers.skuID, {
+        nullable: true
+    })
+    @JoinColumn({name: "offersUUUD"})
     offers?: Offer[];    
 
     @ManyToOne(()=> Brand, brandName => brandName.skus, {})

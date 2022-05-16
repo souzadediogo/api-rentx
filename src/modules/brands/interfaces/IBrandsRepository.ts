@@ -1,6 +1,6 @@
 import { Brand } from '@modules/brands/infra/typeorm/entities/Brand';
 import { Distributor } from '@modules/distributors/infra/typeorm/entities/Distributor';
-import { Sku } from '@modules/skus/infra/typeorm/entities/sku';
+import { Sku } from '@modules/skus/infra/typeorm/entities/Sku';
 
 interface ICreateBrandDTO {
     id?: string;
@@ -14,8 +14,7 @@ interface ICreateBrandDTO {
 interface IBrandsRepository {
     create({brandName}: ICreateBrandDTO): Promise<void>;
     list(): Promise<Brand[]>;
-    findByBrandName({brandName}: ICreateBrandDTO): Promise<Brand>;
-    list(): Promise<Brand[]>;
+    findByBrandName(brandName: string): Promise<Brand>;
 };
 
 export { IBrandsRepository,  ICreateBrandDTO }

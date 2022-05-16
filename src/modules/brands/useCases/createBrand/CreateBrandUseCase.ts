@@ -11,11 +11,10 @@ class CreateBrandUseCase {
         @inject("BrandsRepository")
         private brandsRepository: IBrandsRepository) {}
     
-    async execute(brandName: ICreateBrandDTO): Promise<void> {
+    async execute({brandName}: ICreateBrandDTO): Promise<void> {
         const brandAlreadyExists = await this.brandsRepository.findByBrandName(brandName);
-
         if(!brandAlreadyExists){
-                await this.brandsRepository.create({
+                await this.brandsRepository.create({                    
                     brandName, 
                     created_at: new Date(),
                     updated_at: new Date()

@@ -15,7 +15,8 @@ import { IMeliAuthCodeRepository } from '@modules/meliAuth/repositories/IMeliAut
 import { MeliAuthCodeRepository } from '@modules/meliAuth/repositories/implementations/MeliAuthCodeRepository';
 import { IMeliTokenRepository } from '@modules/meliAuth/repositories/IMeliTokenRepository';
 import { MeliTokenRepository } from '@modules/meliAuth/repositories/implementations/MeliTokenRepository';
-
+import { IBrandsRepository } from "@modules/brands/interfaces/IBrandsRepository";
+import { BrandsRepository } from "@modules/brands/infra/typeorm/repositories/implementations/BrandsRepository";
 
 container.registerSingleton<IOffersRepository>(
     "OffersRepository", //Nome do container
@@ -60,4 +61,9 @@ container.registerSingleton<IMeliAuthCodeRepository>(
 container.registerSingleton<IMeliTokenRepository>(
     "MeliTokenRepository", //Nome do container
     MeliTokenRepository  //Classe que ele chama
+)
+
+container.registerSingleton<IBrandsRepository>(
+    "BrandsRepository", //Nome do container
+    BrandsRepository  //Classe que ele chama
 )

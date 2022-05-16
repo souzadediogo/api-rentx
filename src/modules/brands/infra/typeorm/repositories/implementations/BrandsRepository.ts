@@ -12,10 +12,9 @@ class BrandsRepository implements IBrandsRepository {
         this.repository = getRepository(Brand);
     }
 
-    async create(brandName: ICreateBrandDTO): Promise<void> {
-        
+    async create({brandName}: ICreateBrandDTO): Promise<void> {
         const brand = this.repository.create({
-            brandName,
+            brandName: brandName,
             created_at: new Date(),
             updated_at: new Date()
         });
@@ -25,8 +24,8 @@ class BrandsRepository implements IBrandsRepository {
         const brands = await this.repository.find();
         return brands;
     };
-    async findByBrandName({brandName}): Promise<Brand> {
-        const brand = await this.repository.findOne(brandName);
+    async findByBrandName(brandName): Promise<Brand> {
+        const brand = await this.repository.findOne({brandName: brandName});
         return brand;
     };
     
