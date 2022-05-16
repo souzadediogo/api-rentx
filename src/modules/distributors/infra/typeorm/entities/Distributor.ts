@@ -1,6 +1,6 @@
 import { v4 as uuid} from 'uuid';
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
-import { Brand } from '@modules/brands/entities/Brand';
+import { Brand } from '@modules/brands/infra/typeorm/entities/Brand';
 
 @Entity("distributors")
 class Distributor {

@@ -2,6 +2,7 @@ import { v4 as uuid} from 'uuid';
 import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Seller } from '@modules/sellers/entities/Seller';
 import { Datapoint } from '@modules/offers/infra/typeorm/entities/Datapoint';
+import { Sku } from '@modules/skus/infra/typeorm/entities/Sku';
 
 @Entity("offers")
 class Offer {
@@ -35,8 +36,12 @@ class Offer {
     @Column({length: 100, unique: true})
     offerID: string;
 
-    @Column({nullable: true})
-    skuID: string;
+    @ManyToOne(() => Sku, skuID => skuID.offers, {
+        eager: true,
+        nullable: true
+    })
+    @JoinColumn({name: "skus"})      
+    skuID: Sku;      
 
     @Column()
     categoryID: string;
@@ -56,8 +61,6 @@ class Offer {
     @OneToMany(()=> Datapoint, datapoints => datapoints.offer)
     @JoinColumn({name: "datapoints"})
     datapoints: Datapoint[];
-    // @OneToMany(()=> Offer, offer => offer.seller)
-    // @JoinColumn({name: "offers"})
 
     @Column({nullable: true})
     catalog_product_id: string;    

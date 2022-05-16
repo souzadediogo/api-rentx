@@ -27,6 +27,7 @@ interface IDatapointsRepository {
     }: IDatapointDTO): Promise<void>;
     findByID(id: string): Promise<Datapoint>;
     listByOfferIdAndDateRange(offerid: string, beginDate: Timestamp, endDate: Timestamp): Promise<Datapoint[]>; //, dateRange: Date[]
+    listMostRecentDatapointsByOfferID(ids: Array<string>): Promise<Datapoint[]>;
 };
 
 export { IDatapointsRepository,  IDatapointDTO, IDatapointsBatch }

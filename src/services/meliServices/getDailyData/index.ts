@@ -78,8 +78,6 @@ async function getDailyData(){
     }
 }
 
-
-
 async function run(){
     await getDailyData();
 }

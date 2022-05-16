@@ -247,10 +247,7 @@ class MeliServices {
           currentStartPosition+=add;
           currentStopPosition+=add;
       }
-      // console.log('BatchedArray', batchedArray);
-      // console.log('BatchedArray[0]', batchedArray[0]);
-      // console.log('BatchedArray[0].destructured', `${[...batchedArray[0]]}`);
-      // console.log(`Destructured:`, [...])
+
       
       let apiBaseUrl = axios.create({
         baseURL: myUrls.appBaseUrl

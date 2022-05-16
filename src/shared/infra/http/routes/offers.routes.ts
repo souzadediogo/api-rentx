@@ -9,6 +9,7 @@ import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 import { UpdateOfferController } from "@modules/offers/useCases/updateOffer/UpdateOfferController";
 import { CreateOffersInBatchController } from '@modules/offers/useCases/createOffersInBatch/CreateOffersInBatchController';
 import { CreateOffersInBatchOneByOneController } from '@modules/offers/useCases/createOffersInBatchOneByOne/CreateOffersInBatchOneByOneController';
+import { ListMostRecentDatapointsByOfferIDController } from '@modules/offers/useCases/listMostRecentDatapointByOfferID/listMostRecentDatapointsByOfferIDController';
 
 const offersRoutes = Router();
 
@@ -25,6 +26,7 @@ const offersRoutes = Router();
     const createDatapointController = new CreateDatapointController();
     const findDatapointByIDController = new FindDatapointByIDController();
     const listDatapointsByOfferIdAndDaterangeController = new ListDatapointsByOfferIdAndDateController();
+    const listMostRecentDatapointsByOfferIDController = new ListMostRecentDatapointsByOfferIDController();
 
 //ROUTES
     //Offers
@@ -37,7 +39,7 @@ const offersRoutes = Router();
     offersRoutes.post("/datapoints", createDatapointsInBatchController.handle);
     offersRoutes.get("/datapoints/find-by-id", findDatapointByIDController.handle);
     offersRoutes.get("/datapoints/find-by-offerid-and-daterange", listDatapointsByOfferIdAndDaterangeController.handle);
-
+    offersRoutes.get("/datapoints/list-most-recent-by-ids", listMostRecentDatapointsByOfferIDController.handle);
 // offersRoutes.use(ensureAuthenticated);
 
 export { offersRoutes }

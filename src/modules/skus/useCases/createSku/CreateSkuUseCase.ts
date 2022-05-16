@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
 import { AppError } from "@errors/AppError";
-import { ISkusRepository } from '@modules/skus/repositories/ISkusRepository';
+import { ISkusRepository } from '@modules/skus/interfaces/ISkusRepository';
 
 interface IRequest {
     name: string; 

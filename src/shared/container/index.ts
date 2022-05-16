@@ -5,8 +5,8 @@ import { UsersRepository } from "@modules/accounts/repositories/implementations/
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 import { SellersRepository } from "@modules/sellers/repositories/implementations/SellersRepository";
 import { ISellersRepository } from "@modules/sellers/repositories/ISellersRepository";
-import { SkusRepository } from "@modules/skus/repositories/implementations/SkusRepository";
-import { ISkusRepository } from "@modules/skus/repositories/ISkusRepository";
+import { SkusRepository } from "@modules/skus/infra/typeorm/repositories/implementations/SkusRepository";
+import { ISkusRepository } from "@modules/skus/interfaces/ISkusRepository";
 import { ISalesChannelsRepository } from "@modules/sellers/repositories/ISalesChannelsRepository";
 import { SalesChannelsRepository } from "@modules/sellers/repositories/implementations/SalesChannelsRepository";
 import { IDatapointsRepository } from "@modules/offers/interfaces/IDatapointsRepository";

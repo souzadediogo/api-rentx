@@ -1,5 +1,5 @@
-import { Sku } from "../../entities/Sku";
-import { ISkusRepository } from "../../repositories/ISkusRepository";
+import { Sku } from "../../infra/typeorm/entities/Sku";
+import { ISkusRepository } from "@modules/skus/interfaces/ISkusRepository";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
