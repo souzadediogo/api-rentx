@@ -51,14 +51,18 @@ class DatapointsRepository implements IDatapointsRepository {
     };
     async listMostRecentDatapointsByOfferID(offerIDs: Array<string>): Promise<Datapoint[]> {
         const datapoints = [];
-        console.log('ids repository', offerIDs);
+        // console.log('ids repository', offerIDs);
         for(let id of offerIDs){
-            console.log('id of ids', id)
+            // console.log('id of ids', id)
             const datapoint = await this.repository.findOne({
                 where: {offerid: id},
                 order: { created_at: 'DESC' }
             })
-            datapoints.push(datapoint);
+            if(!datapoint){
+                //If there's no datapoint, undefined is returned
+            } else {
+                datapoints.push(datapoint);
+            }
         }
 
                             // .createQueryBuilder("datapoints")

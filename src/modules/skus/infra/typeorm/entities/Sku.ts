@@ -8,7 +8,7 @@ class Sku {
     @PrimaryColumn('uuid')
     id?: string;
 
-    @Column()
+    @Column({nullable: false})
     name: string;
 
     @Column()
@@ -20,20 +20,20 @@ class Sku {
     @JoinColumn({name: "offersUUUD"})
     offers?: Offer[];    
 
-    @ManyToOne(()=> Brand, brandName => brandName.skus, {})
+    @ManyToOne(()=> Brand, brandName => brandName.skus, {nullable: true})
     @JoinColumn({name: "brands"})
     brandName?: Brand; 
 
-    @Column()
+    @Column({nullable: true})
     category?: string;
 
-    @Column()
+    @Column({nullable: true})
     description?: string;
 
-    @CreateDateColumn() //FK
+    @Column({nullable: true}) //FK
     photos?: Date;
 
-    @Column()
+    @Column({nullable: true})
     specification?: string;
     
     @CreateDateColumn()

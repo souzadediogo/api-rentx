@@ -1,14 +1,52 @@
 import { Request, Response } from 'express';
-import { CreateSkuUseCase } from '@modules/skus/useCases/createSku/CreateSkuUseCase';
+import { CreateOfferUseCase, IRequestOffer } from '@modules/offers/useCases/createOffer/CreateOfferUseCase';
+import { ICreateSkusDTO } from '@modules/skus/interfaces/ISkusRepository';
 import { container } from "tsyringe";
+import { IItems } from '@modules/offers/interfaces/IOffersRepository';
+
+
 
 class CreateSkuController {
     async handle(req: Request, res: Response): Promise<Response> {
-        const { name, skuID, brandName, category, description, photos, specification, created_at, updated_at } = req.body;
         
-        const createSkuUseCase = container.resolve(CreateSkuUseCase);
+        const {             
+            seller,
+            offerTitle,
+            offerSubTitle,
+            offerUrl,
+            status,
+            categoryID,
+            offerID,
+            sellerID, 
+            skuID,
+            salesChannel,
+            condition,
+            free_shipping,
+            catalog_listing,
+            catalog_product_id,   
+            listing_type_id 
+            }: ICreateSkusDTO = req.body;
+            // console.log(`Controller array:`);
+            // console.log(items);
+        const createOfferUseCase = container.resolve(CreateOfferUseCase);
 
-        await createSkuUseCase.execute({name, skuID, brandName, category, description, photos, specification, created_at, updated_at});
+        await createOfferUseCase.execute({
+            seller,
+            offerTitle,
+            offerSubTitle,
+            offerUrl,
+            status,
+            categoryID,
+            offerID,
+            sellerID, 
+            skuID,
+            salesChannel,
+            condition,
+            free_shipping,
+            catalog_listing,
+            catalog_product_id,   
+            listing_type_id 
+        });
     
         return res.status(201).send();
     }

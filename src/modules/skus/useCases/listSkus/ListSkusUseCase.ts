@@ -17,5 +17,3 @@ class ListSkusUseCase {
 };
 
 export { ListSkusUseCase };
-
-

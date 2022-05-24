@@ -32,8 +32,6 @@ class SkusRepository implements ISkusRepository {
             description,
             photos,
             specification,
-            created_at: new Date(),
-            updated_at: new Date()
         });
         await this.repository.save(sku);
     }

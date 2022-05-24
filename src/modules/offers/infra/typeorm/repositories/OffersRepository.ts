@@ -65,13 +65,11 @@ class OffersRepository implements IOffersRepository {
             // console.log("offer", offer)
             await this.repository.save(offer);
     }
-
     async createBatch(items: IItems): Promise<void> { 
         
         const offerBatch = this.repository.create(items)
         await this.repository.save(offerBatch);
     }
-
     async updateByOfferId({
         id,
         seller,
@@ -110,12 +108,11 @@ class OffersRepository implements IOffersRepository {
             listing_type_id,
         })
             await this.repository.save(offer);
-}
+    }
     async list(): Promise<Offer[]> {
         const offers = await this.repository.find();
         return offers;
     };
-    
     async listOfferByOfferID(offerID: string): Promise<Offer> {
         const offer = await this.repository
                                     .createQueryBuilder()
@@ -125,6 +122,19 @@ class OffersRepository implements IOffersRepository {
                                     .getOne()            //findOne(offerID);
         
         return offer;
+    };
+    
+    async listOffersBySkuUUID(skuUUID: string): Promise<Offer[]> {
+
+        // console.log('skuID [repository]', skuUUID)
+        const offers = await this.repository
+                                    .createQueryBuilder()
+                                    .select("offers")
+                                    .from(Offer, "offers")
+                                    .andWhere("offers.skuID = :skuID", { skuID: skuUUID })
+                                    .getMany()            //findOne(offerID);
+        
+        return offers;
     };
 
     async listOffersBySellerUUID(sellerUUID: any): Promise<Offer[]> {

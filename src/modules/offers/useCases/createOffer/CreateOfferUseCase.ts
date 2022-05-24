@@ -42,8 +42,7 @@ class CreateOfferUseCase {
         catalog_product_id,
         listing_type_id,
     }: ICreateOffersDTO): Promise<void> {
-            await this.offersRepository.create(
-                {
+            await this.offersRepository.create({
                 seller,
                 offerTitle,
                 offerSubTitle,

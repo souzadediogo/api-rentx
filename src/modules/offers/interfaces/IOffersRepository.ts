@@ -83,6 +83,7 @@ interface IOffersRepository {
     }: ICreateOffersDTO): Promise<void>;
     listOffersBySellerUUID(sellerUUID): Promise<Offer[]>;
     listOfferByOfferID(offerID): Promise<Offer>;
+    listOffersBySkuUUID(skuUUID): Promise<Offer[]>;
     listUUIDsfromOfferIDs(offerIDsArray): Promise<IOfferIDsTupleArray>;
 };
 

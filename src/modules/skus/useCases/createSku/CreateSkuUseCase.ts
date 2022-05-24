@@ -1,19 +1,7 @@
 import { inject, injectable } from "tsyringe";
-import { AppError } from "@errors/AppError";
 import { ISkusRepository } from '@modules/skus/interfaces/ISkusRepository';
-
-interface IRequest {
-    name: string; 
-    skuID: string;
-    brandName: string; 
-    category: string;
-    description: string; 
-    photos: Array<string>;
-    specification: string;
-    created_at: Date;
-    updated_at: Date;
-};
-
+import { AppError } from "@errors/AppError";
+import { ICreateSkusDTO } from '@modules/skus/interfaces/ISkusRepository'
 
 @injectable()
 class CreateSkuUseCase {
@@ -22,34 +10,28 @@ class CreateSkuUseCase {
         private skusRepository: ISkusRepository) {}
     
     async execute({
-            name, 
-            skuID,
-            brandName, 
-            category, 
-            description, 
-            photos, 
-            specification
-        }: IRequest): Promise<void> {
-        const offerAlreadyExists = await this.skusRepository.findBySkuID(skuID);
-
-        if(!offerAlreadyExists){
-                await this.skusRepository.create(
-                {
-                    name, 
-                    skuID,
-                    brandName, 
-                    category, 
-                    description, 
-                    photos, 
-                    specification,
-                    created_at: new Date(),
-                    updated_at: new Date()
-                });
-                //throw new AppError("Incorrect or missing data in request!", 401)
-            } else {
-                throw new AppError("SkuID already exists!", 401)
-        };
+        // items
+        name, 
+        skuID,
+        brandName, 
+        category,
+        description,
+        photos,
+        specification,
+    }: ICreateSkusDTO): Promise<void> {
+            await this.skusRepository.create({
+                name, 
+                skuID,
+                brandName, 
+                category,
+                description,
+                photos,
+                specification,
+                created_at: new Date(),
+                updated_at: new Date()
+            }
+            );
     }
 }
 
-export { CreateSkuUseCase }
+export { CreateSkuUseCase, IRequestOffer }
