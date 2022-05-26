@@ -6,6 +6,7 @@ import "@shared/container";
 import { router } from '@shared/infra/http/routes/index';
 import swaggerFile from '../../../swagger.json';
 import { AppError } from '@errors/AppError';
+import npmlog from 'npmlog';
 
 const app = express();
 
