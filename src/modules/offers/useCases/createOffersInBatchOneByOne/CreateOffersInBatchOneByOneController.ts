@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { CreateOffersInBatchOneByOneUseCase } from '@modules/offers/useCases/createOffersInBatchOneByOne/createOffersInBatchOneByOneUseCase';
+import { CreateOffersInBatchOneByOneUseCase } from '@modules/offers/useCases/createOffersInBatchOneByOne/CreateOffersInBatchOneByOneUseCase';
 import { container } from "tsyringe";
 import { IItems } from '@modules/offers/interfaces/IOffersRepository';
 
