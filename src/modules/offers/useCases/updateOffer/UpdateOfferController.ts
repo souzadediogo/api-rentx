@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { UpdateOfferUseCase, IRequestOffer } from '@modules/offers/useCases/updateOffer/updateOfferUseCase';
+import { UpdateOfferUseCase, IRequestOffer } from '@modules/offers/useCases/updateOffer/UpdateOfferUseCase';
 import { container } from "tsyringe";
 
 class UpdateOfferController {
