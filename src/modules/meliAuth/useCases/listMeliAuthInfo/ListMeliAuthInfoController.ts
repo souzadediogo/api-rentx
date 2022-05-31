@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ListMeliAuthInfoUseCase } from '@modules/meliAuth/useCases/ListMeliAuthInfo/ListMeliAuthInfoUseCase';
+import { ListMeliAuthInfoUseCase } from '@modules/meliAuth/useCases/listMeliAuthInfo/ListMeliAuthInfoUseCase';
 import { container } from "tsyringe";
 
 class ListMeliAuthInfoController {
