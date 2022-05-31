@@ -7,6 +7,7 @@ import { router } from '@shared/infra/http/routes/index';
 import swaggerFile from '../../../swagger.json';
 import { AppError } from '@errors/AppError';
 import npmlog from 'npmlog';
+import supertest from 'supertest';
 
 const app = express();
 
@@ -29,3 +30,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction)=>{
 });
 
 app.listen(3333, ()=>{console.log(`Server is running...`)});
+
+export { app }
