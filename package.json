@@ -21,7 +21,7 @@
     "migrate": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli migration:run",
     "createmigration": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli migration:create -n CorrectRelationsInSKU",
     "migration:generate": "npm run typeorm migration:generate -- -n AdjustSkuEntity",
-    "build": "docker-compose up"
+    "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files"
   },
   "keywords": [],
   "author": "",
