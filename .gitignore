@@ -33,6 +33,8 @@ yarn.lock
 .vercel/
 yarn.lock
 
+#database
+ormconfig.json
 
 #log files
 /logs
