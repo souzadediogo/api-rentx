@@ -39,7 +39,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           port: ${{ secrets.SSH_PORT }}          
-          key: ${{ secrets.SSH_KEY }}
+          key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDLWs8mBiu/9fEUDn5lU97xxbTBE1zOzQKHUuyFedP6FPq9WCjBzgUbFsr+Nh8/dWKTofReX/YjkRsl9wm6IKFYQgi2QmiUgELeFrmwO5wl2U4zYb/Yo+1JmbvfIVNb0Ub22K4YEeFGWfvIwCIiGtVY2umFoOWcjSWpOS20+CIrIMQKS4Ju4ToumiS0ZqESAdkvdUpCR799RPab6X4q5l2eEvE64i1MTOBGB3L9SdhLrFZtACkI98zQuQRUlNYBolN79AaEylb6PEqgBuq88Xcrq/Hw1q6RZVss8N0Panyw9CBHnkUOz1hafhXjw/n8fH9AITJg2fv4gyjdY2+twz+hJqY0pVCv+R1JoXZG5MjF8+BHNkAlfjCPwzQ0HJWNcQkjMX8gNl1qkZRdS9zn1J7Uk95jiSWylihNCLlIIVcygTIfmQsoNRRSEgWCJ3XQp57FLLUvCLVkW406Zp8JBq9dRsB/rahXsN8DmOQ+XRJEZk46pHOK+FFwmEAf7vjZDKU= diogodesouza@Diogos-MacBook-Pro.local
           source: "., !node_modules"
           target: "test"
       
