@@ -34,4 +34,4 @@ class CreateSkuUseCase {
     }
 }
 
-export { CreateSkuUseCase, IRequestOffer }
+export { CreateSkuUseCase }
