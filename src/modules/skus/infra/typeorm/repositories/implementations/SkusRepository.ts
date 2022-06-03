@@ -1,5 +1,5 @@
 import { Sku } from '../../entities/Sku';
-import { ISkusRepository, ICreateSkusDTO } from '../ISkusRepository';
+import { ISkusRepository, ICreateSkusDTO } from '@modules/skus/interfaces/ISkusRepository';
 import { getRepository, Repository } from 'typeorm';
 //DTO -> Data 
 
