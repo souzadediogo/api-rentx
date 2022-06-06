@@ -18,14 +18,15 @@
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli",
     "crons": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn src/services/crons.ts",
     "test": "jest",
-    "server": "node dist/shared/infra/typeorm/index.js",
     "migrate": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli migration:run",
     "createmigration": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli migration:create -n CorrectRelationsInSKU",
     "migration:generate": "npm run typeorm migration:generate -- -n AdjustSkuEntity",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
+    "prod-server": "node dist/shared/infra/typeorm/index.js",
     "prod-updateoffers": "node dist/services/meliServices/updateOffersFromSellers/index.js",
     "prod-gdd": "node dist/services/meliServices/getDailyData/index.js",
-    "prod-migrate": "node ./node_modules/typeorm/cli migration:run"
+    "prod-migrate": "node ./node_modules/typeorm/cli migration:run",
+    "prod-crons": "node dist/services/crons.js"
     
   },
   "keywords": [],
