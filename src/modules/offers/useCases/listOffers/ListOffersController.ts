@@ -10,12 +10,17 @@ class ListOffersController {
         
         const { sellerUUID, offerID } = req.query; //mudar para query, estava params -- params = offers/param/   query = offers?query=query
         let parsedOfferIDs = [];
-        if(offerID != undefined){
+        console.log(`OfferID is`, offerID);
+        if(offerID == undefined){
             parsedOfferIDs = [];
-        } else {
+        }
+        else {
             parsedOfferIDs = offerID.split(',');
         }
-        
+        console.log(`OfferID`, offerID)
+        console.log(`parsedOfferIDs`, parsedOfferIDs)
+        console.log(`sellerUUID`, sellerUUID)
+
         
         // console.log(`CONTROLLER: params:`);
         // console.log(req.params)

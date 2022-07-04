@@ -14,11 +14,13 @@ class ListOffersUseCase {
 
         if(sellerUUID){
             // console.log(`Case SellerUUID`);
+            console.log(`Case all selleroffers`)
             return await this.offersRepository.listOffersBySellerUUID(sellerUUID)
         
-        } else if (offerID) {
+        } else if (offerID && offerID.length > 0) {
             // console.log(`Case OfferID`);
             let offers = []
+            console.log(`Case all offerIDs`)
             // console.log(`array`, offerID)
             for(let id of offerID){
                 let thisOffer = await this.offersRepository.listOfferByOfferID(id);
@@ -30,6 +32,7 @@ class ListOffersUseCase {
              return offers;
         }else {
             // console.log(`Case all`);
+            console.log(`Case all offers`)
             return await this.offersRepository.list();
 
         }
