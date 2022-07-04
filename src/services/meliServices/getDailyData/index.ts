@@ -73,8 +73,11 @@ async function getDailyData(){
 
     // channelIds.map(async (salesChannel)=>{
     for(let salesChannel of channelIds){
-        let answer = await runScript(salesChannel) 
-        console.log(answer.message)
+        try {
+            let answer = await runScript(salesChannel) 
+            console.log(answer.message)
+        }catch(e){console.log(e)}
+        
     }
 }
 
