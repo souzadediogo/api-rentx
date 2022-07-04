@@ -1,5 +1,5 @@
-import { OfferServices } from '@services/offerServices/offerServices';
-import { MeliServices } from '@services/meliServices/meliServices'
+import { OfferServices } from '../../offerServices/offerServices';
+import { MeliServices } from '../../meliServices/meliServices'
 
 async function updateOffersFromSellers(){
     // const token = await getNewRefreshToken();

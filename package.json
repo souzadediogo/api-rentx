@@ -1,6 +1,7 @@
 {
   "name": "i-suite-v3",
   "version": "1.0.0",
+  "proxy": "http://localhost:3000/",
   "description": "Projeto de inteligencai de mercado da VGDS",
   "main": "index.js",
   "engines": {
@@ -22,7 +23,7 @@
     "createmigration": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli migration:create -n CorrectRelationsInSKU",
     "migration:generate": "npm run typeorm migration:generate -- -n AdjustSkuEntity",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
-    "prod-server": "node dist/shared/infra/typeorm/index.js",
+    "prod-server": "node dist/shared/infra/http/server.js",
     "prod-updateoffers": "node dist/services/meliServices/updateOffersFromSellers/index.js",
     "prod-gdd": "node dist/services/meliServices/getDailyData/index.js",
     "prod-migrate": "node ./node_modules/typeorm/cli migration:run",

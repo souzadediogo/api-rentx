@@ -9,9 +9,9 @@ var _axios = _interopRequireDefault(require("axios"));
 
 var _urls = require("../../shared/urls");
 
-var _mercadoLivre = require("@requests/axios/mercadoLivre");
+var _mercadoLivre = require("../../requests/axios/mercadoLivre");
 
-var _intelligenceSuiteAPI = require("@requests/axios/intelligenceSuiteAPI");
+var _intelligenceSuiteAPI = require("../../requests/axios/intelligenceSuiteAPI");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

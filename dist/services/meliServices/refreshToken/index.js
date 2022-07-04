@@ -7,7 +7,7 @@ exports.refreshToken = refreshToken;
 
 var _meliServices = require("../meliServices");
 
-var _mercadoLivre = require("@requests/axios/mercadoLivre");
+var _mercadoLivre = require("../../../requests/axios/mercadoLivre");
 
 async function refreshToken() {
   const mercadoLivreRequests = new _mercadoLivre.MercadoLivreRequests();

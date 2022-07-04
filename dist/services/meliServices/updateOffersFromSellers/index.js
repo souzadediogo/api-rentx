@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.updateOffersFromSellers = updateOffersFromSellers;
 
-var _offerServices = require("@services/offerServices/offerServices");
+var _offerServices = require("../../offerServices/offerServices");
 
-var _meliServices = require("@services/meliServices/meliServices");
+var _meliServices = require("../../meliServices/meliServices");
 
 async function updateOffersFromSellers() {
   // const token = await getNewRefreshToken();

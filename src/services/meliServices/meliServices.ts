@@ -4,9 +4,9 @@ import { AppError } from '@errors/AppError';
 import { SimpleConsoleLogger } from 'typeorm';
 import { ICreateOffersDTO } from '@modules/offers/interfaces/IOffersRepository';
 import { IDatapointDTO } from '@modules/offers/interfaces/IDatapointsRepository';
-import { MercadoLivreRequests } from '@requests/axios/mercadoLivre';
-import { OfferServices } from '@services/offerServices/offerServices';
-import { IntelligenceSuiteRequests } from '@requests/axios/intelligenceSuiteAPI';
+import { MercadoLivreRequests } from '../../requests/axios/mercadoLivre';
+import { OfferServices } from '../../services/offerServices/offerServices';
+import { IntelligenceSuiteRequests } from '../../requests/axios/intelligenceSuiteAPI';
 import { myUrls } from '@shared/urls';
 import { ConcurrencyManager } from 'axios-concurrency';
 

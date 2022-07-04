@@ -7,11 +7,11 @@ exports.MeliServices = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
-var _mercadoLivre = require("@requests/axios/mercadoLivre");
+var _mercadoLivre = require("../../requests/axios/mercadoLivre");
 
-var _offerServices = require("@services/offerServices/offerServices");
+var _offerServices = require("../../services/offerServices/offerServices");
 
-var _intelligenceSuiteAPI = require("@requests/axios/intelligenceSuiteAPI");
+var _intelligenceSuiteAPI = require("../../requests/axios/intelligenceSuiteAPI");
 
 var _urls = require("../../shared/urls");
 

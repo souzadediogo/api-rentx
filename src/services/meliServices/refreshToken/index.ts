@@ -1,5 +1,5 @@
 import { MeliServices } from '../meliServices';
-import { MercadoLivreRequests } from '@requests/axios/mercadoLivre';
+import { MercadoLivreRequests } from '../../../requests/axios/mercadoLivre';
 
 async function refreshToken(){
     const mercadoLivreRequests = new MercadoLivreRequests();

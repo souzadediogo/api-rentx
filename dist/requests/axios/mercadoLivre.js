@@ -9,7 +9,7 @@ var _AppError = require("../../shared/errors/AppError");
 
 var _urls = require("../../shared/urls");
 
-var _intelligenceSuiteAPI = require("@requests/axios/intelligenceSuiteAPI");
+var _intelligenceSuiteAPI = require("../../requests/axios/intelligenceSuiteAPI");
 
 var _axios = _interopRequireDefault(require("axios"));
 
