@@ -27,7 +27,8 @@
     "prod-updateoffers": "node dist/services/meliServices/updateOffersFromSellers/index.js",
     "prod-gdd": "node dist/services/meliServices/getDailyData/index.js",
     "prod-migrate": "node ./node_modules/typeorm/cli migration:run",
-    "prod-crons": "node dist/services/crons.js"
+    "prod-crons": "node dist/services/crons.js",
+    "prod-refreshtoken": "node dist/services/meliServices/refreshToken/index.js"
     
   },
   "keywords": [],
