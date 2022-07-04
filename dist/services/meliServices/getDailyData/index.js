@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getDailyData = getDailyData;
 
-var _meliServices = require("@services/meliServices/meliServices");
+var _meliServices = require("../../meliServices/meliServices");
 
-var _offerServices = require("@services/offerServices/offerServices");
+var _offerServices = require("../../offerServices/offerServices");
 
 const meliServices = new _meliServices.MeliServices();
 const offerServices = new _offerServices.OfferServices();

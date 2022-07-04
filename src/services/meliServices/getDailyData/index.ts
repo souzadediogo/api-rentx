@@ -1,6 +1,6 @@
-import { MeliServices } from '@services/meliServices/meliServices'
+import { MeliServices } from '../../meliServices/meliServices'
 import { CannotExecuteNotConnectedError } from 'typeorm';
-import { OfferServices } from '@services/offerServices/offerServices'
+import { OfferServices } from '../../offerServices/offerServices'
 import { SalesChannel } from '@modules/sellers/entities/SalesChannels';
 
 const meliServices = new MeliServices();
