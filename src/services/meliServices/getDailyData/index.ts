@@ -46,6 +46,8 @@ async function getDailyData(){
                         })
                     }, err =>{
                         console.log(`erro em mapMeliOfferArrayToDailyDataInterface`, err)
+                        resolve({message: `seguindo adiante mesmo com erro em retrieving daily data from ${currentChannel}`})
+
                     })
                 }, err => {
                     console.log(`erro em multiGetBatchOfOffers`, err)
