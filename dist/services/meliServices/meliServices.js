@@ -278,30 +278,38 @@ class MeliServices {
             offerID: offer.offerID
           });
         }); //Generates offers to save
-  
-        for (const meliOffer of offerArray) {
-          let offerUUID; //Finds UUID for each offer 
-  
-          for (const offer of offerArrayWithID) {
-            if (offer.offerID == meliOffer.id) {
-              offerUUID = offer.offerUUID;
-              break;
-            }
+        function isIterable(input) {  
+          if (input === null || input === undefined) {
+            return false
           }
-  
-          let currentOffer = {
-            offer: {
-              "id": `${offerUUID}`
-            },
-            offerid: meliOffer.id,
-            price: meliOffer.price,
-            offerStatus: "no status available",
-            basePrice: meliOffer?.base_price,
-            originalPrice: meliOffer?.original_price,
-            availableQty: meliOffer?.available_quantity,
-            soldQty: meliOffer?.sold_quantity
-          };
-          items.push(currentOffer);
+        
+          return typeof input[Symbol.iterator] === 'function'
+        }
+        if(isIterable(offerArray)){
+          for (const meliOffer of offerArray) {
+            let offerUUID; //Finds UUID for each offer 
+    
+            for (const offer of offerArrayWithID) {
+              if (offer.offerID == meliOffer.id) {
+                offerUUID = offer.offerUUID;
+                break;
+              }
+            }
+    
+            let currentOffer = {
+              offer: {
+                "id": `${offerUUID}`
+              },
+              offerid: meliOffer.id,
+              price: meliOffer.price,
+              offerStatus: "no status available",
+              basePrice: meliOffer?.base_price,
+              originalPrice: meliOffer?.original_price,
+              availableQty: meliOffer?.available_quantity,
+              soldQty: meliOffer?.sold_quantity
+            };
+            items.push(currentOffer);
+          }
         }
   
         return items;
