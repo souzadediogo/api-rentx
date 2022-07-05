@@ -11,7 +11,7 @@ var jobMeliServicesUpdateOffersFromSellers = new CronJob('0 3 * * 6', function()
   }, null, true, 'America/Los_Angeles');
   
 
-var jobGetDailyData = new CronJob('30 22 * * *', function() {                            //Runs 22h30 everyday '0 3 * * 6'  
+var jobGetDailyData = new CronJob('40 00 * * *', function() {                            //Runs 22h30 everyday '0 3 * * 6'  
   console.log(`${new Date()}: getting daily data from offers`);
   //Rodar função Get Daily Data
   }, null, true, 'America/Los_Angeles');
