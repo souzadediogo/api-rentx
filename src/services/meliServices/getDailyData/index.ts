@@ -34,7 +34,8 @@ async function getDailyData(){
                     // console.log(`array in res2:`, res2)
                     meliServices.mapMeliOfferArrayToDailyDataInterface(currentChannel, res2).then((res3)=>{
                         console.log(`Mapping offers from channel ${currentChannel}`)
-                        // console.log(`res3 in savebatch has ${res3.length} offers from channel ${currentChannel}`)
+                        console.log(res3)
+                        console.log(`res3 in savebatch has ${res3.length} offers from channel ${currentChannel}`)
                         
                         meliServices.saveBatchDailyData(res3).then((res4)=>{
                             console.log(`Done saving channel ${currentChannel}`)
@@ -45,7 +46,7 @@ async function getDailyData(){
                         })
                     }, err =>{
                         console.log(`erro em mapMeliOfferArrayToDailyDataInterface`, err)
-                        })
+                    })
                 }, err => {
                     console.log(`erro em multiGetBatchOfOffers`, err)
                 })
