@@ -344,7 +344,10 @@ class MeliServices {
           });
 
           for (let meliOffer in response.data) {
-            myOffers.push(response.data[meliOffer].body);
+            if(response.data[meliOffer].body){
+              myOffers.push(response.data[meliOffer].body);
+            }
+            
           }
         } catch (e) {
           return e;
