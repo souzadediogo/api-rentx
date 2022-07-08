@@ -21,6 +21,7 @@ class MeliTokenRepository {
     meliToken
   }) {
     const id = '1';
+    console.log('meliToken - repository:', meliToken);
     const token = this.repository.create({
       meliToken
     });

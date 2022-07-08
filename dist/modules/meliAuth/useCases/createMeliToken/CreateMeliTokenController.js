@@ -11,9 +11,9 @@ var _tsyringe = require("tsyringe");
 
 class CreateMeliTokenController {
   async handle(req, res) {
-    const {
-      meliToken
-    } = req.body;
+    const meliToken = req.body.body.meliToken;
+    console.log('req.body.body.meliToken', meliToken);
+    console.log('meliToken - controller', meliToken);
 
     const createMeliTokenUseCase = _tsyringe.container.resolve(_CreateMeliTokenUseCase.CreateMeliTokenUseCase);
 

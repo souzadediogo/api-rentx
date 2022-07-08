@@ -4,8 +4,7 @@ import { container } from "tsyringe";
 
 class CreateMeliTokenController {
     async handle(req: Request, res: Response): Promise<Response> {
-        const { meliToken } = req.body;
-        
+        const meliToken = req.body.body.meliToken;
         const createMeliTokenUseCase = container.resolve(CreateMeliTokenUseCase);
         await createMeliTokenUseCase.execute({meliToken});
     

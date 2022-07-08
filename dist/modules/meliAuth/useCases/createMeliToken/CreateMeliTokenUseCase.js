@@ -21,6 +21,7 @@ let CreateMeliTokenUseCase = (_dec = (0, _tsyringe.injectable)(), _dec2 = functi
   async execute({
     meliToken
   }) {
+    console.log('meliToken - Usecase:', meliToken);
     await this.meliTokenRepository.createOrRefreshToken({
       meliToken
     });

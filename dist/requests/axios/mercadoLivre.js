@@ -30,6 +30,7 @@ class MercadoLivreRequests {
 
   async postMeliAccessTokenRequest(accessToken) {
     try {
+      console.log('accessToken - postMeliAccessTokenRequest:', accessToken);
       const result = await _axios.default.post(`${_urls.myUrls.appBaseUrl}/meliAuthentication/create-token`, {
         body: {
           "meliToken": `${accessToken}`

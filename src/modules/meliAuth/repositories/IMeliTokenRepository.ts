@@ -7,7 +7,7 @@ interface IMeliTokenDTO {
 }
 
 interface IMeliTokenRepository {
-    createRefreshToken({meliToken}: IMeliTokenDTO): Promise<void>;
+    createOrRefreshToken({meliToken}: IMeliTokenDTO): Promise<void>;
     listToken(): Promise<IMeliTokenDTO>;
 };  
 

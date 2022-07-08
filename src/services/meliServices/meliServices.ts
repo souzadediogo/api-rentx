@@ -43,7 +43,6 @@ class MeliServices {
 
     async retrieveRefreshToken(){
 
-  
         const res = await axios({
           url: `${myUrls.meliOAuthUrl}`,
           method: 'post',

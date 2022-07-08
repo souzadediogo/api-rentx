@@ -9,7 +9,7 @@ var jobMeliServicesUpdateOffersFromSellers = new _cron.CronJob('0 3 * * 6', func
   console.log(`${new Date()}: updating offers from sellers`); ////Rodar função Update Offers From sellers
   // updateOffersFromSellers();
 }, null, true, 'America/Los_Angeles');
-var jobGetDailyData = new _cron.CronJob('30 22 * * *', function () {
+var jobGetDailyData = new _cron.CronJob('40 00 * * *', function () {
   //Runs 22h30 everyday '0 3 * * 6'  
   console.log(`${new Date()}: getting daily data from offers`); //Rodar função Get Daily Data
 }, null, true, 'America/Los_Angeles');
