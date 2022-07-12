@@ -376,6 +376,7 @@ class MeliServices {
     } ///////
 
 
+    console.log('myOffers', myOffers);
     return myOffers;
   }
 

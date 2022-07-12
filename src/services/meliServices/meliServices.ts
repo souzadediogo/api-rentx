@@ -312,7 +312,6 @@ class MeliServices {
           // console.log(`Starting ${currentStartPosition}/${arrayOfMLBs.length}`)  
           let currentStopPosition = currentStartPosition+add;
 
-
             if(arrayOfMLBs.length<add){
                 let lastPositionInArray = arrayOfMLBs.length-1;
                 let arrayToGet = arrayOfMLBs.slice(0,lastPositionInArray);
@@ -361,6 +360,7 @@ class MeliServices {
             currentStopPosition+=add;
         }
       ///////
+      console.log('myOffers', myOffers)
       return myOffers;
     }
 

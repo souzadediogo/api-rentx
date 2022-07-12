@@ -34,7 +34,7 @@ async function getDailyData(){
                     // console.log(`array in res2:`, res2)
                     meliServices.mapMeliOfferArrayToDailyDataInterface(currentChannel, res2).then((res3)=>{
                         console.log(`Mapping offers from channel ${currentChannel}`)
-                        console.log(res3)
+                        // console.log(res3)
                         console.log(`res3 in savebatch has ${res3.length} offers from channel ${currentChannel}`)
                         
                         meliServices.saveBatchDailyData(res3).then((res4)=>{
@@ -42,19 +42,19 @@ async function getDailyData(){
                             resolve({message: `Success retrieving daily data from ${currentChannel}`})
                             // return 
                         }, err =>{
-                            console.log(err)
+                            console.log(err.status)
                         })
                     }, err =>{
-                        console.log(`erro em mapMeliOfferArrayToDailyDataInterface`, err)
-                        resolve({message: `seguindo adiante mesmo com erro em retrieving daily data from ${currentChannel}`})
+                        console.log(`erro em mapMeliOfferArrayToDailyDataInterface`, err.status);
+                        reject({message: `seguindo adiante mesmo com erro em retrieving daily data from ${currentChannel}`})
 
                     })
                 }, err => {
-                    console.log(`erro em multiGetBatchOfOffers`, err)
+                    console.log(`erro em multiGetBatchOfOffers`, err.status)
                 })
                 
             }, err => {
-                console.log("erro aqui no fim", err);
+                console.log("erro aqui no fim", err.status);
                 reject("Failure") 
             })
             
@@ -79,7 +79,10 @@ async function getDailyData(){
         try {
             let answer = await runScript(salesChannel) 
             console.log(answer.message)
-        }catch(e){console.log(e)}
+        }catch(e){
+            console.log(e)
+            break;
+        }
         
     }
 }
