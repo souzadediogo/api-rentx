@@ -21,6 +21,8 @@ var _swagger = _interopRequireDefault(require("../../../swagger.json"));
 
 var _AppError = require("../../errors/AppError");
 
+var _index = require("./../../../services/meliServices/refreshToken/index");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (0, _typeorm.default)();
@@ -43,4 +45,6 @@ app.use((err, req, res, next) => {
 });
 app.listen(3333, () => {
   console.log(`Server is running...`);
-});
+}); //Runs melitoken update once server is up
+
+(0, _index.refreshToken)();

@@ -2,6 +2,7 @@ import { MeliServices } from '../../meliServices/meliServices'
 import { CannotExecuteNotConnectedError } from 'typeorm';
 import { OfferServices } from '../../offerServices/offerServices'
 import { SalesChannel } from '@modules/sellers/entities/SalesChannels';
+import fs from 'fs';
 
 const meliServices = new MeliServices();
 const offerServices = new OfferServices();
@@ -26,7 +27,14 @@ async function getDailyData(){
                     myMLBs.push(response.data[offer].offerID)
                 }
                 console.log(`Starting to fetch offers in Meli from channel ${currentChannel}`)
+                fs.writeFile("1-myMLBs.txt", JSON.stringify(myMLBs), async function (err) {
+                  
+                })
                 meliServices.multiGetBatchOfOffers(myMLBs).then( (res2) => {
+                
+                    fs.writeFile("2-multiGetBatchOfOffers.txt", JSON.stringify(res2), async function (err) {
+                        
+                    }) //93768777 channel com erro
                     // console.log('res2', `${res2.length}`)
                     console.log(`Finished fetching offers in Meli from channel ${currentChannel}`);
                     console.log(`Current Channel:`, currentChannel)
@@ -34,6 +42,10 @@ async function getDailyData(){
                     // console.log(`array in res2:`, res2)
                     meliServices.mapMeliOfferArrayToDailyDataInterface(currentChannel, res2).then((res3)=>{
                         console.log(`Mapping offers from channel ${currentChannel}`)
+                        fs.writeFile("3-currentChannel.txt", JSON.stringify(currentChannel), async function (err) {
+                        })
+                        fs.writeFile("4-res2.txt", JSON.stringify(res2), async function (err) {
+                        })
                         // console.log(res3)
                         console.log(`res3 in savebatch has ${res3.length} offers from channel ${currentChannel}`)
                         
@@ -42,19 +54,24 @@ async function getDailyData(){
                             resolve({message: `Success retrieving daily data from ${currentChannel}`})
                             // return 
                         }, err =>{
-                            console.log(err.status)
+                            console.log(err?.response?.status)
                         })
                     }, err =>{
-                        console.log(`erro em mapMeliOfferArrayToDailyDataInterface`, err.status);
+                        fs.writeFile("logs-function.txt", JSON.stringify(err.message), async function (err) {
+                        })
+                        console.log(`erro em mapMeliOfferArrayToDailyDataInterface`, err?.response?.status);
+                        
+
+                        
                         reject({message: `seguindo adiante mesmo com erro em retrieving daily data from ${currentChannel}`})
 
                     })
                 }, err => {
-                    console.log(`erro em multiGetBatchOfOffers`, err.status)
+                    console.log(`erro em multiGetBatchOfOffers`, err?.response?.status)
                 })
                 
             }, err => {
-                console.log("erro aqui no fim", err.status);
+                console.log("erro aqui no fim", err?.response?.status);
                 reject("Failure") 
             })
             
@@ -81,7 +98,7 @@ async function getDailyData(){
             console.log(answer.message)
         }catch(e){
             console.log(e)
-            break;
+
         }
         
     }

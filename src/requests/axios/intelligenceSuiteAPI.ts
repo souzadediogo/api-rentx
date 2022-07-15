@@ -47,6 +47,7 @@ class IntelligenceSuiteRequests {
       }
       
       async saveBatchDailyDataRequest(batchOfDailyData: Array<IDatapointDTO>){  //Pelo MLB
+        
         try{
             return axios.post(`${myUrls.appBaseUrl}/offers/datapoints`,{
                 body: {
@@ -56,11 +57,11 @@ class IntelligenceSuiteRequests {
         }catch(e){
             console.log({
                 message: "erro em saveBatchDailyDataRequest",
-                erro: e
+                erro: e?.response?.status
             })
             return {
                 message: "erro em saveBatchDailyDataRequest",
-                erro: e
+                erro: e?.response?.status
             }
         }
       }      
@@ -71,11 +72,11 @@ class IntelligenceSuiteRequests {
         }catch(e){
             console.log({
                 message: "erro em getOfferByOfferID",
-                erro: e
+                erro: e?.response?.status
             })
             return {
                 message: "erro em getOfferByOfferID",
-                erro: e
+                erro: e?.response?.status
             }
         }
       }

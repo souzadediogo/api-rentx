@@ -17,6 +17,8 @@ var _urls = require("../../shared/urls");
 
 var _axiosConcurrency = require("axios-concurrency");
 
+var _fs = _interopRequireDefault(require("fs"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 class MeliServices {
@@ -215,6 +217,10 @@ class MeliServices {
   }
 
   async mapMeliOfferArrayToDailyDataInterface(channelSellerID, offerArray) {
+    _fs.default.writeFile("offer-arrays.txt", JSON.stringify(offerArray), {
+      encoding: 'utf-8'
+    }, async function (err) {});
+
     const offerServices = new _offerServices.OfferServices();
     console.log(`Started mapping from channel ${channelSellerID}`); //buscar offer UUID da ofertas
 
@@ -303,6 +309,10 @@ class MeliServices {
         items.push(currentOffer);
       }
 
+      _fs.default.writeFile("items-arrays.txt", JSON.stringify(items), {
+        encoding: 'utf-8'
+      }, async function (err) {});
+
       return items;
     });
     console.log(`Finished mapping from channel ${channelSellerID}`);
@@ -340,6 +350,8 @@ class MeliServices {
             }
           });
 
+          _fs.default.writeFile("response-data.txt", JSON.stringify(response.data), async function (err) {});
+
           for (let meliOffer in response.data) {
             myOffers.push(response.data[meliOffer].body);
           }
@@ -363,6 +375,8 @@ class MeliServices {
             }
           });
 
+          _fs.default.writeFile("response-data2.txt", JSON.stringify(response.data), async function (err) {});
+
           for (let meliOffer in response.data) {
             myOffers.push(response.data[meliOffer].body);
           }
@@ -374,13 +388,15 @@ class MeliServices {
       currentStartPosition += add;
       currentStopPosition += add;
     } ///////
+    // console.log('myOffers', myOffers)
 
 
-    console.log('myOffers', myOffers);
     return myOffers;
   }
 
   async saveBatchDailyData(batchOfDailyData) {
+    _fs.default.writeFile("4-saveBatchDailyData.txt", JSON.stringify(batchOfDailyData), async function (err) {});
+
     const intelligenceSuiteRequests = new _intelligenceSuiteAPI.IntelligenceSuiteRequests();
     let add = 100;
     console.log(`Batch size: ${batchOfDailyData.length}`);
@@ -401,7 +417,7 @@ class MeliServices {
         } catch (e) {
           console.log({
             message: "erro em saveBatchDailyDataRequest",
-            erro: e
+            erro: e?.response?.status
           });
         }
       } else {
@@ -417,7 +433,7 @@ class MeliServices {
         } catch (e) {
           console.log({
             message: "erro em saveBatchDailyDataRequest",
-            erro: e
+            erro: e?.response?.status
           });
         }
       }

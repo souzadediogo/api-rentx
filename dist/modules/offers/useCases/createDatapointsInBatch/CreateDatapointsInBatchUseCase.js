@@ -19,17 +19,21 @@ let CreateDatapointsInBatchUseCase = (_dec = (0, _tsyringe.injectable)(), _dec2 
   }
 
   async execute(items) {
-    for (let offer of items) {
-      await this.datapointsRepository.create({
-        offer: offer.offer,
-        offerid: offer.offerid,
-        offerStatus: offer.offerStatus,
-        price: offer.price,
-        basePrice: offer.basePrice,
-        originalPrice: offer.originalPrice,
-        availableQty: offer.availableQty,
-        soldQty: offer.soldQty
-      });
+    try {
+      for (let offer of items) {
+        await this.datapointsRepository.create({
+          offer: offer.offer,
+          offerid: offer.offerid,
+          offerStatus: offer.offerStatus,
+          price: offer.price,
+          basePrice: offer.basePrice,
+          originalPrice: offer.originalPrice,
+          availableQty: offer.availableQty,
+          soldQty: offer.soldQty
+        });
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 

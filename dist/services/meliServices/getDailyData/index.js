@@ -9,6 +9,10 @@ var _meliServices = require("../../meliServices/meliServices");
 
 var _offerServices = require("../../offerServices/offerServices");
 
+var _fs = _interopRequireDefault(require("fs"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 const meliServices = new _meliServices.MeliServices();
 const offerServices = new _offerServices.OfferServices();
 
@@ -35,14 +39,25 @@ async function getDailyData() {
         }
 
         console.log(`Starting to fetch offers in Meli from channel ${currentChannel}`);
+
+        _fs.default.writeFile("1-myMLBs.txt", JSON.stringify(myMLBs), async function (err) {});
+
         meliServices.multiGetBatchOfOffers(myMLBs).then(res2 => {
+          _fs.default.writeFile("2-multiGetBatchOfOffers.txt", JSON.stringify(res2), async function (err) {}); //93768777 channel com erro
           // console.log('res2', `${res2.length}`)
+
+
           console.log(`Finished fetching offers in Meli from channel ${currentChannel}`);
           console.log(`Current Channel:`, currentChannel); //Mapear Array<MeliOffer[]> para array de createdailydata
           // console.log(`array in res2:`, res2)
 
           meliServices.mapMeliOfferArrayToDailyDataInterface(currentChannel, res2).then(res3 => {
-            console.log(`Mapping offers from channel ${currentChannel}`); // console.log(res3)
+            console.log(`Mapping offers from channel ${currentChannel}`);
+
+            _fs.default.writeFile("3-currentChannel.txt", JSON.stringify(currentChannel), async function (err) {});
+
+            _fs.default.writeFile("4-res2.txt", JSON.stringify(res2), async function (err) {}); // console.log(res3)
+
 
             console.log(`res3 in savebatch has ${res3.length} offers from channel ${currentChannel}`);
             meliServices.saveBatchDailyData(res3).then(res4 => {
@@ -51,19 +66,21 @@ async function getDailyData() {
                 message: `Success retrieving daily data from ${currentChannel}`
               }); // return 
             }, err => {
-              console.log(err.status);
+              console.log(err?.response?.status);
             });
           }, err => {
-            console.log(`erro em mapMeliOfferArrayToDailyDataInterface`, err.status);
+            _fs.default.writeFile("logs-function.txt", JSON.stringify(err.message), async function (err) {});
+
+            console.log(`erro em mapMeliOfferArrayToDailyDataInterface`, err?.response?.status);
             reject({
               message: `seguindo adiante mesmo com erro em retrieving daily data from ${currentChannel}`
             });
           });
         }, err => {
-          console.log(`erro em multiGetBatchOfOffers`, err.status);
+          console.log(`erro em multiGetBatchOfOffers`, err?.response?.status);
         });
       }, err => {
-        console.log("erro aqui no fim", err.status);
+        console.log("erro aqui no fim", err?.response?.status);
         reject("Failure");
       });
     }); //End of promisse
@@ -86,7 +103,6 @@ async function getDailyData() {
       console.log(answer.message);
     } catch (e) {
       console.log(e);
-      break;
     }
   }
 }

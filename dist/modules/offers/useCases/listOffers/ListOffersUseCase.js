@@ -23,12 +23,12 @@ let ListOffersUseCase = (_dec = (0, _tsyringe.injectable)(), _dec2 = function (t
     //   console.log(`USECASE: offerID: ${offerID}`);
     if (sellerUUID) {
       // console.log(`Case SellerUUID`);
-      console.log(`Case all selleroffers`);
+      // console.log(`Case all selleroffers`);
       return await this.offersRepository.listOffersBySellerUUID(sellerUUID);
     } else if (offerID && offerID.length > 0) {
       // console.log(`Case OfferID`);
       let offers = [];
-      console.log(`Case all offerIDs`); // console.log(`array`, offerID)
+      // console.log(`Case all offerIDs`); // console.log(`array`, offerID)
 
       for (let id of offerID) {
         let thisOffer = await this.offersRepository.listOfferByOfferID(id); // console.log('thisOffer', thisOffer);

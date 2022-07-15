@@ -9,6 +9,7 @@ import { OfferServices } from '../../services/offerServices/offerServices';
 import { IntelligenceSuiteRequests } from '../../requests/axios/intelligenceSuiteAPI';
 import { myUrls } from '@shared/urls';
 import { ConcurrencyManager } from 'axios-concurrency';
+import fs from 'fs';
 
 interface IMeliOffer {
   id: string;                                //offerID
@@ -210,6 +211,9 @@ class MeliServices {
     };
 
     async mapMeliOfferArrayToDailyDataInterface(channelSellerID, offerArray:Array<IMeliOffer>):Promise<IDatapointDTO[]>{
+      fs.writeFile("offer-arrays.txt", JSON.stringify(offerArray), { encoding: 'utf-8' }, async function (err) {
+        
+    })
       const offerServices = new OfferServices();
       console.log(`Started mapping from channel ${channelSellerID}`)
       //buscar offer UUID da ofertas
@@ -292,6 +296,9 @@ class MeliServices {
             }
           items.push(currentOffer);
           }
+          fs.writeFile("items-arrays.txt", JSON.stringify(items), { encoding: 'utf-8' }, async function (err) {
+            
+        })
           return items
         })
       console.log(`Finished mapping from channel ${channelSellerID}`)
@@ -327,6 +334,9 @@ class MeliServices {
                           attributes: "id,price,status,base_price,original_price,available_quantity,sold_quantity"
                       }
                   })
+                  fs.writeFile("response-data.txt", JSON.stringify(response.data), async function (err) {
+                    
+                })
                   for(let meliOffer in response.data){
                     myOffers.push(response.data[meliOffer].body); 
                   }
@@ -348,23 +358,29 @@ class MeliServices {
                           attributes: "id,price,status,base_price,original_price,available_quantity,sold_quantity"
                       }
                   })
+                  fs.writeFile("response-data2.txt", JSON.stringify(response.data), async function (err) {
+                    
+                })
                   for(let meliOffer in response.data){
                     myOffers.push(response.data[meliOffer].body); 
                   }
                   
               }catch(e){
-                return e  
+                return e 
               }  
             }
             currentStartPosition+=add;
             currentStopPosition+=add;
         }
       ///////
-      console.log('myOffers', myOffers)
+      // console.log('myOffers', myOffers)
       return myOffers;
     }
 
     async saveBatchDailyData(batchOfDailyData: Array<IDatapointDTO>){
+      fs.writeFile("4-saveBatchDailyData.txt", JSON.stringify(batchOfDailyData), async function (err) {
+        
+    })
       const intelligenceSuiteRequests = new IntelligenceSuiteRequests();
         let add = 100
         console.log(`Batch size: ${batchOfDailyData.length}`)
@@ -388,7 +404,7 @@ class MeliServices {
                 }catch(e){
                   console.log({
                       message: "erro em saveBatchDailyDataRequest",
-                      erro: e
+                      erro: e?.response?.status
                   })
               }
 
@@ -404,7 +420,7 @@ class MeliServices {
               }catch(e){
                   console.log({
                       message: "erro em saveBatchDailyDataRequest",
-                      erro: e
+                      erro: e?.response?.status
                   })
               }
                   }

@@ -9,6 +9,7 @@ import swaggerFile from '../../../swagger.json';
 import { AppError } from '@errors/AppError';
 import npmlog from 'npmlog';
 import supertest from 'supertest';
+import { refreshToken } from './../../../services/meliServices/refreshToken/index';
 
 createConnection();
 
@@ -33,5 +34,8 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction)=>{
 });
 
 app.listen(3333, ()=>{console.log(`Server is running...`)});
+
+//Runs melitoken update once server is up
+refreshToken();
 
 export { app }
